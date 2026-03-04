@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@theme {
+  /* Nossas Cores Personalizadas */
+  --color-mara-orange: #f26522;
+  --color-mara-dark: #080808;
+  --color-mara-gray: #141414;
+  --color-mara-text: #E5E5E5;
+
+  /* Animação que usamos no Hero */
+  --animate-fade-in-up: fadeInUp 0.8s ease-out forwards;
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Estilos Base */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-mara-dark);
+  color: var(--color-mara-text);
+  overflow-x: hidden;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Animações das Notas Flutuantes */
+@keyframes floatUp {
+  0% { 
+    transform: translateY(0) rotate(0deg) scale(0.8); 
+    opacity: 0; 
+  }
+  10% { 
+    opacity: 0.4; /* Aumentei a opacidade para ficar bem visível! */
+  }
+  90% { 
+    opacity: 0.4; 
+  }
+  100% { 
+    transform: translateY(-120vh) rotate(360deg) scale(1.2); 
+    opacity: 0; 
+  }
+}
+
+.note-float {
+  position: fixed;
+  bottom: -100px; /* Começa exatamente 100px abaixo da tela */
+  color: #f26522; /* Laranja Mara Passos hardcoded para garantir */
+  animation: floatUp linear infinite;
+  pointer-events: none; 
+  user-select: none;
+}
