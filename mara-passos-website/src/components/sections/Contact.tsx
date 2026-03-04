@@ -1,158 +1,163 @@
 "use client";
 
-import { useRef, useState } from 'react';
+import { useState, useRef } from "react";
 import emailjs from '@emailjs/browser';
-import { Send, CheckCircle, AlertCircle } from 'lucide-react';
+import { CheckCircle2, AlertCircle } from 'lucide-react';
 
 export default function Contact() {
   const form = useRef<HTMLFormElement>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [enviando, setEnviando] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'sucesso' | 'erro'>('idle');
 
-  const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.current) return;
-
-    setIsSubmitting(true);
+    setEnviando(true);
     setStatus('idle');
 
-    emailjs
-      .sendForm(
-        'service_0tttmp7',        // <-- SEU SERVICE ID (Já preenchido da sua imagem)
-        'template_jpi3zxl',       // <-- COLOQUE SEU TEMPLATE ID AQUI
+    if (form.current) {
+      emailjs.sendForm(
+
+        'service_0tttmp7',     // Ex: service_xxxxx
+        'template_jpi3zxl',    // Ex: template_xxxxx
         form.current,
-        '81S8wcvhcpphSm55R'         // <-- COLOQUE SUA PUBLIC KEY AQUI
+        '81S8wcvhcpphSm55R'      // Ex: xxxx_xxxxxx_xxxxx
       )
-      .then(
-        () => {
-          setStatus('success');
-          setIsSubmitting(false);
-          form.current?.reset(); // Limpa o formulário após enviar
-          
-          // Volta o status ao normal após 5 segundos
+      .then((result) => {
+          console.log('Sucesso:', result.text);
+          setStatus('sucesso');
+          form.current?.reset(); 
+      }, (error) => {
+          console.log('Erro:', error.text);
+          setStatus('erro');
+      })
+      .finally(() => {
+          setEnviando(false);
           setTimeout(() => setStatus('idle'), 5000);
-        },
-        (error) => {
-          console.error('FAILED...', error.text);
-          setStatus('error');
-          setIsSubmitting(false);
-        }
-      );
+      });
+    }
   };
 
   return (
-    <section id="agendamentos" className="py-24 bg-black relative">
-      <div className="container mx-auto px-6 max-w-5xl">
+    <section id="agendamentos" className="py-24 bg-mara-gray">
+      <div className="container mx-auto px-6 max-w-6xl flex flex-col lg:flex-row items-center gap-12">
         
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
-            Agende sua <span className="text-mara-orange">Aula Experimental</span>
-          </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto">
-            Dê o primeiro passo na sua jornada musical! Preencha o formulário abaixo e nossa equipe entrará em contato pelo WhatsApp para agendar o melhor horário.
-          </p>
-        </div>
+        {/* Formulário (Lado Esquerdo) */}
+        <div className="w-full lg:w-1/2 bg-[#0b0b0b] rounded-2xl p-8 md:p-12 shadow-2xl border border-white/5 relative overflow-hidden">
+          
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-mara-orange mb-4">
+              Entre em contato conosco e agende sua aula experimental!
+            </h2>
+            <p className="text-gray-400 text-sm">
+              Desperte sua paixão pela música! Nunca é tarde para começar, a hora é agora. Venha marcar sua aula experimental gratuita com a gente.
+            </p>
+          </div>
 
-        <div className="bg-mara-gray/50 border border-white/10 rounded-2xl p-8 md:p-12 shadow-2xl backdrop-blur-sm max-w-3xl mx-auto">
-          <form ref={form} onSubmit={sendEmail} className="space-y-6">
+          <form ref={form} onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <label className="block text-mara-orange font-bold text-sm mb-2">Nome *</label>
+              <input 
+                type="text" 
+                name="user_name" 
+                required
+                placeholder="Digite o seu nome completo..." 
+                className="w-full bg-white text-black rounded-full px-5 py-3 focus:outline-none focus:ring-2 focus:ring-mara-orange transition-shadow"
+              />
+            </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Nome */}
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-300">Nome Completo</label>
-                <input 
-                  type="text" 
-                  name="user_name" 
-                  required 
-                  className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-mara-orange focus:ring-1 focus:ring-mara-orange transition-colors"
-                  placeholder="Seu nome"
-                />
-              </div>
-
-              {/* WhatsApp */}
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-300">WhatsApp</label>
-                <input 
-                  type="tel" 
-                  name="user_phone" 
-                  required 
-                  className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-mara-orange focus:ring-1 focus:ring-mara-orange transition-colors"
-                  placeholder="(11) 99999-9999"
-                />
-              </div>
+            <div>
+              <label className="block text-mara-orange font-bold text-sm mb-2">Telefone *</label>
+              <input 
+                type="tel" 
+                name="user_phone"
+                required
+                placeholder="Digite o seu telefone (WhatsApp)..." 
+                className="w-full bg-white text-black rounded-full px-5 py-3 focus:outline-none focus:ring-2 focus:ring-mara-orange transition-shadow"
+              />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Email */}
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-300">E-mail</label>
-                <input 
-                  type="email" 
-                  name="user_email" 
-                  required 
-                  className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-mara-orange focus:ring-1 focus:ring-mara-orange transition-colors"
-                  placeholder="seu@email.com"
-                />
-              </div>
-
-              {/* Instrumento */}
-              <div className="space-y-2">
-                <label className="text-sm font-semibold text-gray-300">Instrumento de Interesse</label>
-                <select 
-                  name="instrument" 
-                  required
-                  className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-mara-orange focus:ring-1 focus:ring-mara-orange transition-colors appearance-none"
-                >
-                  <option value="" disabled selected>Selecione um curso...</option>
-                  <option value="Piano">Piano</option>
-                  <option value="Violão / Guitarra">Violão / Guitarra</option>
-                  <option value="Canto">Canto</option>
-                  <option value="Bateria">Bateria</option>
-                  <option value="Musicalização Infantil">Musicalização Infantil</option>
-                  <option value="Pandeiro">Pandeiro</option>
-                </select>
-              </div>
+            <div>
+              <label className="block text-mara-orange font-bold text-sm mb-2">E-mail *</label>
+              <input 
+                type="email" 
+                name="user_email"
+                required
+                placeholder="Digite o seu e-mail..." 
+                className="w-full bg-white text-black rounded-full px-5 py-3 focus:outline-none focus:ring-2 focus:ring-mara-orange transition-shadow"
+              />
             </div>
 
-            {/* Mensagem */}
-            <div className="space-y-2">
-              <label className="text-sm font-semibold text-gray-300">Mensagem (Opcional)</label>
-              <textarea 
-                name="message" 
-                rows={4}
-                className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-mara-orange focus:ring-1 focus:ring-mara-orange transition-colors resize-none"
-                placeholder="Qual o seu nível de experiência? Tem preferência de horário?"
-              ></textarea>
-            </div>
-
-            {/* Botão Enviar e Feedback */}
-            <div className="pt-4 flex flex-col items-center gap-4">
-              <button 
-                type="submit" 
-                disabled={isSubmitting}
-                className="w-full md:w-auto flex items-center justify-center gap-2 bg-mara-orange hover:bg-[#e05a1d] text-white px-10 py-4 rounded-xl font-bold text-lg transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed hover:shadow-[0_0_20px_rgba(242,101,34,0.4)]"
+            <div>
+              <label className="block text-mara-orange font-bold text-sm mb-2">Aula de *</label>
+              {/* O name="instrumento" ABAIXO PRECISA BATER COM O {{instrumento}} NO EMAILJS */}
+              <select 
+                name="instrumento" 
+                required
+                defaultValue="" 
+                className="w-full bg-white text-black rounded-full px-5 py-3 focus:outline-none focus:ring-2 focus:ring-mara-orange transition-shadow appearance-none cursor-pointer"
               >
-                {isSubmitting ? 'Enviando...' : 'Solicitar Agendamento'}
-                {!isSubmitting && <Send size={20} />}
-              </button>
-
-              {status === 'success' && (
-                <div className="flex items-center gap-2 text-green-400 font-medium animate-fade-in-up">
-                  <CheckCircle size={20} />
-                  <span>Mensagem enviada! Entraremos em contato em breve.</span>
-                </div>
-              )}
-
-              {status === 'error' && (
-                <div className="flex items-center gap-2 text-red-400 font-medium animate-fade-in-up">
-                  <AlertCircle size={20} />
-                  <span>Erro ao enviar. Tente nos chamar direto no WhatsApp.</span>
-                </div>
-              )}
+                <option value="" disabled>Selecione o instrumento/curso...</option>
+                <option value="Baixo">Baixo</option>
+                <option value="Bateria">Bateria</option>
+                <option value="Canto">Canto</option>
+                <option value="Flauta Doce">Flauta Doce</option>
+                <option value="Flauta Transversal">Flauta Transversal</option>
+                <option value="Guitarra">Guitarra</option>
+                <option value="Música de Câmara">Música de Câmara</option>
+                <option value="Musicalização - Adultos">Musicalização - Adultos</option>
+                <option value="Musicalização - Infantil">Musicalização - Infantil</option>
+                <option value="Piano">Piano</option>
+                <option value="Prática de Conjunto">Prática de Conjunto</option>
+                <option value="Saxofone">Saxofone</option>
+                <option value="Teclado">Teclado</option>
+                <option value="Teoria Musical">Teoria Musical</option>
+                <option value="Ukelelê">Ukelelê</option>
+                <option value="Violão">Violão</option>
+                <option value="Violino">Violino</option>
+              </select>
             </div>
 
+            {/* Mensagens de Feedback */}
+            {status === 'sucesso' && (
+              <div className="flex items-center gap-2 text-green-500 font-bold bg-green-500/10 p-3 rounded-lg animate-fade-in-up">
+                <CheckCircle2 size={20} />
+                <span>Solicitação enviada com sucesso!</span>
+              </div>
+            )}
+
+            {status === 'erro' && (
+              <div className="flex items-center gap-2 text-red-500 font-bold bg-red-500/10 p-3 rounded-lg animate-fade-in-up">
+                <AlertCircle size={20} />
+                <span>Erro ao enviar. Tente novamente mais tarde.</span>
+              </div>
+            )}
+
+            <button 
+              type="submit" 
+              disabled={enviando}
+              className="w-full bg-mara-orange hover:bg-orange-600 text-white font-bold py-4 rounded-full mt-4 transition-all hover:shadow-[0_0_15px_rgba(242,101,34,0.4)] disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center gap-2"
+            >
+              {enviando ? (
+                <>
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  Enviando...
+                </>
+              ) : "Pedir Agendamento"}
+            </button>
           </form>
         </div>
+
+        {/* Imagem (Lado Direito) */}
+        <div className="w-full lg:w-1/2 flex justify-center lg:justify-end">
+          <div className="relative w-full max-w-md aspect-square rounded-lg overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-4 border-white transform hover:scale-105 transition-transform duration-500">
+            <img 
+              src="/contact-image.jpg" 
+              alt="Hora de escolher sua música" 
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </div>
+
       </div>
     </section>
   );
