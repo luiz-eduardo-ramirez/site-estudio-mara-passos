@@ -8,7 +8,8 @@ import Testimonials from "../components/sections/Testimonials";
 import Contact from "../components/sections/Contact";
 import Teachers from "../components/sections/Teachers";
 import ScrollReveal from "../components/layout/ScrollReveal";
-import FloatingNotes from "../components/layout/FloatingNotes"; // Importação normal!
+import FloatingNotes from "../components/layout/FloatingNotes";
+import News from "../components/sections/News";
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       
       <main>
         <Hero />
+        <ScrollReveal><News /></ScrollReveal>
         <ScrollReveal><About /></ScrollReveal>
         <ScrollReveal><Instruments /></ScrollReveal>
         <ScrollReveal><Teachers /></ScrollReveal>
