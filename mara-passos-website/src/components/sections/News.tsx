@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import { newsData } from '../../app/data/news';
@@ -14,11 +14,12 @@ interface NewsItem {
   title: string;
   description: string;
   image: string;
+  fullText?: string;
   link?: string;
 }
 
 export default function News() {
-  const instagramUrl = "https://www.instagram.com/estudiomarapassos?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==";
+  const [selectedNews, setSelectedNews] = useState<NewsItem | null>(null);
 
   return (
     <section id="noticias" className="py-16 relative z-10">
@@ -27,6 +28,7 @@ export default function News() {
           Novidades no Estúdio
         </h2>
 
+        {/* CARROSSEL */}
         <Swiper
           spaceBetween={30}
           centeredSlides={true}
@@ -41,7 +43,6 @@ export default function News() {
           }}
           navigation={true}
           modules={[Autoplay, Pagination, Navigation]}
-          // Adicionada a borda laranja aqui no container principal do Swiper
           className="w-full max-w-5xl rounded-2xl shadow-2xl border-2 border-orange-500 overflow-hidden"
         >
           {newsData.map((news: NewsItem) => (
@@ -61,20 +62,85 @@ export default function News() {
                     {news.description}
                   </p>
                   
-                  {/* Botão Laranja redirecionando para o Instagram */}
-                  <a 
-                    href={instagramUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block px-8 py-3 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-full transition-colors w-max shadow-lg relative z-10"
+                  <button 
+                    onClick={() => setSelectedNews(news)}
+                    className="inline-block px-8 py-3 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-full transition-colors w-max shadow-lg relative z-10 cursor-pointer"
                   >
-                    Saber mais
-                  </a>
+                    Ler a matéria completa
+                  </button>
                 </div>
               </div>
             </SwiperSlide>
           ))}
         </Swiper>
+
+        {/* MODAL EXPANDIDO */}
+        {selectedNews && (
+          <div 
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md transition-all duration-300"
+            onClick={() => setSelectedNews(null)} 
+          >
+            <div 
+              className="bg-gray-950/90 backdrop-blur-2xl border border-orange-500/50 rounded-2xl w-[95vw] max-w-7xl h-auto md:h-[80vh] min-h-[60vh] overflow-hidden flex flex-col md:flex-row shadow-2xl relative"
+              onClick={(e) => e.stopPropagation()} 
+            >
+              
+              {/* Lado Esquerdo: Imagem (Agora com 55% da largura e object-contain) */}
+              <div className="w-full md:w-[55%] h-64 md:h-full relative bg-black flex items-center justify-center">
+                <img 
+                  src={selectedNews.image} 
+                  alt={selectedNews.title} 
+                  /* object-contain garante que a foto apareça 100% sem cortes */
+                  className="w-full h-full object-contain p-2 md:p-4"
+                />
+              </div>
+
+              {/* Lado Direito: Textos (Agora com 45% da largura) */}
+              <div className="w-full md:w-[45%] p-8 md:p-12 flex flex-col overflow-y-auto custom-scrollbar relative z-10">
+                
+                {/* Botão de Fechar (X) - Movido para dentro do container de texto para não ser bloqueado */}
+                <button 
+                  onClick={() => setSelectedNews(null)}
+                  className="absolute top-4 right-4 z-50 w-10 h-10 bg-black/80 hover:bg-orange-500 text-white rounded-full flex items-center justify-center transition-colors border border-white/20 hover:border-orange-500 cursor-pointer"
+                >
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+
+                {/* Margem extra na direita (pr-10) para o texto não encostar no botão X */}
+                <h3 className="text-3xl md:text-5xl font-extrabold text-white mb-8 drop-shadow-md mt-4 pr-10">
+                  {selectedNews.title}
+                </h3>
+                
+                <div className="text-gray-200 text-lg md:text-xl leading-relaxed mb-8 space-y-6 font-light">
+                  <p>{selectedNews.fullText || selectedNews.description}</p>
+                </div>
+                
+                <div className="mt-auto pt-8 border-t border-white/10">
+                  {selectedNews.link && (
+                    <a 
+                      href={selectedNews.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-3 text-orange-400 hover:text-orange-300 transition-colors font-bold text-lg group"
+                    >
+                      Ver postagem original no Instagram
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:translate-x-1">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                        <polyline points="15 3 21 3 21 9"></polyline>
+                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                      </svg>
+                    </a>
+                  )}
+                </div>
+              </div>
+
+            </div>
+          </div>
+        )}
+
       </div>
     </section>
   );

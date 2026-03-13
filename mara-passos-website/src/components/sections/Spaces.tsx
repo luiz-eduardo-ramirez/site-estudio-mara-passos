@@ -1,10 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { X } from "lucide-react"; // Removido o ZoomIn das importações
+import { X } from "lucide-react";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, FreeMode } from 'swiper/modules';
+
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/free-mode';
 
 export default function Spaces() {
-  // Estado para controlar qual imagem está aberta no Modal (null = modal fechado)
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const spaces = [
@@ -15,12 +20,12 @@ export default function Spaces() {
     { name: "Área externa", img: "/spaces/externa.jpg" },
     { name: "Sala de Musicalização", img: "/spaces/musicalizacao.jpg" },
     { name: "Sala de Instrumentos", img: "/spaces/instrumentos.jpg" },
-    { name: "Relaxamento da musicalização infantil", img: "/spaces/relaxamento.jpg" },
+    { name: "Relaxamento", img: "/spaces/relaxamento.jpg" },
   ];
 
   return (
-    <section id="espacos" className="py-24 bg-mara-gray relative">
-      <div className="container mx-auto px-6 max-w-6xl">
+    <section id="espacos" className="py-24 bg-mara-gray relative overflow-hidden">
+      <div className="container mx-auto px-6 max-w-7xl">
         
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
@@ -31,32 +36,49 @@ export default function Spaces() {
           </p>
         </div>
 
-        {/* Grid de Imagens */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-          {spaces.map((space, index) => (
-            <div key={index} className="group flex flex-col items-center">
-              
-              {/* Container da Imagem com clique habilitado */}
-              <div 
-                className="w-full aspect-[4/3] rounded-xl overflow-hidden border border-white/10 group-hover:border-mara-orange transition-all duration-500 relative bg-black cursor-pointer"
-                onClick={() => setSelectedImage(space.img)} // Abre a imagem no clique
-              >
-                
-                {/* Ícone de Lupa REMOVIDO daqui */}
-
-                <img 
-                  src={space.img} 
-                  alt={space.name}
-                  // Ajustada a opacidade no hover (group-hover:opacity-100) para clarear a imagem
-                  className="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500 grayscale group-hover:grayscale-0 relative z-10"
-                />
-                
-              </div>
-              <h3 className="mt-4 text-mara-orange font-bold text-center text-sm md:text-base px-2">
-                {space.name}
-              </h3>
-            </div>
-          ))}
+        {/* --- CARROSSEL DE IMAGENS ATUALIZADO --- */}
+        <div className="relative w-full">
+          <Swiper
+            modules={[Navigation, FreeMode]}
+            navigation={true} 
+            freeMode={true} 
+            spaceBetween={24} // Aumentei um pouco o espaço entre as fotos maiores
+            grabCursor={true} 
+            breakpoints={{
+              320: { slidesPerView: 1.1 },
+              640: { slidesPerView: 1.8 },
+              768: { slidesPerView: 2.2 },
+              // Antes era 4, agora são 3. Isso força as imagens a ficarem bem maiores no PC!
+              1024: { slidesPerView: 3 }, 
+            }}
+            className="w-full pb-12" 
+          >
+            {spaces.map((space, index) => (
+              <SwiperSlide key={index}>
+                {/* O onClick foi movido para o container pai para facilitar o clique */}
+                <div 
+                  className="group flex flex-col items-center select-none cursor-pointer" 
+                  onClick={() => setSelectedImage(space.img)}
+                >
+                  
+                  {/* Container da Imagem */}
+                  <div className="w-full aspect-video rounded-2xl overflow-hidden border-2 border-transparent group-hover:border-mara-orange shadow-lg transition-colors duration-300 relative bg-gray-800">
+                    <img 
+                      src={space.img} 
+                      alt={space.name}
+                    
+                      className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110 pointer-events-none"
+                    />
+                  </div>
+                  
+                  {/* Título da imagem ganha um brilho branco no hover */}
+                  <h3 className="mt-5 text-mara-orange font-bold text-center text-base md:text-lg px-2 transition-colors group-hover:text-white">
+                    {space.name}
+                  </h3>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
 
       </div>
@@ -65,9 +87,8 @@ export default function Spaces() {
       {selectedImage && (
         <div 
           className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-sm p-4 animate-fade-in"
-          onClick={() => setSelectedImage(null)} // Fecha ao clicar fora da imagem
+          onClick={() => setSelectedImage(null)} 
         >
-          {/* Botão de Fechar */}
           <button 
             className="absolute top-6 right-6 md:top-10 md:right-10 text-white/50 hover:text-mara-orange transition-colors bg-black/50 rounded-full p-2"
             onClick={() => setSelectedImage(null)}
@@ -75,12 +96,11 @@ export default function Spaces() {
             <X size={32} />
           </button>
 
-          {/* Imagem Ampliada */}
           <img 
             src={selectedImage} 
             alt="Espaço ampliado" 
             className="max-w-full max-h-[90vh] object-contain rounded-xl shadow-[0_0_50px_rgba(0,0,0,0.8)] transform transition-transform scale-100 animate-zoom-in"
-            onClick={(e) => e.stopPropagation()} // Impede que clicar na imagem feche o modal
+            onClick={(e) => e.stopPropagation()} 
           />
         </div>
       )}

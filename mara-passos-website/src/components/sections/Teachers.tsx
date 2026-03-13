@@ -1,24 +1,31 @@
 import { Award, Music } from 'lucide-react';
 
 export default function Teachers() {
-  // Lista de professores (Você pode adicionar quantos quiser aqui)
+  // Lista de professores
   const teachersList = [
     {
       id: 1,
-      nome: "Diretora Mara",
+      nome: "Mara Ferreira Lugli",
       especialidade: "Diretora, Piano e Musicalização",
       bio: "Com mais de 30 anos de dedicação ao ensino musical, Mara desenvolveu uma metodologia única, lúdica e acolhedora. Seu foco é o ensino musical curativo, extraindo o melhor de cada aluno e transformando a paixão pela música em uma habilidade para a vida toda.",
-      foto: "/teachers/mara-passos.png" // Coloque a foto na pasta public/teachers/
+      foto: "/teachers/mara-passos.png" 
     },
     {
       id: 2,
+      nome: "Amanda Ferreira Lugli",
+      especialidade: "Piano, Musicalização e Teoria Musical",
+      bio: "Professora de piano, com muitos anos de experiência com alunos de todas as idades. A Amanda tem uma vasta experiência em ensinar e ensina desde os primeiros acordes até técnicas avançadas de improvisação, sempre respeitando o ritmo e o gosto musical de cada aluno.",
+      foto: "/teachers/amanda.png"
+    },
+    {
+      id: 3,
       nome: "Rodrigo Alencar",
       especialidade: "Violão, Guitarra e Baixo",
       bio: "Especialista em cordas com vasta experiência em palcos e estúdios. Ensina desde os primeiros acordes até técnicas avançadas de improvisação, sempre respeitando o ritmo e o gosto musical de cada aluno.",
       foto: "/teachers/rodrigo.png"
     },
     {
-      id: 3,
+      id: 4,
       nome: "Professor Rafael",
       especialidade: "Pandeiro, Chorinhos e Sambas",
       bio: "Novidade no Estúdio! Agora teremos aulas de pandeiro, ministradas pelo Professor Rafael! Venha aprender chorinhos e sambas, além de muito mais! O Professor Rafael tem uma excelente didática. Através do passo a passo torna o aprendizado mais fácil. Vale a pena conferir!",
@@ -55,16 +62,19 @@ export default function Teachers() {
               >
                 {/* Imagem do Professor */}
                 <div className="w-full md:w-1/2 flex justify-center">
-                  <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96">
-                    {/* Borda decorativa laranja que fica levemente deslocada */}
-                    <div className={`absolute inset-0 border-2 border-mara-orange rounded-2xl transform ${isEven ? 'translate-x-4 translate-y-4' : '-translate-x-4 translate-y-4'} -z-10 transition-transform duration-300 group-hover:translate-x-6`}></div>
+                  {/* Adicionado 'group' aqui para ativar o hover dos filhos */}
+                  <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 group cursor-pointer">
                     
-                    {/* Foto principal */}
-                    <div className="w-full h-full rounded-2xl overflow-hidden bg-gray-800 shadow-2xl">
+                    {/* Borda decorativa laranja */}
+                    <div className={`absolute inset-0 border-2 border-mara-orange rounded-2xl transform ${isEven ? 'translate-x-4 translate-y-4' : '-translate-x-4 translate-y-4'} -z-10 transition-transform duration-500 ease-in-out group-hover:translate-x-0 group-hover:translate-y-0`}></div>
+                    
+                    {/* Foto principal (Agora com Zoom colorida) */}
+                    <div className="w-full h-full rounded-2xl overflow-hidden bg-gray-800 shadow-2xl relative z-0">
                       <img 
                         src={teacher.foto} 
                         alt={teacher.nome} 
-                        className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                        /* Removido o grayscale e adicionado group-hover:scale-110 para o zoom */
+                        className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                       />
                     </div>
                   </div>

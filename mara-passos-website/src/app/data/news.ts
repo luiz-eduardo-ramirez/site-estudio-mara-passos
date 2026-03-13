@@ -10,9 +10,9 @@ export const newsData = [
   },
   {
     id: 2,
-    title: "Novas Turmas de Iniciação Musical",
-    description: "Estão abertas as inscrições para as turmas de introdução aos instrumentos.",
-    image: "/images/noticia-2.jpg",
+    title: "12 Anos de Estúdio Mara Passos & Dia da Mulher",
+    description: "Primeiramente, desejamos um Feliz Dia Internacional da Mulher a todas as mulheres incríveis que fazem parte da nossa história. Além disso, o Estúdio Musical e Cultural Mara Passos está completando 12 anos de muita música, arte e dedicação! 🎶✨",
+    image: "/images/noticia-2.png",
     link: "#"
   }
 ];
