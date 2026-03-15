@@ -23,6 +23,7 @@ export default function Navbar() {
     { name: 'Instrumentos', href: '#instrumentos' },
     { name: 'Professores', href: '#professores' },
     { name: 'Espaços', href: '#espacos' },
+    { name: 'Quem somos ', href: '#sobre-nos' },
     { name: 'Depoimentos', href: '#depoimentos' },
   ];
 

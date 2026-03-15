@@ -1,40 +1,41 @@
 "use client";
 
 import { useState, useRef } from "react";
-import emailjs from '@emailjs/browser';
-import { CheckCircle2, AlertCircle } from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
 
 export default function Contact() {
   const form = useRef<HTMLFormElement>(null);
-  const [enviando, setEnviando] = useState(false);
-  const [status, setStatus] = useState<'idle' | 'sucesso' | 'erro'>('idle');
+  const [status, setStatus] = useState<'idle' | 'sucesso'>('idle');
+  const [aceitouTermos, setAceitouTermos] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // COLOQUE O NÚMERO DO WHATSAPP DO ESTÚDIO AQUI (Apenas números, com 55 e DDD)
+  const NUMERO_WHATSAPP = "5511972405722"; 
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setEnviando(true);
-    setStatus('idle');
 
-    if (form.current) {
-      emailjs.sendForm(
+    // Captura os dados preenchidos no formulário
+    const formData = new FormData(e.currentTarget);
+    const nome = formData.get('user_name');
+    const telefone = formData.get('user_phone');
+    const instrumento = formData.get('instrumento');
 
-        'service_0tttmp7',     // Ex: service_xxxxx
-        'template_jpi3zxl',    // Ex: template_xxxxx
-        form.current,
-        '81S8wcvhcpphSm55R'      // Ex: xxxx_xxxxxx_xxxxx
-      )
-      .then((result) => {
-          console.log('Sucesso:', result.text);
-          setStatus('sucesso');
-          form.current?.reset(); 
-      }, (error) => {
-          console.log('Erro:', error.text);
-          setStatus('erro');
-      })
-      .finally(() => {
-          setEnviando(false);
-          setTimeout(() => setStatus('idle'), 5000);
-      });
-    }
+    // Monta a mensagem que vai chegar pronta no WhatsApp do Estúdio
+    const mensagem = `Olá, Estúdio Mara Passos! 🎵\n\nMeu nome é *${nome}* e gostaria de agendar uma aula experimental de *${instrumento}*.\n\nMeu telefone para contato é: ${telefone}\n\n✅ *Confirmo que estou ciente da regra de cancelamento: se eu faltar sem avisar com 24h de antecedência, não poderei repor a aula.*\n\nAguardo o retorno para definirmos o melhor horário!`;
+
+    // Cria o link do WhatsApp com a mensagem codificada (para aceitar espaços e acentos)
+    const urlWhatsApp = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(mensagem)}`;
+
+    // Abre o WhatsApp em uma nova aba
+    window.open(urlWhatsApp, '_blank');
+
+    // Limpa o formulário e mostra mensagem de sucesso na tela
+    form.current?.reset();
+    setAceitouTermos(false);
+    setStatus('sucesso');
+    
+    // Esconde a mensagem de sucesso depois de 5 segundos
+    setTimeout(() => setStatus('idle'), 5000);
   };
 
   return (
@@ -77,19 +78,7 @@ export default function Contact() {
             </div>
 
             <div>
-              <label className="block text-mara-orange font-bold text-sm mb-2">E-mail *</label>
-              <input 
-                type="email" 
-                name="user_email"
-                required
-                placeholder="Digite o seu e-mail..." 
-                className="w-full bg-white text-black rounded-full px-5 py-3 focus:outline-none focus:ring-2 focus:ring-mara-orange transition-shadow"
-              />
-            </div>
-
-            <div>
               <label className="block text-mara-orange font-bold text-sm mb-2">Aula de *</label>
-              {/* O name="instrumento" ABAIXO PRECISA BATER COM O {{instrumento}} NO EMAILJS */}
               <select 
                 name="instrumento" 
                 required
@@ -117,32 +106,42 @@ export default function Contact() {
               </select>
             </div>
 
-            {/* Mensagens de Feedback */}
+            {/* CHECKBOX DE TERMOS E CONDIÇÕES */}
+            <div className="flex items-start gap-3 mt-8 mb-6 p-4 bg-red-900/10 border border-red-500/20 rounded-xl">
+              <input 
+                type="checkbox" 
+                id="termos-experimental"
+                name="termos_experimental"
+                required
+                checked={aceitouTermos}
+                onChange={(e) => setAceitouTermos(e.target.checked)}
+                className="mt-1 w-5 h-5 accent-mara-orange cursor-pointer shrink-0 rounded border-gray-600 focus:ring-mara-orange"
+              />
+              <label htmlFor="termos-experimental" className="text-gray-300 text-xs md:text-sm cursor-pointer leading-relaxed">
+                Estou ciente de que a aula experimental é um horário reservado exclusivamente para mim. <strong className="text-white">Em caso de falta ou cancelamento sem aviso prévio de 24h, não será possível reagendar ou repor a aula.</strong>
+              </label>
+            </div>
+
+            {/* Mensagem de Feedback */}
             {status === 'sucesso' && (
               <div className="flex items-center gap-2 text-green-500 font-bold bg-green-500/10 p-3 rounded-lg animate-fade-in-up">
                 <CheckCircle2 size={20} />
-                <span>Solicitação enviada com sucesso!</span>
+                <span>Redirecionando para o WhatsApp...</span>
               </div>
             )}
 
-            {status === 'erro' && (
-              <div className="flex items-center gap-2 text-red-500 font-bold bg-red-500/10 p-3 rounded-lg animate-fade-in-up">
-                <AlertCircle size={20} />
-                <span>Erro ao enviar. Tente novamente mais tarde.</span>
-              </div>
-            )}
-
+            {/* O Botão agora avisa que vai para o WhatsApp */}
             <button 
               type="submit" 
-              disabled={enviando}
-              className="w-full bg-mara-orange hover:bg-orange-600 text-white font-bold py-4 rounded-full mt-4 transition-all hover:shadow-[0_0_15px_rgba(242,101,34,0.4)] disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center gap-2"
+              disabled={!aceitouTermos}
+              className={`w-full font-bold py-4 rounded-full mt-4 transition-all flex justify-center items-center gap-2
+                ${!aceitouTermos 
+                  ? 'bg-gray-600 text-gray-300 cursor-not-allowed opacity-60' 
+                  : 'bg-mara-orange hover:bg-orange-600 text-white hover:shadow-[0_0_15px_rgba(242,101,34,0.4)]'
+                }
+              `}
             >
-              {enviando ? (
-                <>
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  Enviando...
-                </>
-              ) : "Pedir Agendamento"}
+              Pedir Agendamento no WhatsApp
             </button>
           </form>
         </div>
