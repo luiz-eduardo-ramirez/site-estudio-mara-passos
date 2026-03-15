@@ -21,7 +21,7 @@ export default function Contact() {
     const instrumento = formData.get('instrumento');
 
     // Monta a mensagem que vai chegar pronta no WhatsApp do Estúdio
-    const mensagem = `Olá, Estúdio Mara Passos! 🎵\n\nMeu nome é *${nome}* e gostaria de agendar uma aula experimental de *${instrumento}*.\n\nMeu telefone para contato é: ${telefone}\n\n✅ *Confirmo que estou ciente da regra de cancelamento: se eu faltar sem avisar com 24h de antecedência, não poderei repor a aula.*\n\nAguardo o retorno para definirmos o melhor horário!`;
+    const mensagem = `Olá,meu nome é ${nome} e gostaria de agendar uma aula experimental de ${instrumento}.\n\nMeu telefone para contato é: ${telefone}\n\n*Regra de cancelamento:* Se eu faltar sem avisar com 24h de antecedência, não poderei repor a aula.\n\n *Confirmo que estou ciente da regra de cancelamento: se eu faltar sem avisar com 24h de antecedência, não poderei repor a aula.*\n\nAguardo o retorno para definirmos o melhor horário!`;
 
     // Cria o link do WhatsApp com a mensagem codificada (para aceitar espaços e acentos)
     const urlWhatsApp = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(mensagem)}`;
