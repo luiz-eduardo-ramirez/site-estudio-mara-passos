@@ -13,8 +13,8 @@ export default function Teachers() {
     {
       id: 2,
       nome: "Amanda Ferreira Lugli",
-      especialidades: ["Piano", "Musicalização - Infantil", "Teclado", "Flauta Doce", "Ukelelê"],
-      bio: "Estudante de Piano Clássico e Popular há 22 anos, Amanda atua no Estúdio desde sua abertura. Com experiência em diversos instrumentos e como Professora Assistente de Musicalização, conta com um vasto repertório. Atualmente aprimora sua Técnica Pianística Avançada e estuda Canto.",
+      especialidades: ["Piano", "Musicalização - Infantil", "Flauta Doce"],
+      bio: "Sócia e estudante de Piano Clássico e Popular há 22 anos, Amanda atua no Estúdio desde sua abertura. Com experiência em diversos instrumentos e como Professora Assistente de Musicalização, conta com um vasto repertório. Atualmente aprimora sua Técnica Pianística Avançada e estuda Canto.",
       foto: "/teachers/amanda.png"
     },
     {
