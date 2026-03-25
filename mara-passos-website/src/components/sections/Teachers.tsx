@@ -5,33 +5,53 @@ export default function Teachers() {
   const teachersList = [
     {
       id: 1,
-      nome: "Mara Ferreira Lugli",
-      // As strings aqui DEVEM ser idênticas aos nomes em Instruments.tsx
-      especialidades: ["Piano", "Musicalização - Infantil", "Musicalização - Adultos"],
-      bio: "Com mais de 30 anos de dedicação ao ensino musical, Mara desenvolveu uma metodologia única, lúdica e acolhedora. Seu foco é o ensino musical curativo, extraindo o melhor de cada aluno e transformando a paixão pela música em uma habilidade para a vida toda.",
-      foto: "/teachers/mara-passos.png" 
+      nome: "Mara Alexandre Ferreira Lugli",
+      especialidades: ["Piano", "Musicalização - Infantil", "Flauta Doce"],
+      bio: "Sócia Fundadora e Diretora do Estúdio Musical e Cultural Mara Passos. Formada em Curso Superior de Piano Erudito pelo Conservatório Dramático e Musical de São Paulo. Possui cursos complementares em Musicalização Infantil e é Pós-Graduada em Musicoterapia na Faculdade Paulista de Artes. Também é formada pelo Curso Sopro Novo de Flautas Doce da Yamaha.",
+      foto: "/teachers/mara.jpeg" 
     },
     {
       id: 2,
       nome: "Amanda Ferreira Lugli",
-      especialidades: ["Piano", "Musicalização - Infantil", "Teoria Musical"],
-      bio: "Professora de piano, com muitos anos de experiência com alunos de todas as idades. A Amanda tem uma vasta experiência em ensinar e ensina desde os primeiros acordes até técnicas avançadas de improvisação, sempre respeitando o ritmo e o gosto musical de cada aluno.",
+      especialidades: ["Piano", "Musicalização - Infantil", "Teclado", "Flauta Doce", "Ukelelê"],
+      bio: "Estudante de Piano Clássico e Popular há 22 anos, Amanda atua no Estúdio desde sua abertura. Com experiência em diversos instrumentos e como Professora Assistente de Musicalização, conta com um vasto repertório. Atualmente aprimora sua Técnica Pianística Avançada e estuda Canto.",
       foto: "/teachers/amanda.png"
     },
     {
       id: 3,
-      nome: "Rodrigo Alencar",
-      especialidades: ["Violão", "Guitarra", "Baixo"],
-      bio: "Especialista em cordas com vasta experiência em palcos e estúdios. Ensina desde os primeiros acordes até técnicas avançadas de improvisação, sempre respeitando o ritmo e o gosto musical de cada aluno.",
-      foto: "/teachers/rodrigo.png"
+      nome: "Rafael Velez de Sousa",
+      especialidades: ["Pandeiro", "Piano", "Violão", "Bateria"],
+      bio: "Graduado em Licenciatura em Música pela UNESP, Rafael aprimora seus estudos em Piano e Violão na EMESP. Com forte base percussiva, estudou bateria em Escolas de Samba e especializou-se em Pandeiro no SESC Vila Mariana e no Coletivo S Pandeiro. Traz toda a riqueza do ritmo brasileiro para suas aulas.",
+      foto: "/teachers/rafael.jpeg"
     },
     {
       id: 4,
-      nome: "Professor Rafael",
-      especialidades: ["Pandeiro", "Prática de Conjunto"],
-      bio: "Novidade no Estúdio! Agora teremos aulas de pandeiro, ministradas pelo Professor Rafael! Venha aprender chorinhos e sambas, além de muito mais! O Professor Rafael tem uma excelente didática. Através do passo a passo torna o aprendizado mais fácil. Vale a pena conferir!",
-      foto: "/teachers/rafael.png"
-    }
+      nome: "Vanessa Nunes da Silva",
+      especialidades: ["Canto"],
+      bio: "Formada em Canto Lírico pela FMU/FAAM, com especialização em Educação Musical, Psicopedagogia e Arteterapia. Atuou como cantora do Coral Paulistano do Teatro Municipal. Atualmente é licenciada do método “Full-Voice”, unindo conhecimentos da ciência da voz com uma visão técnico-musical e musicoterápica.",
+      foto: "/teachers/vanessa.jpeg" // Ajuste o nome do arquivo se necessário
+    },
+    {
+      id: 5,
+      nome: "Rodrigo Alencar da Silva",
+      especialidades: ["Violão", "Guitarra", "Baixo"],
+      bio: "Formado em Licenciatura em Música pela FPA e em Guitarra pela Fundação das Artes de São Caetano do Sul. Com vasta experiência no ensino musical desde 2007, Rodrigo transita com facilidade entre o Violão Erudito, Jazz, Música Brasileira e Heavy Metal, com grande abrangência de estilos musicais.",
+      foto: "/teachers/rodrigo.jpeg"
+    },
+    {
+      id: 6,
+      nome: "Reinaldo Aparecido Rodrigues",
+      especialidades: ["Bateria", "Piano", "Teclado", "Violino"], // Violoncelo foi alterado para Violino provisoriamente para dar match com os cursos
+      bio: "Com formação internacional na Escola Drum Tech em Londres, Reinaldo possui extensa bagagem musical. Estudou percussão erudita básica, piano erudito e popular, além de violoncelo em instituições renomadas como o Conservatório Carlos Gomes e a ULM, aprendendo com grandes mestres da música.",
+      foto: "/teachers/reinaldo.jpeg" // Ajuste o nome do arquivo se necessário
+    },
+    {
+      id: 7,
+      nome: "Márcia Kiyomi Toshmitsu Ekami",
+      especialidades: ["Piano", "Flauta Transversal", "Flauta Doce", "Musicalização - Infantil"],
+      bio: "Formada em Piano Erudito pelo Conservatório Dramático e Musical de São Paulo. Leciona Flauta Transversal e possui formação pelo Curso Sopro Novo de Flautas Doce da Yamaha. Com cursos complementares em Musicalização Infantil, Márcia também desenvolveu trabalho de Canto Coral em diversos coros da Capital e atualmente é integrante do Zimana no CoralUsp.",
+      foto: "/teachers/marcia.jpeg" // Ajuste o nome do arquivo se necessário
+    },
   ];
 
   return (
