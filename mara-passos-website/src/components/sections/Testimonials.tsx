@@ -18,6 +18,16 @@ export default function Testimonials() {
       foto: "/testimonials/laise.jpg"
     },
     {
+      nome: "Thais Bianchi",
+      texto: "Maravilhoso! Meu filho de 9 anos aprendeu a tocar piano rapidinho, super se interessou pela música e pelo método da Mara. Ela tem muito jeito para ensinar e paciência.",
+      foto: "/testimonials/thais.png"
+    },
+    {
+      nome: "Eduardo Henrique",
+      texto: "Profissionais muito competentes e prestativos, recomendo muito!",
+      foto: "/testimonials/eduardo.png"
+    },
+    {
       nome: "Patricia Aparecida Simao",
       texto: "Parabéns, você merece, por tanta dedicação e por saber dar tanto amor às crianças. Lembro como adorava estudar com você há 30 anos atrás ou mais rs. Sucesso sempre.",
       foto: "/testimonials/patricia.jpg"
