@@ -20,7 +20,7 @@ export default function Presentation() {
             <div className="w-full aspect-video rounded-2xl overflow-hidden shadow-2xl relative bg-[#0b0b0b] ring-2 ring-white/5 group-hover:ring-mara-orange/50 transition-all duration-500">
               <iframe
                 className="w-full h-full object-cover"
-                src="https://www.youtube.com/watch?v=DW4umfFhkt0"
+                src="https://www.youtube.com/embed/DW4umfFhkt0"
                 title="Apresentação do ano passado"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
