@@ -1,5 +1,8 @@
+"use client";
+
 import { Award, Music } from 'lucide-react';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 export default function Teachers() {
   const teachersList = [
@@ -58,21 +61,31 @@ export default function Teachers() {
     <section id="professores" className="py-24 bg-[#0b0b0b]">
       <div className="container mx-auto px-6 max-w-6xl">
         
-        <div className="text-center mb-20">
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-20"
+        >
           <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
             Nossos <span className="text-mara-orange">Professores</span>
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto">
             Uma equipe de profissionais apaixonados por música, prontos para guiar você em cada nota da sua jornada.
           </p>
-        </div>
+        </motion.div>
 
         <div className="space-y-24">
           {teachersList.map((teacher, index) => {
             const isEven = index % 2 === 0;
 
             return (
-              <div 
+              <motion.div 
+                initial={{ opacity: 0, x: isEven ? -50 : 50, scale: 0.95 }}
+                whileInView={{ opacity: 1, x: 0, scale: 1 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.7, ease: "easeOut" }}
                 key={teacher.id} 
                 className={`flex flex-col md:flex-row items-center gap-12 lg:gap-20 ${
                   isEven ? '' : 'md:flex-row-reverse'
@@ -115,7 +128,7 @@ export default function Teachers() {
                     &quot;{teacher.bio}&quot;
                   </p>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>

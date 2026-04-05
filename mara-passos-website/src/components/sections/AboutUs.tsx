@@ -63,7 +63,9 @@ export default function AboutUs() {
                 <p className="text-gray-300">
                     Descubra como nossa paixão pode guiar a sua.
                     <a 
-                        href="/contato"
+                        href="https://www.instagram.com/estudiomarapassos?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="inline-block ml-2 text-orange-400 hover:text-orange-300 font-bold transition-colors"
                     >
                         Venha nos conhecer!

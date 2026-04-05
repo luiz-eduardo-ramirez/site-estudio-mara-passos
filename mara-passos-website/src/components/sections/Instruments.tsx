@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, Suspense } from 'react';
+import { createPortal } from 'react-dom';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Mic, Music, Activity, Speaker, Headphones, Users, BookOpen, LayoutGrid, Smile, X, CirclePlay } from 'lucide-react';
 
@@ -32,6 +33,20 @@ function InstrumentsContent() {
   
   const [selectedInst, setSelectedInst] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => { document.body.style.overflow = 'unset'; };
+  }, [isModalOpen]);
 
   // Escuta mudanças na URL para abrir o modal
   useEffect(() => {
@@ -85,8 +100,8 @@ function InstrumentsContent() {
       </div>
 
       {/* Modal */}
-      {isModalOpen && selectedInst && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+      {mounted && isModalOpen && selectedInst && createPortal(
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
           {/* Overlay invisível para fechar ao clicar fora */}
           <div className="absolute inset-0" onClick={closeModal}></div>
           
@@ -123,7 +138,7 @@ function InstrumentsContent() {
               </p>
               
               <a 
-                href="#contato" 
+                href="#agendamentos" 
                 onClick={closeModal}
                 className="bg-mara-orange text-white px-6 py-3 rounded-lg font-bold text-center hover:bg-orange-600 transition-colors inline-block w-full md:w-auto"
               >
@@ -131,7 +146,8 @@ function InstrumentsContent() {
               </a>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );

@@ -11,6 +11,7 @@ import Teachers from "../components/sections/Teachers";
 import ScrollReveal from "../components/layout/ScrollReveal";
 import FloatingNotes from "../components/layout/FloatingNotes";
 import News from "../components/sections/News";
+import Presentation from "../components/sections/Presentation";
 
 export default function Home() {
   return (
@@ -21,9 +22,10 @@ export default function Home() {
       <main>
         <Hero />
         <ScrollReveal><News /></ScrollReveal>
+        <Presentation />
         <ScrollReveal><About /></ScrollReveal>
         <ScrollReveal><Instruments /></ScrollReveal>
-        <ScrollReveal><Teachers /></ScrollReveal>
+        <Teachers />
         <ScrollReveal><Spaces /></ScrollReveal>
         <ScrollReveal><AboutUs /></ScrollReveal>
         <ScrollReveal><Testimonials /></ScrollReveal>

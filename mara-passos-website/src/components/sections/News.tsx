@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import { newsData } from '../../app/data/news';
@@ -20,6 +21,20 @@ interface NewsItem {
 
 export default function News() {
   const [selectedNews, setSelectedNews] = useState<NewsItem | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (selectedNews) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => { document.body.style.overflow = 'unset'; };
+  }, [selectedNews]);
 
   return (
     <section id="noticias" className="py-16 relative z-10">
@@ -75,9 +90,9 @@ export default function News() {
         </Swiper>
 
         {/* MODAL EXPANDIDO */}
-        {selectedNews && (
+        {mounted && selectedNews && createPortal(
           <div 
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md transition-all duration-300"
+            className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md transition-all duration-300"
             onClick={() => setSelectedNews(null)} 
           >
             <div 
@@ -138,7 +153,8 @@ export default function News() {
               </div>
 
             </div>
-          </div>
+          </div>,
+          document.body
         )}
 
       </div>

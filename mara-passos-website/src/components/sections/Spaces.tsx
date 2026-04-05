@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, FreeMode } from 'swiper/modules';
@@ -11,6 +12,20 @@ import 'swiper/css/free-mode';
 
 export default function Spaces() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (selectedImage) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => { document.body.style.overflow = 'unset'; };
+  }, [selectedImage]);
 
   const spaces = [
     { name: "Estúdio Mara Passos", img: "/spaces/fachada.jpg" },
@@ -84,9 +99,9 @@ export default function Spaces() {
       </div>
 
       {/* ---------------- MODAL LIGHTBOX ---------------- */}
-      {selectedImage && (
+      {mounted && selectedImage && createPortal(
         <div 
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-sm p-4 animate-fade-in"
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/95 backdrop-blur-sm p-4 animate-fade-in"
           onClick={() => setSelectedImage(null)} 
         >
           <button 
@@ -102,7 +117,8 @@ export default function Spaces() {
             className="max-w-full max-h-[90vh] object-contain rounded-xl shadow-[0_0_50px_rgba(0,0,0,0.8)] transform transition-transform scale-100 animate-zoom-in"
             onClick={(e) => e.stopPropagation()} 
           />
-        </div>
+        </div>,
+        document.body
       )}
     </section>
   );
