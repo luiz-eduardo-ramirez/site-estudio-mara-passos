@@ -21,7 +21,7 @@ export default function Presentation() {
               <iframe
                 className="w-full h-full object-cover"
                 src="https://www.youtube.com/embed/DW4umfFhkt0"
-                title="Apresentação do ano passado"
+                title="Veja como foi a apresentação do Estúdio"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               ></iframe>
