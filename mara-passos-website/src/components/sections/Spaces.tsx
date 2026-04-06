@@ -31,7 +31,7 @@ export default function Spaces() {
     { name: "Estúdio Mara Passos", img: "/spaces/fachada.jpg" },
     { name: "Sala de aula de piano", img: "/spaces/piano.jpg" },
     { name: "Certificados", img: "/spaces/certificados.jpg" },
-    { name: "Recepção", img: "/spaces/recepcao.jpg" },
+    { name: "Recepção", img: "/spaces/entrada.jpg" },
     { name: "Área externa", img: "/spaces/externa.jpg" },
     { name: "Sala de Musicalização", img: "/spaces/musicalizacao.jpg" },
     { name: "Sala de Instrumentos", img: "/spaces/instrumentos.jpg" },
