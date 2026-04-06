@@ -44,7 +44,7 @@ export default function Presentation() {
             </div>
 
             <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
-              Apresentações do <span className="text-mara-orange">Ano Passado</span>
+              Apresentação da  <span className="text-mara-orange">nossa turma</span>
             </h2>
 
             <p className="text-gray-300 text-lg leading-relaxed mb-6 font-light">
