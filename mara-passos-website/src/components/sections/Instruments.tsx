@@ -3,12 +3,13 @@
 import { useState, useEffect, Suspense } from 'react';
 import { createPortal } from 'react-dom';
 import { useSearchParams, useRouter } from 'next/navigation';
+import Link from 'next/link'; // Importação do Link adicionada
 import { Mic, Music, Activity, Speaker, Headphones, Users, BookOpen, LayoutGrid, Smile, X, CirclePlay } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Mocks gerados com textos focados em ensino lúdico e acolhedor
+// Adicionada a propriedade "slug" apenas no Piano por enquanto
 const instrumentsList = [
-  { nome: "Baixo", desc: "Aprenda as linhas de grave, ritmo e harmonia.", detalhes: "O baixo é o coração do ritmo! Em nossas aulas, você aprenderá a criar grooves envolventes, dominar técnicas como pizzicato e slap, e entender a função essencial do baixo na música, tudo no seu próprio ritmo.", icone: Headphones, imagem: "/images/baixo.png " },
+  { nome: "Baixo", desc: "Aprenda as linhas de grave, ritmo e harmonia.", detalhes: "O baixo é o coração do ritmo! Em nossas aulas, você aprenderá a criar grooves envolventes, dominar técnicas como pizzicato e slap, e entender a função essencial do baixo na música, tudo no seu próprio ritmo.", icone: Headphones, imagem: "/images/baixo.png" },
   { nome: "Bateria", desc: "Desenvolva sua coordenação motora e rítmica.", detalhes: "Libere sua energia e desenvolva a coordenação motora de forma lúdica. Nossas aulas de bateria focam na independência dos membros, leitura rítmica e aplicação em diversos estilos musicais.", icone: Activity, imagem: "/images/bateria.png" },
   { nome: "Canto", desc: "Técnicas vocais, respiração e afinação.", detalhes: "Descubra a sua própria voz em um ambiente acolhedor. Trabalhamos respiração, afinação, impostação e repertório, ajudando você a cantar com saúde vocal e muita emoção.", icone: Mic, imagem: "/images/canto.png" },
   { nome: "Flauta Doce", desc: "Excelente iniciação melódica de sopro.", detalhes: "Um instrumento doce e perfeito para a primeira iniciação melódica. Desenvolvemos o sopro suave, a leitura de notas e a musicalidade de forma curativa e leve.", icone: Music, imagem: "/images/flauta-doce.png" },
@@ -18,7 +19,14 @@ const instrumentsList = [
   { nome: "Musicalização - Adultos", desc: "Desenvolva sua percepção musical.", detalhes: "Nunca é tarde para viver a música! Um curso pensado para adultos destravarem sua percepção rítmica e melódica através de vivências práticas, sem a pressão do desempenho perfeito.", icone: Speaker, imagem: "/images/musicalizacao-adulto.png" },
   { nome: "Musicalização - Infantil", desc: "O primeiro contato de forma lúdica e amorosa.", detalhes: "O despertar para o som. Com jogos, histórias e instrumentos de percussão, introduzimos as crianças ao universo musical de forma lúdica, estimulando a cognição e a criatividade.", icone: Smile, imagem: "/images/musicalizacao-infantil.png" },
   { nome: "Pandeiro", desc: "O coração do samba e do chorinho.", detalhes: "Com o Professor Rafael, aprenda o passo a passo dos ritmos brasileiros. Uma didática excelente para dominar as levadas de samba, choro e explorar toda a riqueza percussiva do pandeiro.", icone: CirclePlay, imagem: "/images/pandeiro.png" },
-  { nome: "Piano", desc: "O clássico das teclas com técnica apurada.", detalhes: "Aulas de piano com foco curativo e acolhedor. Do erudito ao popular, respeitamos o gosto musical de cada aluno, trabalhando leitura à primeira vista, técnica e expression emocional.", icone: LayoutGrid, imagem: "/images/piano.png" },
+  {
+    nome: "Piano",
+    slug: "/aulas-de-piano", // Rota para o Google ler
+    desc: "O clássico das teclas com técnica apurada.",
+    detalhes: "Aulas de piano com foco curativo e acolhedor. Do erudito ao popular, respeitamos o gosto musical de cada aluno, trabalhando leitura à primeira vista, técnica e expressão emocional.",
+    icone: LayoutGrid,
+    imagem: "/images/piano.png"
+  },
   { nome: "Prática de Conjunto", desc: "Aprenda a dinâmica de tocar em banda.", detalhes: "Junte-se a outros alunos e forme uma banda! Aqui você aprende na prática como ouvir os outros instrumentos, manter o ritmo em grupo e a dinâmica de um ensaio real.", icone: Users, imagem: "/images/pratica-conjunto.png" },
   { nome: "Saxofone", desc: "Aulas práticas de sopro e improvisação.", detalhes: "Domine a embocadura e a expressividade do saxofone. O curso abrange técnica de sopro, leitura de partituras e introdução à improvisação no jazz e música popular.", icone: Music, imagem: "/images/saxofone.png" },
   { nome: "Teclado", desc: "Versatilidade, arranjos e ritmos nas teclas.", detalhes: "Explore a versatilidade dos timbres e ritmos automáticos. Focado na música popular, o curso de teclado ensina a criar arranjos completos com as duas mãos de forma prática.", icone: LayoutGrid, imagem: "/images/teclado.png" },
@@ -63,9 +71,7 @@ function InstrumentsContent() {
 
   const closeModal = () => {
     setIsModalOpen(false);
-    // Removemos o setTimeout do setSelectedInst(null) para que os dados 
-    // continuem na tela enquanto a animação de saída do modal acontece!
-    router.push('/#instrumentos', { scroll: false }); // Remove a query string da URL
+    router.push('/#instrumentos', { scroll: false });
   };
 
   return (
@@ -88,8 +94,15 @@ function InstrumentsContent() {
               setIsModalOpen(true);
               router.push(`/?curso=${encodeURIComponent(inst.nome)}#instrumentos`, { scroll: false });
             }}
-            className="bg-mara-dark p-6 rounded-2xl border border-white/5 hover:border-mara-orange/50 transition-all duration-300 group hover:-translate-y-2 hover:shadow-xl flex flex-col items-start cursor-pointer"
+            className="bg-mara-dark p-6 rounded-2xl border border-white/5 hover:border-mara-orange/50 transition-all duration-300 group hover:-translate-y-2 hover:shadow-xl flex flex-col items-start cursor-pointer relative"
           >
+            {/* O Pulo do Gato: Link invisível para o bot do Google ler e indexar */}
+            {inst.slug && (
+              <Link href={inst.slug} className="sr-only">
+                Acessar página completa de {inst.nome}
+              </Link>
+            )}
+
             <div className="text-mara-orange mb-4">
               <div className="w-12 h-12 bg-mara-orange/10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
                 <inst.icone size={24} />
@@ -111,7 +124,6 @@ function InstrumentsContent() {
               exit={{ opacity: 0 }}
               className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
             >
-              {/* Overlay invisível para fechar ao clicar fora */}
               <div className="absolute inset-0" onClick={closeModal}></div>
 
               <motion.div
@@ -128,7 +140,6 @@ function InstrumentsContent() {
                   <X size={24} />
                 </button>
 
-                {/* Imagem Placeholder */}
                 <div className="w-full md:w-1/2 h-64 md:h-[500px] bg-neutral-800 relative overflow-hidden">
                   <img
                     src={selectedInst.imagem}
@@ -139,10 +150,8 @@ function InstrumentsContent() {
                     }}
                   />
 
-                  {/* Overlay invisível na parte superior para manter legibilidade do modal no mobile */}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#151515] via-transparent md:from-transparent to-transparent"></div>
 
-                  {/* OVERLAY DA MARCA D'ÁGUA */}
                   <div
                     className="absolute bottom-0 left-0 w-full pt-8 pb-4 px-4 md:px-6 bg-black/80 flex justify-end items-end text-white font-sans"
                     style={{ clipPath: 'polygon(0 25%, 100% 0, 100% 100%, 0 100%)' }}
@@ -162,7 +171,6 @@ function InstrumentsContent() {
                   </div>
                 </div>
 
-                {/* Conteúdo */}
                 <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
                   <div className="w-12 h-12 bg-mara-orange/10 text-mara-orange rounded-lg flex items-center justify-center mb-6">
                     <selectedInst.icone size={28} />
@@ -172,13 +180,27 @@ function InstrumentsContent() {
                     {selectedInst.detalhes}
                   </p>
 
-                  <a
-                    href="#agendamentos"
-                    onClick={closeModal}
-                    className="bg-mara-orange text-white px-6 py-3 rounded-lg font-bold text-center hover:bg-orange-600 transition-colors inline-block w-full md:w-auto"
-                  >
-                    Agendar Aula Experimental
-                  </a>
+                  {/* NOVO BLOCO DE BOTÕES - Híbrido com Link de SEO */}
+                  <div className="flex flex-col gap-3">
+                    <a
+                      href="#agendamentos"
+                      onClick={closeModal}
+                      className="bg-mara-orange text-white px-6 py-3 rounded-lg font-bold text-center hover:bg-orange-600 transition-colors w-full"
+                    >
+                      Agendar Aula Experimental
+                    </a>
+
+                    {selectedInst.slug && (
+                      <Link
+                        href={selectedInst.slug}
+                        onClick={closeModal}
+                        className="bg-transparent border-2 border-mara-orange text-mara-orange px-6 py-3 rounded-lg font-bold text-center hover:bg-mara-orange/10 transition-colors w-full"
+                      >
+                        Ver Metodologia Completa
+                      </Link>
+                    )}
+                  </div>
+
                 </div>
               </motion.div>
             </motion.div>
@@ -190,7 +212,6 @@ function InstrumentsContent() {
   );
 }
 
-// Envolvemos o componente principal em um Suspense por causa do useSearchParams
 export default function Instruments() {
   return (
     <section id="instrumentos" className="py-24 bg-mara-gray relative">

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { GoogleAnalytics } from '@next/third-parties/google'; // <-- 1. Importação adicionada
 import "./globals.css";
 
 const geistSans = Geist({
@@ -30,6 +31,8 @@ export default function RootLayout({
       >
         {children}
       </body>
+      {/* 2. Componente do GA4 adicionado aqui. Substitua pelo seu ID real */}
+      <GoogleAnalytics gaId="G-COLOQUE_SEU_ID_AQUI" />
     </html>
   );
 }
