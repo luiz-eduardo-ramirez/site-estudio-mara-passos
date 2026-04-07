@@ -91,21 +91,10 @@ export default function AulasDePiano() {
             </section>
 
             {/* SEÇÃO DO FORMULÁRIO (Âncora do Scroll) */}
-            {/* Mudamos max-w-4xl para max-w-6xl para dar respiro lateral! */}
-            <section id="agendamento" className="container mx-auto px-6 max-w-6xl scroll-mt-24">
-                {/* Aumentamos o padding interno de p-6 md:p-10 para p-10 md:p-16 */}
-                <div className="bg-[#111] rounded-[2.5rem] p-10 md:p-16 border border-white/5 shadow-[0_0_50px_rgba(0,0,0,0.5)] relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-80 h-80 bg-mara-orange/10 rounded-full blur-[100px] -z-10"></div>
-
-                    <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">Dê o Primeiro Passo</h2>
-                        <p className="text-gray-400">Preencha os dados abaixo e nossa equipe entrará em contato para agendar sua aula.</p>
-                    </div>
-
-                    <Contact />
-
-                </div>
-            </section>
+            {/* Agora o componente Contact é renderizado de forma livre, sem estar preso em outra caixa */}
+            <div id="agendamento" className="scroll-mt-24">
+                <Contact />
+            </div>
 
         </main>
     );

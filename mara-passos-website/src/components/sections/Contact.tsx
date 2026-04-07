@@ -9,7 +9,7 @@ export default function Contact() {
   const [aceitouTermos, setAceitouTermos] = useState(false);
 
   // COLOQUE O NÚMERO DO WHATSAPP DO ESTÚDIO AQUI (Apenas números, com 55 e DDD)
-  const NUMERO_WHATSAPP = "5511972405722"; 
+  const NUMERO_WHATSAPP = "5511972405722";
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -33,7 +33,7 @@ export default function Contact() {
     form.current?.reset();
     setAceitouTermos(false);
     setStatus('sucesso');
-    
+
     // Esconde a mensagem de sucesso depois de 5 segundos
     setTimeout(() => setStatus('idle'), 5000);
   };
@@ -41,10 +41,10 @@ export default function Contact() {
   return (
     <section id="agendamentos" className="py-24 bg-mara-gray">
       <div className="container mx-auto px-6 max-w-6xl flex flex-col lg:flex-row items-center gap-12">
-        
+
         {/* Formulário (Lado Esquerdo) */}
-        <div className="w-full lg:w-1/2 bg-[#0b0b0b] rounded-2xl p-8 md:p-12 shadow-2xl border border-white/5 relative overflow-hidden">
-          
+        <div className="w-full lg:w-1/2 bg-[#0b0b0b] rounded-2xl p-8 md:p-12 shadow-2xl border border-white/5 relative">
+
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-mara-orange mb-4">
               Entre em contato conosco e agende sua aula experimental!
@@ -57,32 +57,32 @@ export default function Contact() {
           <form ref={form} onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label className="block text-mara-orange font-bold text-sm mb-2">Nome *</label>
-              <input 
-                type="text" 
-                name="user_name" 
+              <input
+                type="text"
+                name="user_name"
                 required
-                placeholder="Digite o seu nome completo..." 
+                placeholder="Digite o seu nome completo..."
                 className="w-full bg-white text-black rounded-full px-5 py-3 focus:outline-none focus:ring-2 focus:ring-mara-orange transition-shadow"
               />
             </div>
-            
+
             <div>
               <label className="block text-mara-orange font-bold text-sm mb-2">Telefone *</label>
-              <input 
-                type="tel" 
+              <input
+                type="tel"
                 name="user_phone"
                 required
-                placeholder="Digite o seu telefone (WhatsApp)..." 
+                placeholder="Digite o seu telefone (WhatsApp)..."
                 className="w-full bg-white text-black rounded-full px-5 py-3 focus:outline-none focus:ring-2 focus:ring-mara-orange transition-shadow"
               />
             </div>
 
             <div>
               <label className="block text-mara-orange font-bold text-sm mb-2">Aula de *</label>
-              <select 
-                name="instrumento" 
+              <select
+                name="instrumento"
                 required
-                defaultValue="" 
+                defaultValue=""
                 className="w-full bg-white text-black rounded-full px-5 py-3 focus:outline-none focus:ring-2 focus:ring-mara-orange transition-shadow appearance-none cursor-pointer"
               >
                 <option value="" disabled>Selecione o instrumento/curso...</option>
@@ -108,8 +108,8 @@ export default function Contact() {
 
             {/* CHECKBOX DE TERMOS E CONDIÇÕES */}
             <div className="flex items-start gap-3 mt-8 mb-6 p-4 bg-red-900/10 border border-red-500/20 rounded-xl">
-              <input 
-                type="checkbox" 
+              <input
+                type="checkbox"
                 id="termos-experimental"
                 name="termos_experimental"
                 required
@@ -131,12 +131,12 @@ export default function Contact() {
             )}
 
             {/* O Botão agora avisa que vai para o WhatsApp */}
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               disabled={!aceitouTermos}
               className={`w-full font-bold py-4 rounded-full mt-4 transition-all flex justify-center items-center gap-2
-                ${!aceitouTermos 
-                  ? 'bg-gray-600 text-gray-300 cursor-not-allowed opacity-60' 
+                ${!aceitouTermos
+                  ? 'bg-gray-600 text-gray-300 cursor-not-allowed opacity-60'
                   : 'bg-mara-orange hover:bg-orange-600 text-white hover:shadow-[0_0_15px_rgba(242,101,34,0.4)]'
                 }
               `}
@@ -149,9 +149,9 @@ export default function Contact() {
         {/* Imagem (Lado Direito) */}
         <div className="w-full lg:w-1/2 flex justify-center lg:justify-end">
           <div className="relative w-full max-w-md aspect-square rounded-lg overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-4 border-white transform hover:scale-105 transition-transform duration-500">
-            <img 
-              src="/contact-image.jpg" 
-              alt="Hora de escolher sua música" 
+            <img
+              src="/contact-image.jpg"
+              alt="Hora de escolher sua música"
               className="w-full h-full object-cover"
             />
           </div>
