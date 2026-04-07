@@ -32,7 +32,7 @@ export default function RootLayout({
         {children}
       </body>
       {/* 2. Componente do GA4 adicionado aqui. Substitua pelo seu ID real */}
-      <GoogleAnalytics gaId="G-COLOQUE_SEU_ID_AQUI" />
+      <GoogleAnalytics gaId="G-YTK6JLQJBG" />
     </html>
   );
 }
