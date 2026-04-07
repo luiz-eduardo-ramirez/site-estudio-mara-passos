@@ -6,7 +6,7 @@ import Contact from "../../components/sections/Contact"; // Ajuste o caminho con
 
 export default function AulasDePiano() {
 
-    const scrollToForm = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const scrollToForm = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         const element = document.getElementById('agendamento');
         if (element) {
