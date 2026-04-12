@@ -18,7 +18,7 @@ export const newsData = [
   {
     id: 3,
     title: "Semana Pet Musical 🐾",
-    description: "Você já viu uma Escola de Música Pet Friendly? 🐶 Para comemorar a vida dos nossos AUmiguinhos que nos trazem tantas alegrias, faremos a Semana Pet Musical! 🐱 Na última semana do mês de Abril, vamos abrir o Estúdio para quem quiser trazer seus pets nas aulas de Música! 🐻‍❄️ Teremos Petiscos para os Peludinhos e fotos para registrar esse momento! 🎼",
+    description: "Você já viu uma Escola de Música Pet Friendly? 🐶 Para comemorar a vida dos nossos AUmiguinhos que nos trazem tantas alegrias, faremos a Semana Pet Musical!",
     image: "/images/noticia-3.png",
     link: "https://www.instagram.com/p/DWzZguJETrP/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=="
   }
