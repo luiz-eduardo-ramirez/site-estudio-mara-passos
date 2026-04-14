@@ -13,6 +13,7 @@ import FloatingNotes from "./FloatingNotes";
 import News from "../components/sections/News";
 import Presentation from "../components/sections/Presentation";
 import ChatbotLocal from "../app/Chatbot";
+import SocialButtons from "../components/layout/SocialButtons";
 
 export default function Home() {
   return (
@@ -34,7 +35,7 @@ export default function Home() {
       </main>
 
       <Footer />
-
+      <SocialButtons />
       <ChatbotLocal /> {/* 2. Renderize o componente aqui */}
     </>
   );
