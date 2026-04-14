@@ -9,16 +9,17 @@ import Testimonials from "../components/sections/Testimonials";
 import Contact from "../components/sections/Contact";
 import Teachers from "../components/sections/Teachers";
 import ScrollReveal from "../components/layout/ScrollReveal";
-import FloatingNotes from "../components/layout/FloatingNotes";
+import FloatingNotes from "./FloatingNotes";
 import News from "../components/sections/News";
 import Presentation from "../components/sections/Presentation";
+import ChatbotLocal from "../app/Chatbot";
 
 export default function Home() {
   return (
     <>
       <Navbar />
-      <FloatingNotes /> 
-      
+      <FloatingNotes />
+
       <main>
         <Hero />
         <ScrollReveal><News /></ScrollReveal>
@@ -31,8 +32,10 @@ export default function Home() {
         <ScrollReveal><Testimonials /></ScrollReveal>
         <ScrollReveal><Contact /></ScrollReveal>
       </main>
-      
+
       <Footer />
+
+      <ChatbotLocal /> {/* 2. Renderize o componente aqui */}
     </>
   );
 }
