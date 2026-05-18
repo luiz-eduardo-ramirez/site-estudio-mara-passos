@@ -21,6 +21,7 @@ export default function SocialButtons() {
                 target="_blank"
                 rel="noopener noreferrer"
                 title="Siga nosso Instagram"
+                aria-label="Siga nosso Instagram"
                 className="w-14 h-14 bg-orange-500 text-zinc-950 rounded-full shadow-lg flex items-center justify-center hover:bg-orange-600 transition-colors hover:scale-105 active:scale-95"
             >
                 <Instagram size={24} strokeWidth={2.5} />
@@ -35,6 +36,7 @@ export default function SocialButtons() {
                 target="_blank"
                 rel="noopener noreferrer"
                 title="Fale conosco no WhatsApp"
+                aria-label="Fale conosco no WhatsApp"
                 className="w-14 h-14 bg-orange-500 text-zinc-950 rounded-full shadow-lg flex items-center justify-center hover:bg-orange-600 transition-colors hover:scale-105 active:scale-95"
             >
                 <svg

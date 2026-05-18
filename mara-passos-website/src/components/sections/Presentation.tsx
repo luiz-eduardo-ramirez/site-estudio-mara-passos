@@ -5,7 +5,9 @@ import { PlayCircle } from "lucide-react";
 
 export default function Presentation() {
   return (
-    <section id="apresentacao" className="py-24 bg-black relative overflow-hidden">
+    <section id="apresentacao" className="py-32 bg-black relative overflow-hidden">
+      {/* Divisor superior */}
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
       <div className="container mx-auto px-6 max-w-7xl">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
 

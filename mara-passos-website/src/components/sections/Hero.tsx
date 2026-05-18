@@ -13,6 +13,7 @@ export default function Hero() {
         loop
         muted
         playsInline
+        poster="/hero-bg.jpg"
         className="absolute inset-0 w-full h-full object-cover"
       >
         <source src="/hero-bg.mp4" type="video/mp4" />
@@ -57,7 +58,7 @@ export default function Hero() {
         {/* Usando a tag <a> padrão do HTML para âncoras na mesma página */}
         <a
           href="#agendamentos"
-          className="bg-mara-orange hover:bg-[#e05a1d] text-white px-8 py-4 rounded-full font-bold text-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(255,102,0,0.4)]"
+          className="bg-mara-orange hover:bg-[#e05a1d] active:scale-[0.98] focus:ring-4 focus:ring-orange-500/50 text-white px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(255,102,0,0.4)]"
         >
           AGENDAR AULA EXPERIMENTAL
         </a>

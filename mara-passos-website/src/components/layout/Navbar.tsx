@@ -58,16 +58,30 @@ export default function Navbar() {
         {/* MENU DESKTOP */}
         <nav className="hidden xl:flex items-center gap-6">
           <div className="flex items-center gap-6 pr-6 border-r border-white/10">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="text-xs font-semibold uppercase tracking-widest text-gray-300 hover:text-mara-orange transition-colors relative group"
-              >
-                {link.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-mara-orange transition-all group-hover:w-full"></span>
-              </a>
-            ))}
+            <a href="#inicio" className="text-xs font-semibold uppercase tracking-widest text-gray-300 hover:text-mara-orange transition-colors relative group">
+              Início
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-mara-orange transition-all group-hover:w-full"></span>
+            </a>
+            <a href="#instrumentos" className="text-xs font-semibold uppercase tracking-widest text-gray-300 hover:text-mara-orange transition-colors relative group">
+              Cursos
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-mara-orange transition-all group-hover:w-full"></span>
+            </a>
+            <a href="#professores" className="text-xs font-semibold uppercase tracking-widest text-gray-300 hover:text-mara-orange transition-colors relative group">
+              Professores
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-mara-orange transition-all group-hover:w-full"></span>
+            </a>
+            
+            {/* Dropdown para Institucional */}
+            <div className="relative group cursor-pointer py-2">
+              <span className="text-xs font-semibold uppercase tracking-widest text-gray-300 group-hover:text-mara-orange transition-colors">
+                Institucional ▾
+              </span>
+              <div className="absolute top-full mt-0 left-0 w-40 bg-black/95 border border-white/10 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 flex flex-col overflow-hidden">
+                <a href="#sobre-nos" className="px-4 py-3 text-xs text-gray-300 hover:bg-white/5 hover:text-mara-orange border-b border-white/5">Quem Somos</a>
+                <a href="#espacos" className="px-4 py-3 text-xs text-gray-300 hover:bg-white/5 hover:text-mara-orange border-b border-white/5">Espaços</a>
+                <a href="#depoimentos" className="px-4 py-3 text-xs text-gray-300 hover:bg-white/5 hover:text-mara-orange">Depoimentos</a>
+              </div>
+            </div>
           </div>
 
           <div className="flex items-center gap-4 pl-2">

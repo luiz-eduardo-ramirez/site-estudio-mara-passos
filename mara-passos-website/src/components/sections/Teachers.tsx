@@ -1,8 +1,69 @@
 "use client";
 
+import { useState } from 'react';
 import { Award, Music } from 'lucide-react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+
+function TeacherCard({ teacher, isEven }: { teacher: any, isEven: boolean }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0, x: isEven ? -50 : 50, scale: 0.95 }}
+      whileInView={{ opacity: 1, x: 0, scale: 1 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.7, ease: "easeOut" }}
+      className={`flex flex-col md:flex-row items-center gap-12 lg:gap-20 ${
+        isEven ? '' : 'md:flex-row-reverse'
+      }`}
+    >
+      <div className="w-full md:w-1/2 flex justify-center">
+        <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 group cursor-pointer">
+          <div className={`absolute inset-0 border-2 border-mara-orange rounded-2xl transform ${isEven ? 'translate-x-4 translate-y-4' : '-translate-x-4 translate-y-4'} -z-10 transition-transform duration-500 ease-in-out group-hover:translate-x-0 group-hover:translate-y-0`}></div>
+          <div className="w-full h-full rounded-2xl overflow-hidden bg-gray-800 shadow-2xl relative z-0">
+            <img 
+              src={teacher.foto} 
+              alt={teacher.nome} 
+              className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="w-full md:w-1/2 text-center md:text-left">
+        <div className={`flex items-center gap-3 mb-4 justify-center ${isEven ? 'md:justify-start' : 'md:justify-end'}`}>
+          <Award className="text-mara-orange" size={24} />
+          <h3 className="text-3xl font-bold text-white">{teacher.nome}</h3>
+        </div>
+        
+        {/* Botões interativos para as especialidades */}
+        <div className={`flex flex-wrap items-center gap-2 mb-6 justify-center ${isEven ? 'md:justify-start' : 'md:justify-end'}`}>
+          <Music className="text-gray-400" size={18} />
+          {teacher.especialidades.map((esp: string, i: number) => (
+            <Link 
+              key={i}
+              href={`/?curso=${encodeURIComponent(esp)}#instrumentos`}
+              className="bg-mara-orange/10 text-mara-orange hover:bg-mara-orange hover:text-white px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 transform hover:-translate-y-1 shadow-sm"
+            >
+              {esp}
+            </Link>
+          ))}
+        </div>
+        
+        <p className={`text-gray-300 text-lg leading-relaxed ${!isExpanded ? 'line-clamp-4 md:line-clamp-none' : ''} ${isEven ? 'md:text-left' : 'md:text-right'}`}>
+          &quot;{teacher.bio}&quot;
+        </p>
+        <button 
+          onClick={() => setIsExpanded(!isExpanded)}
+          className={`text-mara-orange text-sm font-semibold mt-2 md:hidden flex justify-center w-full ${isEven ? 'md:justify-start' : 'md:justify-end'}`}
+        >
+          {isExpanded ? 'Ocultar' : 'Ler mais'}
+        </button>
+      </div>
+    </motion.div>
+  );
+}
 
 export default function Teachers() {
   const teachersList = [
@@ -58,7 +119,9 @@ export default function Teachers() {
   ];
 
   return (
-    <section id="professores" className="py-24 bg-[#0b0b0b]">
+    <section id="professores" className="py-32 bg-[#0b0b0b] relative">
+      {/* Inclusão de um divisor em degradê sutil para separar o limite superior */}
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
       <div className="container mx-auto px-6 max-w-6xl">
         
         <motion.div 
@@ -79,57 +142,7 @@ export default function Teachers() {
         <div className="space-y-24">
           {teachersList.map((teacher, index) => {
             const isEven = index % 2 === 0;
-
-            return (
-              <motion.div 
-                initial={{ opacity: 0, x: isEven ? -50 : 50, scale: 0.95 }}
-                whileInView={{ opacity: 1, x: 0, scale: 1 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.7, ease: "easeOut" }}
-                key={teacher.id} 
-                className={`flex flex-col md:flex-row items-center gap-12 lg:gap-20 ${
-                  isEven ? '' : 'md:flex-row-reverse'
-                }`}
-              >
-                <div className="w-full md:w-1/2 flex justify-center">
-                  <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 group cursor-pointer">
-                    <div className={`absolute inset-0 border-2 border-mara-orange rounded-2xl transform ${isEven ? 'translate-x-4 translate-y-4' : '-translate-x-4 translate-y-4'} -z-10 transition-transform duration-500 ease-in-out group-hover:translate-x-0 group-hover:translate-y-0`}></div>
-                    <div className="w-full h-full rounded-2xl overflow-hidden bg-gray-800 shadow-2xl relative z-0">
-                      <img 
-                        src={teacher.foto} 
-                        alt={teacher.nome} 
-                        className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="w-full md:w-1/2 text-center md:text-left">
-                  <div className={`flex items-center gap-3 mb-4 justify-center ${isEven ? 'md:justify-start' : 'md:justify-end'}`}>
-                    <Award className="text-mara-orange" size={24} />
-                    <h3 className="text-3xl font-bold text-white">{teacher.nome}</h3>
-                  </div>
-                  
-                  {/* Botões interativos para as especialidades */}
-                  <div className={`flex flex-wrap items-center gap-2 mb-6 justify-center ${isEven ? 'md:justify-start' : 'md:justify-end'}`}>
-                    <Music className="text-gray-400" size={18} />
-                    {teacher.especialidades.map((esp, i) => (
-                      <Link 
-                        key={i}
-                        href={`/?curso=${encodeURIComponent(esp)}#instrumentos`}
-                        className="bg-mara-orange/10 text-mara-orange hover:bg-mara-orange hover:text-white px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 transform hover:-translate-y-1 shadow-sm"
-                      >
-                        {esp}
-                      </Link>
-                    ))}
-                  </div>
-                  
-                  <p className={`text-gray-300 text-lg leading-relaxed ${isEven ? 'md:text-left' : 'md:text-right'}`}>
-                    &quot;{teacher.bio}&quot;
-                  </p>
-                </div>
-              </motion.div>
-            );
+            return <TeacherCard key={teacher.id} teacher={teacher} isEven={isEven} />;
           })}
         </div>
       </div>

@@ -39,7 +39,9 @@ export default function Contact() {
   };
 
   return (
-    <section id="agendamentos" className="py-24 bg-mara-gray">
+    <section id="agendamentos" className="py-32 bg-mara-gray relative">
+      {/* Divisor superior */}
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
       <div className="container mx-auto px-6 max-w-6xl flex flex-col lg:flex-row items-center gap-12">
 
         {/* Formulário (Lado Esquerdo) */}
@@ -72,8 +74,15 @@ export default function Contact() {
                 type="tel"
                 name="user_phone"
                 required
-                placeholder="Digite o seu telefone (WhatsApp)..."
-                className="w-full bg-white text-black rounded-full px-5 py-3 focus:outline-none focus:ring-2 focus:ring-mara-orange transition-shadow"
+                maxLength={15}
+                placeholder="(11) 90000-0000"
+                onChange={(e) => {
+                  let v = e.target.value.replace(/\D/g, ""); // Remove não-números
+                  v = v.replace(/^(\d{2})(\d)/g, "($1) $2"); // Coloca parênteses no DDD
+                  v = v.replace(/(\d)(\d{4})$/, "$1-$2");    // Coloca hífen no meio do número
+                  e.target.value = v;
+                }}
+                className="w-full bg-white text-black rounded-full px-5 py-3 focus:outline-none focus:ring-4 focus:ring-mara-orange/30 transition-all"
               />
             </div>
 
@@ -137,7 +146,7 @@ export default function Contact() {
               className={`w-full font-bold py-4 rounded-full mt-4 transition-all flex justify-center items-center gap-2
                 ${!aceitouTermos
                   ? 'bg-gray-600 text-gray-300 cursor-not-allowed opacity-60'
-                  : 'bg-mara-orange hover:bg-orange-600 text-white hover:shadow-[0_0_15px_rgba(242,101,34,0.4)]'
+                  : 'bg-mara-orange hover:bg-orange-600 active:scale-[0.98] focus:ring-4 focus:ring-orange-500/50 text-white hover:shadow-[0_8px_25px_rgba(242,101,34,0.4)]'
                 }
               `}
             >
