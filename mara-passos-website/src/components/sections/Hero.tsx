@@ -13,7 +13,7 @@ export default function Hero() {
         loop
         muted
         playsInline
-        poster="/hero-bg.jpg"
+        poster="/hero-bg.png"
         className="absolute inset-0 w-full h-full object-cover"
       >
         <source src="/hero-bg.mp4" type="video/mp4" />
