@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { GoogleAnalytics } from '@next/third-parties/google'; // <-- 1. Importação adicionada
+import { GoogleAnalytics } from '@next/third-parties/google'; 
 import CookieConsent from "../components/layout/CookieConsent";
+import MetaPixel from '../components/MetaPixel'; /// 1. Importação do seu componente
+// @ts-ignore: CSS imports may not have type declarations in this setup
 import "./globals.css";
 
 const geistSans = Geist({
@@ -19,21 +21,22 @@ export const metadata: Metadata = {
   description: "Escola de música com metodologia lúdica, curativa e acolhedora. Cursos de piano, violão, canto, musicalização e muito mais.",
 };
 
+
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    // suppressHydrationWarning adicionado aqui e idioma alterado para pt-BR
     <html lang="pt-BR" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        {/* Adicione o componente aqui */}
+        <MetaPixel /> 
+        
         {children}
         <CookieConsent />
       </body>
-      {/* 2. Componente do GA4 adicionado aqui. Substitua pelo seu ID real */}
       <GoogleAnalytics gaId="G-YTK6JLQJBG" />
     </html>
   );
