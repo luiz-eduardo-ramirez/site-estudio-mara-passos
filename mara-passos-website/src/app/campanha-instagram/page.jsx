@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { CheckCircle2, Download, BookOpen, Loader2 } from 'lucide-react';
-import ReactPixel from 'react-facebook-pixel';
+
 
 export default function CampanhaInstagram() {
   const form = useRef(null);
@@ -199,19 +199,21 @@ export default function CampanhaInstagram() {
               </p>
               
               <a 
-                href="/ebook-estudio-mara-passos.pdf" 
-                download="eBook-Mara-Passos.pdf"
-                onClick={() => {
-                        // DISPARO DO EVENTO DE CONVERSÃO
-                        ReactPixel.track('Lead', {
-                        content_name: 'ebook_agendamento_aula',
-                        status: 'sucesso'
-                    });
-                }}
-                className="w-full inline-flex justify-center items-center gap-2 bg-emerald-600 hover:bg-emerald-500 active:scale-[0.98] text-white font-bold py-4 rounded-full transition-all shadow-[0_8px_25px_rgba(16,185,129,0.3)]"
-              >
-                <Download className="w-5 h-5" /> Baixar Meu eBook Agora
-              </a>
+  href="/ebook-estudio-mara-passos.pdf" 
+  download="eBook-Mara-Passos.pdf"
+  onClick={() => {
+    // NOVA FORMA DE DISPARAR O EVENTO (Segura para o Next.js)
+    if (typeof window !== 'undefined' && window.fbq) {
+      window.fbq('track', 'Lead', {
+        content_name: 'ebook_agendamento_aula',
+        status: 'sucesso'
+      });
+    }
+  }}
+  className="w-full inline-flex justify-center items-center gap-2 bg-emerald-600 hover:bg-emerald-500 active:scale-[0.98] text-white font-bold py-4 rounded-full transition-all shadow-[0_8px_25px_rgba(16,185,129,0.3)]"
+>
+  <Download className="w-5 h-5" /> Baixar Meu eBook Agora
+</a>
             </div>
           )}
         </div>
