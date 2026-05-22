@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { GoogleAnalytics } from '@next/third-parties/google'; 
 import CookieConsent from "../components/layout/CookieConsent";
-import MetaPixel from '../components/MetaPixel'; /// 1. Importação do seu componente
+import MetaPixel from '../components/MetaPixel';
 // @ts-ignore: CSS imports may not have type declarations in this setup
 import "./globals.css";
 
@@ -17,11 +17,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://estudiomusicalmarapassos.com.br"), // Define a base oficial para o Next.js
   title: "Estúdio Musical Mara Passos",
   description: "Escola de música com metodologia lúdica, curativa e acolhedora. Cursos de piano, violão, canto, musicalização e muito mais.",
+  alternates: {
+    canonical: "/", // Gera a tag <link rel="canonical" href="..." /> automaticamente
+  },
 };
-
-
 
 export default function RootLayout({
   children,
@@ -39,8 +41,8 @@ export default function RootLayout({
               "@type": "MusicSchool",
               "name": "Estúdio Musical Mara Passos",
               "image": "https://estudiomusicalmarapassos.com.br/logo.png",
-              "@id": "https://www.estudiomusicalmarapassos.com.br",
-              "url": "https://www.estudiomusicalmarapassos.com.br",
+              "@id": "https://estudiomusicalmarapassos.com.br", // Removido o www
+              "url": "https://estudiomusicalmarapassos.com.br", // Removido o www
               "telephone": "+55-11-972405722",
               "address": {
                 "@type": "PostalAddress",
@@ -61,9 +63,7 @@ export default function RootLayout({
         />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        {/* Adicione o componente aqui */}
         <MetaPixel /> 
-        
         {children}
         <CookieConsent />
       </body>

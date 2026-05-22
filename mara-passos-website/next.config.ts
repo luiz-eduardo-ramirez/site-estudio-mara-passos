@@ -1,7 +1,21 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  async redirects() {
+    return [
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'www.estudiomusicalmarapassos.com.br',
+          },
+        ],
+        destination: 'https://estudiomusicalmarapassos.com.br/:path*',
+        permanent: true, // Isso diz ao Google: "A mudança é definitiva (Status 301)"
+      },
+    ];
+  },
 };
 
 export default nextConfig;
