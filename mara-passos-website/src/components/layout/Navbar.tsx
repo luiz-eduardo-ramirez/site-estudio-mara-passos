@@ -43,8 +43,8 @@ export default function Navbar() {
             <Image
               src="/logo.png"
               alt="Estúdio Mara Passos"
-              width={100}
-              height={100}
+              width={150}
+              height={50}
               className="w-14 h-14 md:w-16 md:h-16 object-contain drop-shadow-[0_0_8px_rgba(242,101,34,0.2)]"
             />
           </div>

@@ -16,8 +16,35 @@ import FAQ from "../components/sections/FAQ"; // 1. Importa apenas o componente
 import { faqData } from "../components/sections/faqData";// 2. Importa os dados do novo arquivo (ajuste o caminho se necessário)
 import ChatbotLocal from "../app/Chatbot";
 import SocialButtons from "../components/layout/SocialButtons";
+import { Metadata } from 'next';
+import { instrumentsList } from '../data/instrumentsList';
 
-export default function Home() {
+type Props = {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
+
+export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
+  const sp = await searchParams;
+  const cursoParam = sp?.curso;
+  const curso = Array.isArray(cursoParam) ? cursoParam[0] : cursoParam;
+
+  if (curso) {
+    const instrument = instrumentsList.find(inst => inst.nome === curso);
+    if (instrument) {
+      return {
+        title: `Aulas de ${instrument.nome} em São Paulo | Estúdio Mara Passos`,
+        description: instrument.detalhes,
+      };
+    }
+  }
+
+  return {
+    title: "Estúdio Musical Mara Passos",
+    description: "Escola de música com metodologia lúdica, curativa e acolhedora. Cursos de piano, violão, canto, musicalização e muito mais.",
+  };
+}
+
+export default async function Home({ searchParams }: Props) {
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
