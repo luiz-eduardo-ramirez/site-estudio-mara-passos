@@ -25,6 +25,7 @@ export default function Navbar() {
     { name: 'Espaços', href: '#espacos' },
     { name: 'Quem somos ', href: '#sobre-nos' },
     { name: 'Depoimentos', href: '#depoimentos' },
+    { name: 'Dúvidas', href: '#faq' },
   ];
 
   return (
@@ -71,15 +72,22 @@ export default function Navbar() {
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-mara-orange transition-all group-hover:w-full"></span>
             </a>
             
-            {/* Dropdown para Institucional */}
+            {/* Dropdown para Institucional (Refatorado com Animações) */}
             <div className="relative group cursor-pointer py-2">
-              <span className="text-xs font-semibold uppercase tracking-widest text-gray-300 group-hover:text-mara-orange transition-colors">
-                Institucional ▾
+              <span className="flex items-center gap-1 text-xs font-semibold uppercase tracking-widest text-gray-300 group-hover:text-mara-orange transition-colors">
+                Institucional
+                {/* Seta animada com rotação suave */}
+                <svg className="w-3 h-3 transition-transform duration-300 group-hover:-rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
               </span>
-              <div className="absolute top-full mt-0 left-0 w-40 bg-black/95 border border-white/10 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 flex flex-col overflow-hidden">
-                <a href="#sobre-nos" className="px-4 py-3 text-xs text-gray-300 hover:bg-white/5 hover:text-mara-orange border-b border-white/5">Quem Somos</a>
-                <a href="#espacos" className="px-4 py-3 text-xs text-gray-300 hover:bg-white/5 hover:text-mara-orange border-b border-white/5">Espaços</a>
-                <a href="#depoimentos" className="px-4 py-3 text-xs text-gray-300 hover:bg-white/5 hover:text-mara-orange">Depoimentos</a>
+              
+              {/* Menu com efeito de deslize (translate-y) e Glassmorphism */}
+              <div className="absolute top-full mt-2 left-0 w-48 bg-black/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] opacity-0 invisible translate-y-4 group-hover:translate-y-0 group-hover:opacity-100 group-hover:visible transition-all duration-300 ease-out flex flex-col overflow-hidden">
+                <a href="#sobre-nos" className="px-5 py-3 text-xs text-gray-300 hover:bg-white/5 hover:text-mara-orange hover:translate-x-1 transition-all border-b border-white/5">Quem Somos</a>
+                <a href="#espacos" className="px-5 py-3 text-xs text-gray-300 hover:bg-white/5 hover:text-mara-orange hover:translate-x-1 transition-all border-b border-white/5">Espaços</a>
+                <a href="#depoimentos" className="px-5 py-3 text-xs text-gray-300 hover:bg-white/5 hover:text-mara-orange hover:translate-x-1 transition-all border-b border-white/5">Depoimentos</a>
+                <a href="#faq" className="px-5 py-3 text-xs text-gray-300 hover:bg-white/5 hover:text-mara-orange hover:translate-x-1 transition-all">Dúvidas Frequentes</a>
               </div>
             </div>
           </div>
@@ -109,7 +117,6 @@ export default function Navbar() {
           onClick={() => setIsMobileOpen(!isMobileOpen)}
           aria-label="Abrir menu"
         >
-          {/* O Código do piano agora fica direto aqui! */}
           <div className="relative w-8 h-8 flex items-center justify-center">
             <div className="relative w-full h-full flex flex-col justify-between">
               {/* Tecla Branca 1 (Topo) */}

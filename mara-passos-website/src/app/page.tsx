@@ -12,12 +12,32 @@ import ScrollReveal from "../components/layout/ScrollReveal";
 import FloatingNotes from "./FloatingNotes";
 import News from "../components/sections/News";
 import Presentation from "../components/sections/Presentation";
+import FAQ from "../components/sections/FAQ"; // 1. Importa apenas o componente
+import { faqData } from "../components/sections/faqData";// 2. Importa os dados do novo arquivo (ajuste o caminho se necessário)
 import ChatbotLocal from "../app/Chatbot";
 import SocialButtons from "../components/layout/SocialButtons";
 
 export default function Home() {
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    // 3. Tipagem explícita adicionada ao 'item' para resolver o erro 7006
+    "mainEntity": faqData.map((item: { question: string; answer: string }) => ({
+      "@type": "Question",
+      "name": item.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": item.answer
+      }
+    }))
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <Navbar />
       <FloatingNotes />
 
@@ -31,6 +51,7 @@ export default function Home() {
         <ScrollReveal><Spaces /></ScrollReveal>
         <ScrollReveal><AboutUs /></ScrollReveal>
         <ScrollReveal><Testimonials /></ScrollReveal>
+        <ScrollReveal><FAQ /></ScrollReveal>
         <ScrollReveal><Contact /></ScrollReveal>
       </main>
 

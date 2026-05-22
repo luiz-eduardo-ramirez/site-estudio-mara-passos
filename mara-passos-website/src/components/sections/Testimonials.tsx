@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { Star, Quote } from 'lucide-react';
 
 export default function Testimonials() {
@@ -54,8 +55,8 @@ export default function Testimonials() {
               <Quote className="absolute top-6 right-8 text-mara-orange opacity-40" size={40} />
               
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-800 border-2 border-mara-orange/50 shrink-0">
-                  <img src={dep.foto} alt={dep.nome} className="w-full h-full object-cover" />
+                <div className="relative w-16 h-16 rounded-full overflow-hidden bg-gray-800 border-2 border-mara-orange/50 shrink-0">
+                  <Image src={dep.foto} alt={dep.nome} fill className="object-cover" sizes="64px" />
                 </div>
                 <div>
                   <h4 className="text-mara-orange font-bold text-lg">{dep.nome}</h4>

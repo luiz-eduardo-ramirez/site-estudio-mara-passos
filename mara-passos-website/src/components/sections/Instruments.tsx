@@ -4,6 +4,7 @@ import { useState, useEffect, Suspense } from 'react';
 import { createPortal } from 'react-dom';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link'; // Importação do Link adicionada
+import Image from 'next/image';
 import { Mic, Music, Activity, Speaker, Headphones, Users, BookOpen, LayoutGrid, Smile, X, CirclePlay } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -165,13 +166,11 @@ function InstrumentsContent() {
                 </button>
 
                 <div className="w-full md:w-1/2 h-64 md:h-[500px] bg-neutral-800 relative overflow-hidden">
-                  <img
+                  <Image
                     src={selectedInst.imagem}
                     alt={selectedInst.nome}
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      e.currentTarget.src = "/hero-bg.jpg";
-                    }}
+                    fill
+                    className="object-cover"
                   />
 
                   <div className="absolute inset-0 bg-gradient-to-t from-[#151515] via-transparent md:from-transparent to-transparent"></div>
@@ -184,13 +183,12 @@ function InstrumentsContent() {
                       <p className="text-xs md:text-sm text-gray-200 mt-1 leading-tight">Rua Cuevas, 206 &bull; Lapa</p>
                     </div>
 
-                    <img
+                    <Image
                       src="/logo-transparente.png"
                       alt="Mara Passos"
-                      className="h-12 md:h-16 object-contain"
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none';
-                      }}
+                      width={160}
+                      height={64}
+                      className="h-12 md:h-16 w-auto object-contain"
                     />
                   </div>
                 </div>

@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { CheckCircle2 } from 'lucide-react';
 
@@ -16,11 +17,12 @@ export default function About() {
 
           {/* Imagem da Mara (Salve a foto na pasta public/ como mara-passos.jpg) */}
           <div className="relative z-10 w-64 h-64 md:w-96 md:h-96 rounded-full overflow-hidden border-4 border-mara-dark shadow-2xl bg-gray-800 flex items-center justify-center">
-             <img 
+             <Image 
                src="/mara-passos.png" 
                alt="Mara Passos" 
-               className="w-full h-full object-cover"
-               // Caso a imagem não exista ainda, o CSS mostrará um quadrado escuro elegante
+               fill
+               className="object-cover"
+               sizes="(max-width: 768px) 256px, 384px"
              />
           </div>
         </div>
