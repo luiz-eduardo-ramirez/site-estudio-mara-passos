@@ -116,6 +116,13 @@ export default function ChatbotLocal() {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages, isTyping]);
 
+    // Listener para abrir o chat a partir do SocialButtons
+    useEffect(() => {
+        const handleOpen = () => setIsOpen(true);
+        window.addEventListener("openChatbot", handleOpen);
+        return () => window.removeEventListener("openChatbot", handleOpen);
+    }, []);
+
     const handleSend = () => {
         if (!input.trim()) return;
 
@@ -132,7 +139,7 @@ export default function ChatbotLocal() {
     };
 
     return (
-        <div className="fixed bottom-6 left-6 z-[999] flex flex-col items-start">
+        <div className="fixed bottom-24 left-6 z-[999] flex flex-col items-start pointer-events-none">
 
             <AnimatePresence>
                 {isOpen && (
@@ -140,7 +147,7 @@ export default function ChatbotLocal() {
                         initial={{ opacity: 0, y: 20, scale: 0.9 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 20, scale: 0.9 }}
-                        className="mb-4 w-80 sm:w-96 rounded-2xl bg-zinc-950 shadow-2xl flex flex-col overflow-hidden border border-orange-500 origin-bottom-left"
+                        className="mb-4 w-80 sm:w-96 rounded-2xl bg-zinc-950 shadow-2xl flex flex-col overflow-hidden border border-orange-500 origin-bottom-left pointer-events-auto"
                     >
                         {/* Header */}
                         <div className="bg-zinc-900 border-b border-orange-500/30 p-4 flex justify-between items-center text-white">
@@ -210,31 +217,6 @@ export default function ChatbotLocal() {
                     </motion.div>
                 )}
             </AnimatePresence>
-
-            {/* Botão Flutuante */}
-            <button
-                onClick={() => setIsOpen(!isOpen)}
-                className="w-14 h-14 bg-orange-500 text-zinc-950 rounded-full shadow-lg flex items-center justify-center hover:bg-orange-600 transition-all hover:scale-105 active:scale-95 relative"
-            >
-                <AnimatePresence mode="wait">
-                    {isOpen ? (
-                        <motion.div key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }}>
-                            <X size={24} className="text-zinc-950" />
-                        </motion.div>
-                    ) : (
-                        <motion.div key="open" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }}>
-                            <Image
-                                src="/chat.svg"
-                                alt="Abrir Chat"
-                                width={28}
-                                height={28}
-                                className="brightness-0"
-                            />
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-            </button>
-
         </div>
     );
 }

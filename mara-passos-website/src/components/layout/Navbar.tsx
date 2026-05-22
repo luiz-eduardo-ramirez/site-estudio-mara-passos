@@ -139,38 +139,54 @@ export default function Navbar() {
 
         {/* MENU MOBILE */}
         <div className={`
-          fixed top-0 right-0 h-screen w-full md:w-80 bg-black/98 backdrop-blur-xl transform transition-transform duration-500 ease-in-out flex flex-col pt-24 px-10 gap-6 z-40
+          fixed top-0 right-0 h-screen w-full md:w-80 bg-black/98 backdrop-blur-xl transform transition-transform duration-500 ease-in-out flex flex-col pt-24 px-8 pb-8 z-40
           ${isMobileOpen ? 'translate-x-0' : 'translate-x-full'}
           xl:hidden
         `}>
-          {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              onClick={() => setIsMobileOpen(false)}
-              className="text-xl font-bold text-white border-b border-white/5 pb-4 hover:text-mara-orange transition-colors"
-            >
-              {link.name}
-            </a>
-          ))}
+          
+          <div className="flex-1 overflow-y-auto">
+            {/* Seção 1: Navegação Principal */}
+            <div className="mb-8">
+              <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Navegação</h3>
+              <div className="grid grid-cols-2 gap-y-5 gap-x-2">
+                <a href="#inicio" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Início</a>
+                <a href="#instrumentos" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Cursos</a>
+                <a href="#professores" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Professores</a>
+                <a href="#faq" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Dúvidas</a>
+              </div>
+            </div>
 
-          <div className="flex flex-col gap-4 mt-8">
+            {/* Seção 2: Institucional */}
+            <div className="mb-8">
+              <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">O Estúdio</h3>
+              <div className="grid grid-cols-2 gap-y-5 gap-x-2">
+                <a href="#sobre" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Sobre</a>
+                <a href="#espacos" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Espaços</a>
+                <a href="#sobre-nos" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Quem Somos</a>
+                <a href="#depoimentos" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Depoimentos</a>
+              </div>
+            </div>
+          </div>
+
+          {/* Conversion Zone Fixa na Base */}
+          <div className="mt-auto pt-6 border-t border-white/10 flex flex-col gap-3">
             <Link
               href="https://portal.estudiomusicalmarapassos.com.br"
               onClick={() => setIsMobileOpen(false)}
-              className="flex items-center justify-center gap-2 border border-white/20 text-white py-4 rounded-xl font-bold hover:bg-white/5 transition-colors"
+              className="flex items-center justify-center gap-2 border border-white/20 text-white py-3.5 rounded-xl font-bold text-sm hover:bg-white/5 transition-colors"
             >
-              <User size={18} />
+              <User size={16} />
               Portal do Aluno
             </Link>
             <a
               href="#agendamentos"
               onClick={() => setIsMobileOpen(false)}
-              className="bg-mara-orange text-center text-white py-4 rounded-xl font-bold shadow-[0_0_20px_rgba(242,101,34,0.4)] hover:scale-105 transition-all"
+              className="bg-mara-orange text-center text-white py-3.5 rounded-xl font-bold text-sm shadow-[0_0_20px_rgba(242,101,34,0.4)] hover:scale-105 transition-all"
             >
               Agendar Aula Experimental
             </a>
           </div>
+
         </div>
 
       </div>
