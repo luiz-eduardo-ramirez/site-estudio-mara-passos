@@ -30,6 +30,36 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" suppressHydrationWarning>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "MusicSchool",
+              "name": "Estúdio Musical Mara Passos",
+              "image": "https://estudiomusicalmarapassos.com.br/logo.png",
+              "@id": "https://www.estudiomusicalmarapassos.com.br",
+              "url": "https://www.estudiomusicalmarapassos.com.br",
+              "telephone": "+55-11-972405722",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Rua Cuevas, 206 - Lapa, São Paulo - SP",
+                "addressLocality": "São Paulo",
+                "addressRegion": "SP",
+                "postalCode": "05076050",
+                "addressCountry": "BR"
+              },
+              "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": -23.4994,
+                "longitude": -46.7153
+              },
+              "priceRange": "$$"
+            })
+          }}
+        />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {/* Adicione o componente aqui */}
         <MetaPixel /> 

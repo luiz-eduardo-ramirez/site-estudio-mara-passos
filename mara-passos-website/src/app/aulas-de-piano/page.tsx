@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { CheckCircle, ArrowLeft } from "lucide-react";
 import Contact from "../../components/sections/Contact"; // Ajuste o caminho conforme sua pasta
+import SocialButtons from "../../components/layout/SocialButtons";
 
 export default function AulasDePiano() {
 
@@ -17,6 +18,30 @@ export default function AulasDePiano() {
 
     return (
         <main className="bg-[#0a0a0a] min-h-screen text-white pb-24 relative">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@type": "Course",
+                    "name": "Aulas de Piano",
+                    "description": "Aprenda piano com uma metodologia que respeita seu tempo. Do iniciante ao avançado, no Estúdio Mara Passos você encontra o ambiente ideal para evoluir.",
+                    "provider": {
+                        "@type": "MusicSchool",
+                        "name": "Estúdio Musical Mara Passos",
+                        "sameAs": "https://estudiomusicalmarapassos.com.br"
+                    },
+                    "courseCode": "CURSO-PIANO",
+                    "hasCourseInstance": {
+                        "@type": "CourseInstance",
+                        "courseMode": "Onsite",
+                        "location": {
+                            "@type": "Place",
+                            "name": "Estúdio Musical Mara Passos",
+                            "address": "São Paulo, SP"
+                        }
+                    }
+                })}}
+            />
 
             {/* NAVEGAÇÃO SUPERIOR */}
             <div className="absolute top-0 left-0 w-full p-6 z-10 flex justify-between items-center container mx-auto">
@@ -96,6 +121,7 @@ export default function AulasDePiano() {
                 <Contact />
             </div>
 
+            <SocialButtons />
         </main>
     );
 }
