@@ -11,6 +11,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
+  const novasRotas = ['/cursos', '/professores', '/sobre-nos'];
+  const novasRotasUrls = novasRotas.map((rota) => ({
+    url: `${baseUrl}${rota}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.8,
+  }));
+
   return [
     {
       url: baseUrl,
@@ -19,5 +27,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1.0,
     },
     ...cursosUrls,
+    ...novasRotasUrls,
   ];
 }

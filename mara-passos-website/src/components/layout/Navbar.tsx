@@ -63,14 +63,14 @@ export default function Navbar() {
               Início
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-mara-orange transition-all group-hover:w-full"></span>
             </a>
-            <a href="#instrumentos" className="text-xs font-semibold uppercase tracking-widest text-gray-300 hover:text-mara-orange transition-colors relative group">
+            <Link href="/cursos" className="text-xs font-semibold uppercase tracking-widest text-gray-300 hover:text-mara-orange transition-colors relative group">
               Cursos
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-mara-orange transition-all group-hover:w-full"></span>
-            </a>
-            <a href="#professores" className="text-xs font-semibold uppercase tracking-widest text-gray-300 hover:text-mara-orange transition-colors relative group">
+            </Link>
+            <Link href="/professores" className="text-xs font-semibold uppercase tracking-widest text-gray-300 hover:text-mara-orange transition-colors relative group">
               Professores
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-mara-orange transition-all group-hover:w-full"></span>
-            </a>
+            </Link>
             
             {/* Dropdown para Institucional (Refatorado com Animações) */}
             <div className="relative group cursor-pointer py-2">
@@ -84,7 +84,7 @@ export default function Navbar() {
               
               {/* Menu com efeito de deslize (translate-y) e Glassmorphism */}
               <div className="absolute top-full mt-2 left-0 w-48 bg-black/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] opacity-0 invisible translate-y-4 group-hover:translate-y-0 group-hover:opacity-100 group-hover:visible transition-all duration-300 ease-out flex flex-col overflow-hidden">
-                <a href="#sobre-nos" className="px-5 py-3 text-xs text-gray-300 hover:bg-white/5 hover:text-mara-orange hover:translate-x-1 transition-all border-b border-white/5">Quem Somos</a>
+                <Link href="/sobre-nos" className="px-5 py-3 text-xs text-gray-300 hover:bg-white/5 hover:text-mara-orange hover:translate-x-1 transition-all border-b border-white/5">Quem Somos</Link>
                 <a href="#espacos" className="px-5 py-3 text-xs text-gray-300 hover:bg-white/5 hover:text-mara-orange hover:translate-x-1 transition-all border-b border-white/5">Espaços</a>
                 <a href="#depoimentos" className="px-5 py-3 text-xs text-gray-300 hover:bg-white/5 hover:text-mara-orange hover:translate-x-1 transition-all border-b border-white/5">Depoimentos</a>
                 <a href="#faq" className="px-5 py-3 text-xs text-gray-300 hover:bg-white/5 hover:text-mara-orange hover:translate-x-1 transition-all">Dúvidas Frequentes</a>
@@ -150,8 +150,8 @@ export default function Navbar() {
               <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Navegação</h3>
               <div className="grid grid-cols-2 gap-y-5 gap-x-2">
                 <a href="#inicio" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Início</a>
-                <a href="#instrumentos" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Cursos</a>
-                <a href="#professores" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Professores</a>
+                <Link href="/cursos" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Cursos</Link>
+                <Link href="/professores" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Professores</Link>
                 <a href="#faq" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Dúvidas</a>
               </div>
             </div>
@@ -162,7 +162,7 @@ export default function Navbar() {
               <div className="grid grid-cols-2 gap-y-5 gap-x-2">
                 <a href="#sobre" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Sobre</a>
                 <a href="#espacos" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Espaços</a>
-                <a href="#sobre-nos" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Quem Somos</a>
+                <Link href="/sobre-nos" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Quem Somos</Link>
                 <a href="#depoimentos" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Depoimentos</a>
               </div>
             </div>
