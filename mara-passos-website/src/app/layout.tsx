@@ -20,9 +20,6 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://estudiomusicalmarapassos.com.br"), // Define a base oficial para o Next.js
   title: "Estúdio Musical Mara Passos",
   description: "Escola de música com metodologia lúdica, curativa e acolhedora. Cursos de piano, violão, canto, musicalização e muito mais.",
-  alternates: {
-    canonical: "/", // Gera a tag <link rel="canonical" href="..." /> automaticamente
-  },
 };
 
 export default function RootLayout({
