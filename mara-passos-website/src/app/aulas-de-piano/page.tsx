@@ -199,11 +199,11 @@ export default function AulasDePiano() {
                         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                     >
                         {[
-                            { src: "/piano-1.mp4", poster: "/piano-1-capa.jpg" },
-                            { src: "/piano-2.mp4", poster: "/piano-2-capa.jpg" },
-                            { src: "/piano-3.mp4", poster: "/piano-3-capa.jpg" },
-                            { src: "/piano-4.mp4", poster: "/piano-4-capa.jpg" },
-                            { src: "/piano-5.mp4", poster: "/piano-5-capa.jpg" }
+                            { src: "/piano-1.mp4", poster: "/piano-1-poster.jpg" },
+                            { src: "/piano-2.mp4", poster: "/piano-2-poster.jpg" },
+                            { src: "/piano-3.mp4", poster: "/piano-3-poster.jpg" },
+                            { src: "/piano-4.mp4", poster: "/piano-4-poster.jpg" },
+                            { src: "/piano-5.mp4", poster: "/piano-5-poster.jpg" }
                         ].map((video, i) => (
                             <div 
                                 key={i} 
@@ -211,8 +211,8 @@ export default function AulasDePiano() {
                             >
                                 <video 
                                     src={video.src}
-                                    poster={video.poster} // Atributo adicionado aqui!
-                                    className="absolute inset-0 w-full h-full object-cover"
+                                    poster={video.poster}
+                                    className="video-player absolute inset-0 w-full h-full object-cover"
                                     controls
                                     preload="metadata"
                                     playsInline
@@ -311,10 +311,22 @@ export default function AulasDePiano() {
 
             <SocialButtons />
 
-            {/* Estilo Global extra para esconder a scrollbar no carrossel e manter funcional */}
+            {/* Estilos Globais Extra */}
             <style jsx global>{`
+                /* Esconder a barra de rolagem no carrossel e manter funcional */
                 .scrollbar-hide::-webkit-scrollbar {
                     display: none;
+                }
+                
+                /* Forçar o comportamento cover no modo ecrã inteiro (Fullscreen API) */
+                .video-player:fullscreen {
+                    object-fit: cover !important;
+                    aspect-ratio: 9/16 !important;
+                }
+                
+                .video-player:-webkit-full-screen {
+                    object-fit: cover !important;
+                    aspect-ratio: 9/16 !important;
                 }
             `}</style>
         </main>
