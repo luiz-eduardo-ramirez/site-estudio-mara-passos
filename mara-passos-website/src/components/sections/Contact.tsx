@@ -26,6 +26,11 @@ export default function Contact() {
     // Cria o link do WhatsApp com a mensagem codificada (para aceitar espaços e acentos)
     const urlWhatsApp = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(mensagem)}`;
 
+    // Dispara o evento de conversão do GA4
+    if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
+      (window as any).gtag('event', 'lead_whatsapp', { origem: 'secao_contato' });
+    }
+
     // Abre o WhatsApp em uma nova aba
     window.open(urlWhatsApp, '_blank');
 

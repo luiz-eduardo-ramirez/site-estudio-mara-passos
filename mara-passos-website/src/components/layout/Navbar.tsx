@@ -71,11 +71,16 @@ export default function Navbar() {
               Professores
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-mara-orange transition-all group-hover:w-full"></span>
             </Link>
-            
-            {/* Dropdown para Institucional (Refatorado com Animações) */}
-            <div className="relative group cursor-pointer py-2">
-              <span className="flex items-center gap-1 text-xs font-semibold uppercase tracking-widest text-gray-300 group-hover:text-mara-orange transition-colors">
-                Institucional
+            <Link href="/#contato" className="text-xs font-semibold uppercase tracking-widest text-gray-300 hover:text-mara-orange transition-colors relative group">
+              Contato
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-mara-orange transition-all group-hover:w-full"></span>
+            </Link>
+
+
+          {/* Dropdown para Institucional (Refatorado com Animações) */}
+          <div className="relative group cursor-pointer py-2">
+            <span className="flex items-center gap-1 text-xs font-semibold uppercase tracking-widest text-gray-300 group-hover:text-mara-orange transition-colors">
+              Institucional
                 {/* Seta animada com rotação suave */}
                 <svg className="w-3 h-3 transition-transform duration-300 group-hover:-rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />

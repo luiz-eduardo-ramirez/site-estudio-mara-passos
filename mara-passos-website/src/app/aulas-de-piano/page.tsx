@@ -21,6 +21,12 @@ export default function AulasDePiano() {
         }
     };
 
+    const handleWhatsAppClick = () => {
+        if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
+            (window as any).gtag('event', 'lead_whatsapp', { origem: 'aulas_de_piano' });
+        }
+    };
+
     const scrollCarousel = (direction: 'left' | 'right') => {
         if (carouselRef.current) {
             const scrollAmount = window.innerWidth > 768 ? 320 : 280;
@@ -93,12 +99,15 @@ export default function AulasDePiano() {
                         Aprenda piano com uma metodologia que respeita seu tempo. Do iniciante ao avançado, no Estúdio Mara Passos você encontra o ambiente ideal para evoluir.
                     </p>
 
-                    <button
-                        onClick={scrollToForm}
-                        className="bg-mara-orange text-white px-10 py-5 rounded-full font-bold text-lg shadow-[0_0_30px_rgba(242,101,34,0.3)] hover:bg-orange-600 hover:-translate-y-1 transition-all duration-300"
+                    <a
+                        href="https://wa.me/5511972405722?text=Ol%C3%A1!%20Gostaria%20de%20agendar%20uma%20aula%20experimental%20de%20Piano."
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={handleWhatsAppClick}
+                        className="inline-block bg-mara-orange text-white px-10 py-5 rounded-full font-bold text-lg shadow-[0_0_30px_rgba(242,101,34,0.3)] hover:bg-orange-600 hover:-translate-y-1 transition-all duration-300"
                     >
                         Agendar Minha Aula Experimental
-                    </button>
+                    </a>
                 </motion.header>
             </section>
 
