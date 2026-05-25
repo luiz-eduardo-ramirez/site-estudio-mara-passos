@@ -199,20 +199,19 @@ export default function AulasDePiano() {
                         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                     >
                         {[
-                            { src: "/piano-1.mp4" },
-                            { src: "/piano-2.mp4" },
-                            { src: "/piano-3.mp4" },
-                            { src: "/piano-4.mp4" },
-                            { src: "/piano-5.mp4" }
+                            { src: "/piano-1.mp4", poster: "/piano-1-capa.jpg" },
+                            { src: "/piano-2.mp4", poster: "/piano-2-capa.jpg" },
+                            { src: "/piano-3.mp4", poster: "/piano-3-capa.jpg" },
+                            { src: "/piano-4.mp4", poster: "/piano-4-capa.jpg" },
+                            { src: "/piano-5.mp4", poster: "/piano-5-capa.jpg" }
                         ].map((video, i) => (
                             <div 
                                 key={i} 
-                                // Correção: w-[260px] no mobile, aspect-[9/16] e relative
                                 className="relative w-[260px] sm:w-[280px] md:w-[320px] shrink-0 snap-center bg-neutral-900 rounded-3xl overflow-hidden border border-white/10 hover:border-mara-orange/50 transition-all group aspect-[9/16] shadow-xl"
                             >
                                 <video 
-                                    src={video.src} 
-                                    // Correção: absolute inset-0 força o vídeo a respeitar o container pai
+                                    src={video.src}
+                                    poster={video.poster} // Atributo adicionado aqui!
                                     className="absolute inset-0 w-full h-full object-cover"
                                     controls
                                     preload="metadata"
