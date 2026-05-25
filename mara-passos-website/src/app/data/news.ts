@@ -10,16 +10,10 @@ export const newsData = [
   },
   {
     id: 2,
-    title: "12 Anos de Estúdio Mara Passos & Dia da Mulher",
-    description: "Primeiramente, desejamos um Feliz Dia Internacional da Mulher a todas as mulheres incríveis que fazem parte da nossa história. Além disso, o Estúdio Musical e Cultural Mara Passos está completando 12 anos de muita música, arte e dedicação! 🎶✨",
-    image: "/images/noticia-2.png",
-    link: "https://www.instagram.com/p/DVpLT3-jY4P/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=="
+    title: "Nova plataforma digital facilita gestão de aulas e pagamentos",
+    description: "Uma nova plataforma está modernizando a experiência de alunos e responsáveis com agenda online, reagendamento de aulas, pagamentos via Pix e acompanhamento de frequência em tempo real. Com visual moderno e interface intuitiva, o sistema traz mais praticidade, organização e transparência para escolas e estúdios.",
+    image: "/images/portal.png",
+    link: "https://www.instagram.com/p/DYxjxrikW3-/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=="
   },
-  {
-    id: 3,
-    title: "Semana Pet Musical 🐾",
-    description: "Você já viu uma Escola de Música Pet Friendly? 🐶 Para comemorar a vida dos nossos AUmiguinhos que nos trazem tantas alegrias, faremos a Semana Pet Musical!",
-    image: "/images/noticia-3.png",
-    link: "https://www.instagram.com/p/DWzZguJETrP/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=="
-  }
+  
 ];

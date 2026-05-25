@@ -12,6 +12,7 @@ import ScrollReveal from "../components/layout/ScrollReveal";
 import FloatingNotes from "./FloatingNotes";
 import News from "../components/sections/News";
 import Presentation from "../components/sections/Presentation";
+import StudentPortal from "../components/sections/StudentPortal";
 import FAQ from "../components/sections/FAQ"; // 1. Importa apenas o componente
 import { faqData } from "../components/sections/faqData";// 2. Importa os dados do novo arquivo (ajuste o caminho se necessário)
 import ChatbotLocal from "../app/Chatbot";
@@ -74,6 +75,7 @@ export default async function Home({ searchParams }: Props) {
         <Presentation />
         <ScrollReveal><About /></ScrollReveal>
         <ScrollReveal><Instruments /></ScrollReveal>
+        <StudentPortal />
         <Teachers />
         <ScrollReveal><Spaces /></ScrollReveal>
         <ScrollReveal><AboutUs /></ScrollReveal>
