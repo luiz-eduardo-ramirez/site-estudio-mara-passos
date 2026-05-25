@@ -71,7 +71,7 @@ export default function Navbar() {
               Professores
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-mara-orange transition-all group-hover:w-full"></span>
             </Link>
-            <Link href="/#contato" className="text-xs font-semibold uppercase tracking-widest text-gray-300 hover:text-mara-orange transition-colors relative group">
+            <Link href="/#agendamentos" className="text-xs font-semibold uppercase tracking-widest text-gray-300 hover:text-mara-orange transition-colors relative group">
               Contato
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-mara-orange transition-all group-hover:w-full"></span>
             </Link>
