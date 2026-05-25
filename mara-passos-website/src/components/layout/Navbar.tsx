@@ -38,7 +38,7 @@ export default function Navbar() {
       <div className="container mx-auto px-6 md:px-12 flex justify-between items-center">
 
         {/* LOGO */}
-        <Link href="#inicio" className="flex items-center gap-3 z-50 group">
+        <Link href="/#inicio" className="flex items-center gap-3 z-50 group">
           <div className={`relative transition-all duration-500 ${isScrolled ? 'scale-90' : 'scale-110'}`}>
             <Image
               src="/logo.png"
@@ -59,15 +59,15 @@ export default function Navbar() {
         {/* MENU DESKTOP */}
         <nav className="hidden xl:flex items-center gap-6">
           <div className="flex items-center gap-6 pr-6 border-r border-white/10">
-            <a href="#inicio" className="text-xs font-semibold uppercase tracking-widest text-gray-300 hover:text-mara-orange transition-colors relative group">
+            <Link href="/#inicio" className="text-xs font-semibold uppercase tracking-widest text-gray-300 hover:text-mara-orange transition-colors relative group">
               Início
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-mara-orange transition-all group-hover:w-full"></span>
-            </a>
-            <Link href="/cursos" className="text-xs font-semibold uppercase tracking-widest text-gray-300 hover:text-mara-orange transition-colors relative group">
+            </Link>
+            <Link href="/#instrumentos" className="text-xs font-semibold uppercase tracking-widest text-gray-300 hover:text-mara-orange transition-colors relative group">
               Cursos
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-mara-orange transition-all group-hover:w-full"></span>
             </Link>
-            <Link href="/professores" className="text-xs font-semibold uppercase tracking-widest text-gray-300 hover:text-mara-orange transition-colors relative group">
+            <Link href="/#professores" className="text-xs font-semibold uppercase tracking-widest text-gray-300 hover:text-mara-orange transition-colors relative group">
               Professores
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-mara-orange transition-all group-hover:w-full"></span>
             </Link>
@@ -84,10 +84,10 @@ export default function Navbar() {
               
               {/* Menu com efeito de deslize (translate-y) e Glassmorphism */}
               <div className="absolute top-full mt-2 left-0 w-48 bg-black/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] opacity-0 invisible translate-y-4 group-hover:translate-y-0 group-hover:opacity-100 group-hover:visible transition-all duration-300 ease-out flex flex-col overflow-hidden">
-                <Link href="/sobre-nos" className="px-5 py-3 text-xs text-gray-300 hover:bg-white/5 hover:text-mara-orange hover:translate-x-1 transition-all border-b border-white/5">Quem Somos</Link>
-                <a href="#espacos" className="px-5 py-3 text-xs text-gray-300 hover:bg-white/5 hover:text-mara-orange hover:translate-x-1 transition-all border-b border-white/5">Espaços</a>
-                <a href="#depoimentos" className="px-5 py-3 text-xs text-gray-300 hover:bg-white/5 hover:text-mara-orange hover:translate-x-1 transition-all border-b border-white/5">Depoimentos</a>
-                <a href="#faq" className="px-5 py-3 text-xs text-gray-300 hover:bg-white/5 hover:text-mara-orange hover:translate-x-1 transition-all">Dúvidas Frequentes</a>
+                <Link href="/#sobre-nos" className="px-5 py-3 text-xs text-gray-300 hover:bg-white/5 hover:text-mara-orange hover:translate-x-1 transition-all border-b border-white/5">Quem Somos</Link>
+                <Link href="/#espacos" className="px-5 py-3 text-xs text-gray-300 hover:bg-white/5 hover:text-mara-orange hover:translate-x-1 transition-all border-b border-white/5">Espaços</Link>
+                <Link href="/#depoimentos" className="px-5 py-3 text-xs text-gray-300 hover:bg-white/5 hover:text-mara-orange hover:translate-x-1 transition-all border-b border-white/5">Depoimentos</Link>
+                <Link href="/#faq" className="px-5 py-3 text-xs text-gray-300 hover:bg-white/5 hover:text-mara-orange hover:translate-x-1 transition-all">Dúvidas Frequentes</Link>
               </div>
             </div>
           </div>
@@ -102,12 +102,12 @@ export default function Navbar() {
               Portal do Aluno
             </Link>
 
-            <a
-              href="#agendamentos"
+            <Link
+              href="/#agendamentos"
               className="bg-mara-orange hover:bg-orange-600 text-white px-6 py-2.5 rounded-full font-bold text-xs transition-all hover:scale-105 shadow-[0_5px_15px_rgba(242,101,34,0.3)]"
             >
               Agendar Aula
-            </a>
+            </Link>
           </div>
         </nav>
 
@@ -149,10 +149,10 @@ export default function Navbar() {
             <div className="mb-8">
               <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Navegação</h3>
               <div className="grid grid-cols-2 gap-y-5 gap-x-2">
-                <a href="#inicio" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Início</a>
-                <Link href="/cursos" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Cursos</Link>
-                <Link href="/professores" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Professores</Link>
-                <a href="#faq" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Dúvidas</a>
+                <Link href="/#inicio" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Início</Link>
+                <Link href="/#instrumentos" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Cursos</Link>
+                <Link href="/#professores" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Professores</Link>
+                <Link href="/#faq" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Dúvidas</Link>
               </div>
             </div>
 
@@ -160,10 +160,10 @@ export default function Navbar() {
             <div className="mb-8">
               <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">O Estúdio</h3>
               <div className="grid grid-cols-2 gap-y-5 gap-x-2">
-                <a href="#sobre" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Sobre</a>
-                <a href="#espacos" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Espaços</a>
-                <Link href="/sobre-nos" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Quem Somos</Link>
-                <a href="#depoimentos" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Depoimentos</a>
+                <Link href="/#sobre" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Sobre</Link>
+                <Link href="/#espacos" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Espaços</Link>
+                <Link href="/#sobre-nos" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Quem Somos</Link>
+                <Link href="/#depoimentos" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Depoimentos</Link>
               </div>
             </div>
           </div>
@@ -178,13 +178,13 @@ export default function Navbar() {
               <User size={16} />
               Portal do Aluno
             </Link>
-            <a
-              href="#agendamentos"
+            <Link
+              href="/#agendamentos"
               onClick={() => setIsMobileOpen(false)}
               className="bg-mara-orange text-center text-white py-3.5 rounded-xl font-bold text-sm shadow-[0_0_20px_rgba(242,101,34,0.4)] hover:scale-105 transition-all"
             >
               Agendar Aula Experimental
-            </a>
+            </Link>
           </div>
 
         </div>
