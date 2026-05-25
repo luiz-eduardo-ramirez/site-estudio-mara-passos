@@ -199,11 +199,12 @@ export default function AulasDePiano() {
                         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                     >
                         {[
-                            { src: "/piano-1.mp4", poster: "/piano-1-poster.jpg" },
-                            { src: "/piano-2.mp4", poster: "/piano-2-poster.jpg" },
-                            { src: "/piano-3.mp4", poster: "/piano-3-poster.jpg" },
-                            { src: "/piano-4.mp4", poster: "/piano-4-poster.jpg" },
-                            { src: "/piano-5.mp4", poster: "/piano-5-poster.jpg" }
+                            // O truque #t=0.1 no final do SRC força o navegador a extrair o frame do milissegundo 100 como capa!
+                            { src: "/piano-1.mp4#t=0.1" },
+                            { src: "/piano-2.mp4#t=0.1" },
+                            { src: "/piano-3.mp4#t=0.1" },
+                            { src: "/piano-4.mp4#t=0.1" },
+                            { src: "/piano-5.mp4#t=0.1" }
                         ].map((video, i) => (
                             <div 
                                 key={i} 
@@ -211,7 +212,6 @@ export default function AulasDePiano() {
                             >
                                 <video 
                                     src={video.src}
-                                    poster={video.poster}
                                     className="video-player absolute inset-0 w-full h-full object-cover"
                                     controls
                                     preload="metadata"
