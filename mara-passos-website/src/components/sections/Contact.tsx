@@ -28,11 +28,11 @@ export default function Contact() {
 
     // Dispara o evento de conversão do GA4
     if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
-      (window as any).gtag('event', 'lead_whatsapp', { origem: 'secao_contato' });
+      (window as any).gtag('event', 'lead_whatsapp', { origem: 'spa_contato' });
     }
 
     // Abre o WhatsApp em uma nova aba
-    window.open(urlWhatsApp, '_blank');
+    window.open(urlWhatsApp, '_blank', 'noopener,noreferrer');
 
     // Limpa o formulário e mostra mensagem de sucesso na tela
     form.current?.reset();

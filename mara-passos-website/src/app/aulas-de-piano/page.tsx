@@ -23,7 +23,7 @@ export default function AulasDePiano() {
 
     const handleWhatsAppClick = () => {
         if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
-            (window as any).gtag('event', 'lead_whatsapp', { origem: 'aulas_de_piano' });
+            (window as any).gtag('event', 'lead_whatsapp', { origem: 'aulas_piano' });
         }
     };
 

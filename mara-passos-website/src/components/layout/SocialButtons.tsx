@@ -12,6 +12,12 @@ export default function SocialButtons() {
     const linkWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensagemPadrao)}`;
     const linkInstagram = "https://instagram.com/estudiomarapassos";
 
+    const handleWhatsAppClick = () => {
+        if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
+            (window as any).gtag('event', 'lead_whatsapp', { origem: 'botao_flutuante' });
+        }
+    };
+
     return (
         <div className="fixed bottom-6 left-6 z-[999] flex flex-col-reverse items-center gap-3">
             
@@ -48,6 +54,7 @@ export default function SocialButtons() {
                             href={linkWhatsApp}
                             target="_blank"
                             rel="noopener noreferrer"
+                            onClick={handleWhatsAppClick}
                             title="Fale conosco no WhatsApp"
                             aria-label="Fale conosco no WhatsApp"
                             className="w-10 h-10 md:w-12 md:h-12 bg-green-500 text-white rounded-full shadow-md flex items-center justify-center hover:bg-green-600 transition-colors hover:scale-105 active:scale-95"
