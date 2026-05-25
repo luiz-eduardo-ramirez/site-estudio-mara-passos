@@ -195,7 +195,7 @@ export default function AulasDePiano() {
                     {/* Container do Carrossel */}
                     <div 
                         ref={carouselRef}
-                        className="flex overflow-x-auto gap-6 pb-8 pt-4 snap-x snap-mandatory scrollbar-hide"
+                        className="flex overflow-x-auto gap-4 md:gap-6 pb-8 pt-4 snap-x snap-mandatory scrollbar-hide items-center"
                         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                     >
                         {[
@@ -207,11 +207,13 @@ export default function AulasDePiano() {
                         ].map((video, i) => (
                             <div 
                                 key={i} 
-                                className="w-[75vw] sm:w-[45vw] md:w-[300px] shrink-0 snap-center bg-neutral-900 rounded-3xl overflow-hidden border border-white/10 hover:border-mara-orange/50 transition-all group relative aspect-[9/16] shadow-xl"
+                                // Correção: w-[260px] no mobile, aspect-[9/16] e relative
+                                className="relative w-[260px] sm:w-[280px] md:w-[320px] shrink-0 snap-center bg-neutral-900 rounded-3xl overflow-hidden border border-white/10 hover:border-mara-orange/50 transition-all group aspect-[9/16] shadow-xl"
                             >
                                 <video 
                                     src={video.src} 
-                                    className="w-full h-full object-cover"
+                                    // Correção: absolute inset-0 força o vídeo a respeitar o container pai
+                                    className="absolute inset-0 w-full h-full object-cover"
                                     controls
                                     preload="metadata"
                                     playsInline
