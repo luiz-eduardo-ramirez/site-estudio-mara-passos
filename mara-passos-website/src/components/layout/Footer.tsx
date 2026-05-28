@@ -12,7 +12,7 @@ export default function Footer() {
           <div className="flex flex-col items-start">
             <Link href="#inicio" className="mb-6 block transition-transform hover:scale-105">
               <Image
-                src="/logo.png"
+                src="/logo.webp"
                 alt="Logo Estúdio Mara Passos"
                 width={150}
                 height={150}

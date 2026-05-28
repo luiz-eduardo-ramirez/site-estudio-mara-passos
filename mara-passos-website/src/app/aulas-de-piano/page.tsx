@@ -214,7 +214,7 @@ export default function AulasDePiano() {
                                 </div>
                                 <div className="relative w-full bg-[#0d0a09] flex justify-center items-center">
                                 <Image 
-                                    src="/images/portal.png" // Substitua pelo caminho correto da sua nova imagem
+                                    src="/images/portal.webp" // Substitua pelo caminho correto da sua nova imagem
                                     alt="Dashboard do Portal do Aluno Estúdio Mara Passos" 
                                     width={1200}
                                     height={800}
@@ -332,7 +332,7 @@ export default function AulasDePiano() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div className="relative aspect-video md:aspect-auto md:h-80 rounded-3xl overflow-hidden group border border-white/10 shadow-lg">
                         <Image 
-                            src="/spaces/entrada.jpg"
+                            src="/spaces/entrada.webp"
                             alt="Sala de Piano Estúdio Mara Passos" 
                             fill
                             className="object-cover group-hover:scale-105 transition-transform duration-700"
@@ -340,7 +340,7 @@ export default function AulasDePiano() {
                     </div>
                     <div className="relative aspect-video md:aspect-auto md:h-80 rounded-3xl overflow-hidden group border border-white/10 shadow-lg">
                         <Image 
-                            src="/spaces/instrumentos.jpg"
+                            src="/spaces/instrumentos.webp"
                             alt="Nossos Pianos" 
                             fill
                             className="object-cover group-hover:scale-105 transition-transform duration-700"
@@ -348,7 +348,7 @@ export default function AulasDePiano() {
                     </div>
                     <div className="relative aspect-video md:aspect-auto md:h-80 rounded-3xl overflow-hidden group border border-white/10 shadow-lg">
                         <Image 
-                            src="/spaces/relaxamento.jpg"
+                            src="/spaces/relaxamento.webp"
                             alt="Ambiente de Aulas Lapa" 
                             fill
                             className="object-cover group-hover:scale-105 transition-transform duration-700"

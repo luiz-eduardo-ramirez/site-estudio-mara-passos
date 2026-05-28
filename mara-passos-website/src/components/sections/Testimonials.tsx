@@ -6,32 +6,32 @@ export default function Testimonials() {
     {
       nome: "Micheli Varino",
       texto: "Você é uma professora querida, amiga e incentivadora, com certeza faz parte desse sonho. Muito obrigada por todo apoio e dedicação. Você realmente é um exemplo a ser seguido 👏🏻❤️",
-      foto: "/testimonials/micheli.jpg"
+      foto: "/testimonials/micheli.webp"
     },
     {
       nome: "Marcelo Passareli",
       texto: "Parabéns @estudiomarapassos pelo trabalho, que muitas vezes é silencioso, mas sempre transforma vidas. ❤️🎹",
-      foto: "/testimonials/marcelo.jpg"
+      foto: "/testimonials/marcelo.webp"
     },
     {
       nome: "Laise Polonio",
       texto: "Mara! Uma professora muito especial! Nasceu para ensinar, de maneira leve, lúdica e amorosa. Ensino musical curativo! Desejo muito sucesso a você e ao Estúdio!",
-      foto: "/testimonials/laise.jpg"
+      foto: "/testimonials/laise.webp"
     },
     {
       nome: "Thais Bianchi",
       texto: "Maravilhoso! Meu filho de 9 anos aprendeu a tocar piano rapidinho, super se interessou pela música e pelo método da Mara. Ela tem muito jeito para ensinar e paciência.",
-      foto: "/testimonials/thais.png"
+      foto: "/testimonials/thais.webp"
     },
     {
       nome: "Eduardo Henrique",
       texto: "Profissionais muito competentes e prestativos, recomendo muito!",
-      foto: "/testimonials/eduardo.png"
+      foto: "/testimonials/eduardo.webp"
     },
     {
       nome: "Patricia Aparecida Simao",
       texto: "Parabéns, você merece, por tanta dedicação e por saber dar tanto amor às crianças. Lembro como adorava estudar com você há 30 anos atrás ou mais rs. Sucesso sempre.",
-      foto: "/testimonials/patricia.jpg"
+      foto: "/testimonials/patricia.webp"
     }
   ];
 

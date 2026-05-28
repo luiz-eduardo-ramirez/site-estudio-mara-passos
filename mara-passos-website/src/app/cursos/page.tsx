@@ -17,14 +17,14 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
     const instrument = instrumentsList.find(inst => inst.nome === curso);
     if (instrument) {
       return {
-        title: `Aulas de ${instrument.nome} em São Paulo | Estúdio Mara Passos`,
+        title: `Aulas de ${instrument.nome} na Lapa | Estúdio Mara Passos`,
         description: instrument.detalhes,
       };
     }
   }
 
   return {
-    title: 'Cursos de Música em São Paulo | Estúdio Mara Passos',
+    title: 'Cursos de Música na Lapa | Estúdio Mara Passos',
     description: 'Conheça nossos cursos de piano, violão, canto, musicalização e muito mais no Estúdio Mara Passos em São Paulo.',
   };
 }

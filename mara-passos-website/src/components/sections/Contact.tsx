@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import { CheckCircle2 } from 'lucide-react';
+import Image from 'next/image';
 
 export default function Contact() {
   const form = useRef<HTMLFormElement>(null);
@@ -163,10 +164,12 @@ export default function Contact() {
         {/* Imagem (Lado Direito) */}
         <div className="w-full lg:w-1/2 flex justify-center lg:justify-end">
           <div className="relative w-full max-w-md aspect-square rounded-lg overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-4 border-white transform hover:scale-105 transition-transform duration-500">
-            <img
-              src="/contact-image.jpg"
+            <Image
+              src="/contact-image.webp"
               alt="Hora de escolher sua música"
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
           </div>
         </div>

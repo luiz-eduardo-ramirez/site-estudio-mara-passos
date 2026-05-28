@@ -6,6 +6,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import { motion, AnimatePresence } from 'framer-motion'; // IMPORTAÇÃO ADICIONADA
 import { newsData } from '../../app/data/news';
+import Image from 'next/image';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -71,10 +72,12 @@ export default function News() {
           {newsData.map((news: NewsItem) => (
             <SwiperSlide key={news.id}>
               <div className="relative w-full h-[400px] md:h-[500px] group">
-                <img
+                <Image
                   src={news.image}
                   alt={news.title}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, 1024px"
                 />
 
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex flex-col justify-end items-center p-6 md:p-12 text-center pb-16">
@@ -128,10 +131,12 @@ export default function News() {
                     className="w-full md:w-[55%] h-64 md:h-full relative bg-black flex items-center justify-center cursor-zoom-in group overflow-hidden"
                     onClick={() => setIsImageExpanded(true)}
                   >
-                    <img
+                    <Image
                       src={selectedNews.image}
                       alt={selectedNews.title}
-                      className="w-full h-full object-contain p-2 md:p-4 transition-transform duration-500 group-hover:scale-105"
+                      fill
+                      className="object-contain p-2 md:p-4 transition-transform duration-500 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, 55vw"
                     />
 
                     {/* Overlay de Hover para indicar que é clicável */}
@@ -212,9 +217,11 @@ export default function News() {
                         </svg>
                       </button>
 
-                      <img
+                      <Image
                         src={selectedNews.image}
                         alt={selectedNews.title}
+                        width={1200}
+                        height={800}
                         className="max-w-full max-h-[90vh] object-contain drop-shadow-2xl"
                       />
                     </motion.div>

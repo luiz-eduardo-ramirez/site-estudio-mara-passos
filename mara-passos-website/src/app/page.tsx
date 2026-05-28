@@ -1,22 +1,26 @@
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import Hero from "../components/sections/Hero";
-import Instruments from "../components/sections/Instruments";
-import AboutUs from "../components/sections/AboutUs";
-import About from "../components/sections/About";
-import Spaces from "../components/sections/Spaces";
-import Testimonials from "../components/sections/Testimonials";
-import Contact from "../components/sections/Contact";
-import Teachers from "../components/sections/Teachers";
 import ScrollReveal from "../components/layout/ScrollReveal";
 import FloatingNotes from "./FloatingNotes";
-import News from "../components/sections/News";
-import Presentation from "../components/sections/Presentation";
-import StudentPortal from "../components/sections/StudentPortal";
-import FAQ from "../components/sections/FAQ"; // 1. Importa apenas o componente
-import { faqData } from "../components/sections/faqData";// 2. Importa os dados do novo arquivo (ajuste o caminho se necessário)
-import ChatbotLocal from "../app/Chatbot";
 import SocialButtons from "../components/layout/SocialButtons";
+import dynamic from "next/dynamic";
+import ChatbotWrapper from "../app/ChatbotWrapper";
+
+const News = dynamic(() => import("../components/sections/News"));
+const Presentation = dynamic(() => import("../components/sections/Presentation"));
+const About = dynamic(() => import("../components/sections/About"));
+const Instruments = dynamic(() => import("../components/sections/Instruments"));
+const StudentPortal = dynamic(() => import("../components/sections/StudentPortal"));
+const Teachers = dynamic(() => import("../components/sections/Teachers"));
+const Spaces = dynamic(() => import("../components/sections/Spaces"));
+const AboutUs = dynamic(() => import("../components/sections/AboutUs"));
+const Testimonials = dynamic(() => import("../components/sections/Testimonials"));
+const FAQ = dynamic(() => import("../components/sections/FAQ"));
+const Contact = dynamic(() => import("../components/sections/Contact"));
+
+
+import { faqData } from "../components/sections/faqData";
 import { Metadata } from 'next';
 import { instrumentsList } from '../data/instrumentsList';
 
@@ -86,7 +90,7 @@ export default async function Home({ searchParams }: Props) {
 
       <Footer />
       <SocialButtons />
-      <ChatbotLocal /> {/* 2. Renderize o componente aqui */}
+      <ChatbotWrapper /> {/* 2. Renderize o componente aqui */}
     </>
   );
 }

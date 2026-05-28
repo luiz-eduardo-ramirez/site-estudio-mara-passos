@@ -41,10 +41,11 @@ export default function Navbar() {
         <Link href="/#inicio" className="flex items-center gap-3 z-50 group">
           <div className={`relative transition-all duration-500 ${isScrolled ? 'scale-90' : 'scale-110'}`}>
             <Image
-              src="/logo.png"
+              src="/logo.webp"
               alt="Estúdio Mara Passos"
               width={150}
               height={50}
+              priority={true}
               className="w-14 h-14 md:w-16 md:h-16 object-contain drop-shadow-[0_0_8px_rgba(242,101,34,0.2)]"
             />
           </div>

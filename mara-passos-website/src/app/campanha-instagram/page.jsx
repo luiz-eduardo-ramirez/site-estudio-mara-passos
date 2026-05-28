@@ -222,7 +222,7 @@ export default function CampanhaInstagram() {
         <div className="w-full lg:w-1/2 flex justify-center lg:justify-end animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
           <div className="relative w-full max-w-md aspect-[4/5] md:aspect-square rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.8)] border-4 border-white/10 transform hover:scale-[1.02] transition-transform duration-500">
             <img
-              src="/ebook.png"
+              src="/ebook.webp"
               alt="Baixe o eBook exclusivo do Estúdio Mara Passos"
               className="w-full h-full object-cover"
             />

@@ -156,7 +156,7 @@ function InstrumentsContent() {
                     </div>
 
                     <Image
-                      src="/logo-transparente.png"
+                      src="/logo-transparente.webp"
                       alt="Mara Passos"
                       width={160}
                       height={64}

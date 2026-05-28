@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Instagram, MessageCircle, X, Share2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 export default function SocialButtons() {
     const [isOpen, setIsOpen] = useState(false);
@@ -97,7 +98,7 @@ export default function SocialButtons() {
                             aria-label="Falar com Assistente Virtual"
                             className="w-10 h-10 md:w-12 md:h-12 bg-blue-500 text-white rounded-full shadow-md flex items-center justify-center hover:bg-blue-600 transition-colors hover:scale-105 active:scale-95"
                         >
-                            <img src="/chat.svg" alt="Chat" className="w-5 h-5 brightness-0 invert" />
+                            <Image src="/chat.svg" alt="Chat" width={20} height={20} className="brightness-0 invert" />
                         </motion.button>
                     </motion.div>
                 )}

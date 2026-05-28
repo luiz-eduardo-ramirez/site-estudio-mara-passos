@@ -68,7 +68,7 @@ export default function StudentPortal() {
                             {/* CORREÇÃO AQUI: Fundo escuro e imagem sem cortes */}
                             <div className="relative w-full bg-[#0d0a09] flex justify-center items-center">
                                 <Image 
-                                    src="/images/portal.png" // Substitua pelo caminho correto da sua nova imagem
+                                    src="/images/portal.webp" // Substitua pelo caminho correto da sua nova imagem
                                     alt="Dashboard do Portal do Aluno Estúdio Mara Passos" 
                                     width={1200}
                                     height={800}

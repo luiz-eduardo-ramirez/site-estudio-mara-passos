@@ -15,10 +15,10 @@ export default function About() {
           {/* Fundo pontilhado (Grid pattern) simulando os pontos brancos do WP */}
           <div className="absolute inset-0 z-0 bg-[radial-gradient(#ffffff_2px,transparent_2px)] [background-size:20px_20px] opacity-10 w-full h-full rounded-lg"></div>
 
-          {/* Imagem da Mara (Salve a foto na pasta public/ como mara-passos.jpg) */}
+          {/* Imagem da Mara (Salve a foto na pasta public/ como mara-passos.webp) */}
           <div className="relative z-10 w-64 h-64 md:w-96 md:h-96 rounded-full overflow-hidden border-4 border-mara-dark shadow-2xl bg-gray-800 flex items-center justify-center">
              <Image 
-               src="/mara-passos.png" 
+               src="/mara-passos.webp" 
                alt="Mara Passos" 
                fill
                className="object-cover"

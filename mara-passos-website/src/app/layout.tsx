@@ -37,7 +37,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "MusicSchool",
               "name": "Estúdio Musical Mara Passos",
-              "image": "https://estudiomusicalmarapassos.com.br/logo.png",
+              "image": "https://estudiomusicalmarapassos.com.br/logo.webp",
               "@id": "https://estudiomusicalmarapassos.com.br", // Removido o www
               "url": "https://estudiomusicalmarapassos.com.br", // Removido o www
               "telephone": "+55-11-972405722",
