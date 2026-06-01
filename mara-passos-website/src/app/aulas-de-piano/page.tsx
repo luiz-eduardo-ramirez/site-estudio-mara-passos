@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef } from "react";
-import Link from "next/link";
 import Image from "next/image";
 import { CheckCircle, HelpCircle, Brain, Music, Sparkles, ChevronLeft, ChevronRight, CalendarDays, Smartphone, CreditCard, FileSignature, History } from "lucide-react";
 import { motion } from "framer-motion";
@@ -18,12 +17,6 @@ export default function AulasDePiano() {
         if (element) {
             const y = element.getBoundingClientRect().top + window.scrollY - 80;
             window.scrollTo({ top: y, behavior: 'smooth' });
-        }
-    };
-
-    const handleWhatsAppClick = () => {
-        if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
-            (window as any).gtag('event', 'lead_whatsapp', { origem: 'aulas_piano' });
         }
     };
 
@@ -99,15 +92,13 @@ export default function AulasDePiano() {
                         Aprenda piano com uma metodologia que respeita seu tempo. Do iniciante ao avançado, no Estúdio Mara Passos você encontra o ambiente ideal para evoluir.
                     </p>
 
-                    <a
-                        href="https://wa.me/5511972405722?text=Ol%C3%A1!%20Gostaria%20de%20agendar%20uma%20aula%20experimental%20de%20Piano."
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={handleWhatsAppClick}
+                    {/* BOTÃO REFATORADO AQUI */}
+                    <button
+                        onClick={scrollToForm}
                         className="inline-block bg-mara-orange text-white px-10 py-5 rounded-full font-bold text-lg shadow-[0_0_30px_rgba(242,101,34,0.3)] hover:bg-orange-600 hover:-translate-y-1 transition-all duration-300"
                     >
                         Agendar Minha Aula Experimental
-                    </a>
+                    </button>
                 </motion.header>
             </section>
 
@@ -214,7 +205,7 @@ export default function AulasDePiano() {
                                 </div>
                                 <div className="relative w-full bg-[#0d0a09] flex justify-center items-center">
                                 <Image 
-                                    src="/images/portal.webp" // Substitua pelo caminho correto da sua nova imagem
+                                    src="/images/portal.webp"
                                     alt="Dashboard do Portal do Aluno Estúdio Mara Passos" 
                                     width={1200}
                                     height={800}
@@ -283,7 +274,6 @@ export default function AulasDePiano() {
                         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                     >
                         {[
-                            // O truque #t=0.1 no final do SRC força o navegador a extrair o frame do milissegundo 100 como capa!
                             { src: "/piano-1.mp4#t=0.1" },
                             { src: "/piano-2.mp4#t=0.1" },
                             { src: "/piano-3.mp4#t=0.1" },
