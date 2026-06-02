@@ -18,6 +18,7 @@ function InstrumentsContent() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [filtro, setFiltro] = useState("Todos");
+  const [isExpanded, setIsExpanded] = useState(false);
   
   const categorias = ["Todos", "Teclas", "Cordas", "Sopro", "Percussão", "Voz", "Prática em Grupo", "Teoria e Inicialização"];
 
@@ -67,7 +68,7 @@ function InstrumentsContent() {
         {categorias.map(cat => (
           <button 
             key={cat}
-            onClick={() => setFiltro(cat)}
+            onClick={() => { setFiltro(cat); setIsExpanded(true); }}
             className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${filtro === cat ? 'bg-mara-orange text-white' : 'bg-transparent border border-white/20 text-gray-400 hover:border-mara-orange hover:text-mara-orange'}`}
           >
             {cat}
@@ -77,7 +78,7 @@ function InstrumentsContent() {
 
       <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         <AnimatePresence mode="popLayout">
-          {instrumentsList.filter(inst => filtro === "Todos" || inst.categoria === filtro).map((inst) => (
+          {(isExpanded || filtro !== "Todos" ? instrumentsList.filter(inst => filtro === "Todos" || inst.categoria === filtro) : []).map((inst) => (
             <motion.div
               layout
               initial={{ opacity: 0, scale: 0.8 }}
@@ -110,6 +111,28 @@ function InstrumentsContent() {
           ))}
         </AnimatePresence>
       </motion.div>
+
+      {/* Indicador para expandir/recolher */}
+      {filtro === "Todos" && (
+        <div className="flex justify-center mt-12">
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="flex items-center gap-3 bg-mara-orange text-white px-8 py-4 rounded-full font-bold hover:bg-orange-600 transition-all hover:scale-105 shadow-lg"
+          >
+            {isExpanded ? (
+              <>
+                <span>Recolher Cursos</span>
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" /></svg>
+              </>
+            ) : (
+              <>
+                <span>Ver Todos os Cursos</span>
+                <svg className="w-6 h-6 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+              </>
+            )}
+          </button>
+        </div>
+      )}
 
       {/* Modal com Framer Motion */}
       {mounted && createPortal(
@@ -210,7 +233,7 @@ export default function Instruments() {
   return (
     <section id="instrumentos" className="py-32 bg-mara-gray relative">
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
-      <div className="container mx-auto px-6 max-w-6xl">
+      <div className="w-full px-4 md:px-8">
         <Suspense fallback={<div className="text-white text-center py-20">Carregando cursos...</div>}>
           <InstrumentsContent />
         </Suspense>

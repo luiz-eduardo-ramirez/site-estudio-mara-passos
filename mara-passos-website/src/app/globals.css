@@ -26,14 +26,24 @@
 /* Estilos Base */
 html {
   scroll-behavior: smooth;
+  font-size: 110%; /* Aumenta o tamanho de todos os elementos */
 }
 
 body {
   background-color: var(--color-mara-dark);
   color: var(--color-mara-text);
   overflow-x: hidden;
+  font-size: 1.125rem; /* Aumenta o texto base */
   font-family: ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+@layer components {
+  .container {
+    max-width: 100% !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
 }
 
 /* Animações das Notas Flutuantes */
