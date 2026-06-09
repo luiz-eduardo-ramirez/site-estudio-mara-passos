@@ -1,68 +1,77 @@
 "use client";
 
 import { useState } from 'react';
-import { Award, Music } from 'lucide-react';
+import { Award } from 'lucide-react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
-function TeacherCard({ teacher, isEven }: { teacher: any, isEven: boolean }) {
+function TeacherCard({ teacher, index }: { teacher: any, index: number }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
     <motion.div 
-      initial={{ opacity: 0, x: isEven ? -50 : 50, scale: 0.95 }}
-      whileInView={{ opacity: 1, x: 0, scale: 1 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.7, ease: "easeOut" }}
-      className={`flex flex-col md:flex-row items-center gap-12 lg:gap-20 ${
-        isEven ? '' : 'md:flex-row-reverse'
-      }`}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.6, delay: (index % 3) * 0.1 }}
+      className="flex flex-col bg-[#111] border border-white/5 rounded-3xl overflow-hidden hover:bg-[#1a1a1a] hover:border-mara-orange/20 transition-all duration-500 group shadow-xl"
     >
-      <div className="w-full md:w-1/2 flex justify-center">
-        <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 group cursor-pointer">
-          <div className={`absolute inset-0 border-2 border-mara-orange rounded-2xl transform ${isEven ? 'translate-x-4 translate-y-4' : '-translate-x-4 translate-y-4'} -z-10 transition-transform duration-500 ease-in-out group-hover:translate-x-0 group-hover:translate-y-0`}></div>
-          <div className="w-full h-full rounded-2xl overflow-hidden bg-gray-800 shadow-2xl relative z-0">
-            <Image 
-              src={teacher.foto} 
-              alt={teacher.nome} 
-              fill
-              className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-              sizes="(max-width: 768px) 100vw, 400px"
-            />
-          </div>
-        </div>
+      {/* Contêiner de Imagem Dedicado: Formato de Retrato Perfeito */}
+      <div className="relative aspect-[4/5] md:aspect-[3/4] overflow-hidden shrink-0">
+        <Image 
+          src={teacher.foto} 
+          alt={teacher.nome} 
+          fill
+          className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        />
+        {/* Overlay sutil na base da imagem para o nome */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#111] via-transparent to-transparent z-10 opacity-70"></div>
       </div>
 
-      <div className="w-full md:w-1/2 text-center md:text-left">
-        <div className={`flex items-center gap-3 mb-4 justify-center ${isEven ? 'md:justify-start' : 'md:justify-end'}`}>
-          <Award className="text-mara-orange" size={24} />
-          <h3 className="text-3xl font-bold text-white">{teacher.nome}</h3>
+      {/* Seção de Conteúdo: Alinhamento Equilibrado à Esquerda */}
+      <div className="flex flex-col p-8 md:p-10 z-20 flex-grow text-left">
+        {/* Nome e Ícone juntos */}
+        <div className="flex items-center gap-3 mb-6">
+          <Award className="text-mara-orange shrink-0" size={24} />
+          <h3 className="text-2xl md:text-3xl font-extrabold text-white leading-tight">
+            {teacher.nome}
+          </h3>
         </div>
         
-        {/* Botões interativos para as especialidades */}
-        <div className={`flex flex-wrap items-center gap-2 mb-6 justify-center ${isEven ? 'md:justify-start' : 'md:justify-end'}`}>
-          <Music className="text-gray-400" size={18} />
+        {/* Habilidades agrupadas */}
+        <div className="flex flex-wrap justify-start items-center gap-2 mb-8">
           {teacher.especialidades.map((esp: string, i: number) => (
             <Link 
               key={i}
               href={`/?curso=${encodeURIComponent(esp)}#instrumentos`}
-              className="bg-mara-orange/10 text-mara-orange hover:bg-mara-orange hover:text-white px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 transform hover:-translate-y-1 shadow-sm"
+              className="bg-mara-orange/10 text-mara-orange border border-mara-orange/20 hover:bg-mara-orange/20 px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-300"
             >
               {esp}
             </Link>
           ))}
         </div>
         
-        <p className={`text-gray-300 text-lg leading-relaxed ${!isExpanded ? 'line-clamp-4 md:line-clamp-none' : ''} ${isEven ? 'md:text-left' : 'md:text-right'}`}>
-          &quot;{teacher.bio}&quot;
-        </p>
-        <button 
-          onClick={() => setIsExpanded(!isExpanded)}
-          className={`text-mara-orange text-sm font-semibold mt-2 md:hidden flex justify-center w-full ${isEven ? 'md:justify-start' : 'md:justify-end'}`}
-        >
-          {isExpanded ? 'Ocultar' : 'Ler mais'}
-        </button>
+        {/* Bio e Botão */}
+        <div className="flex-grow">
+          <p className={`text-gray-300 text-sm md:text-base leading-relaxed ${!isExpanded ? 'line-clamp-4' : ''}`}>
+            &quot;{teacher.bio}&quot;
+          </p>
+        </div>
+        
+        <div className="mt-8">
+          <button 
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="inline-flex items-center gap-2 text-mara-orange text-sm font-semibold hover:text-white transition-colors duration-300"
+          >
+            {isExpanded ? 'Ler menos' : 'Ler mais'}
+            {/* Ícone de seta para baixo ou cima sutil */}
+            <svg className={`w-4 h-4 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+        </div>
       </div>
     </motion.div>
   );
@@ -123,9 +132,8 @@ export default function Teachers() {
 
   return (
     <section id="professores" className="py-32 bg-[#0b0b0b] relative">
-      {/* Inclusão de um divisor em degradê sutil para separar o limite superior */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
-      <div className="container mx-auto px-6 max-w-6xl">
+      <div className="container mx-auto px-6 max-w-7xl">
         
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
@@ -134,19 +142,19 @@ export default function Teachers() {
           transition={{ duration: 0.6 }}
           className="text-center mb-20"
         >
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-4">
             Nossos <span className="text-mara-orange">Professores</span>
           </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto">
+          <p className="text-gray-400 max-w-2xl mx-auto text-lg leading-relaxed">
             Uma equipe de profissionais apaixonados por música, prontos para guiar você em cada nota da sua jornada.
+            Nossos professores trazem anos de experiência e dedicação para ajudar você a atingir seus objetivos musicais.
           </p>
         </motion.div>
 
-        <div className="space-y-24">
-          {teachersList.map((teacher, index) => {
-            const isEven = index % 2 === 0;
-            return <TeacherCard key={teacher.id} teacher={teacher} isEven={isEven} />;
-          })}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 xl:gap-10">
+          {teachersList.map((teacher, index) => (
+            <TeacherCard key={teacher.id} teacher={teacher} index={index} />
+          ))}
         </div>
       </div>
     </section>
