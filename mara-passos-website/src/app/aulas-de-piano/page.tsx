@@ -319,7 +319,7 @@ export default function AulasDePiano() {
                     <p className="text-gray-300 max-w-2xl mx-auto text-lg">Um ambiente totalmente climatizado, acústico e equipado com os melhores instrumentos para o seu aprendizado.</p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
                     {[
                         { name: "Estúdio Mara Passos", img: "/spaces/fachada.webp" },
                         { name: "Recepção", img: "/spaces/entrada.webp" },
@@ -340,13 +340,15 @@ export default function AulasDePiano() {
                         { name: "Espaço Extra (1)", img: "/spaces/IMG_4326.webp" },
                         { name: "Espaço Extra (2)", img: "/spaces/IMG_4337.webp" },
                     ].map((space, i) => (
-                        <div key={i} className="relative aspect-video md:aspect-auto md:h-80 rounded-3xl overflow-hidden group border border-white/10 shadow-lg">
+                        <div key={i} className="relative w-full rounded-3xl overflow-hidden group shadow-lg break-inside-avoid">
                             <Image 
                                 src={space.img}
                                 alt={space.name}
-                                fill
-                                className="object-cover group-hover:scale-105 transition-transform duration-700"
+                                width={0}
+                                height={0}
                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                style={{ width: '100%', height: 'auto' }}
+                                className="group-hover:scale-105 transition-transform duration-700"
                             />
                         </div>
                     ))}

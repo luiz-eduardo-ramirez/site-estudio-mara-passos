@@ -93,7 +93,7 @@ export default function Spaces() {
             {spaces.map((space, index) => (
               <SwiperSlide key={index} className="pb-4">
                 <div
-                  className="group relative w-full aspect-[4/3] rounded-3xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl hover:shadow-mara-orange/20 transition-all duration-500"
+                  className="group relative w-full aspect-[4/3] rounded-3xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl hover:shadow-mara-orange/20 transition-all duration-500 bg-neutral-900/50"
                   onClick={() => setSelectedImage(space.img)}
                 >
                   {/* Imagem de Fundo (Next.js Image) */}
@@ -101,7 +101,7 @@ export default function Spaces() {
                     src={space.img}
                     alt={space.name}
                     fill
-                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                    className="object-contain transition-transform duration-700 ease-out group-hover:scale-110"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                   
