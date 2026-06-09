@@ -76,15 +76,22 @@ export default async function Home({ searchParams }: Props) {
       <main>
         <Hero />
         <ScrollReveal><News /></ScrollReveal>
-        <Presentation />
-        <ScrollReveal><About /></ScrollReveal>
+
         <ScrollReveal><Instruments /></ScrollReveal>
         <StudentPortal />
-        <Teachers />
+
         <ScrollReveal><Spaces /></ScrollReveal>
-        <ScrollReveal><AboutUs /></ScrollReveal>
-        <ScrollReveal><Testimonials /></ScrollReveal>
+
+        <Teachers />
+
         <ScrollReveal><FAQ /></ScrollReveal>
+
+        <ScrollReveal><AboutUs /></ScrollReveal>
+        <Presentation />
+        <ScrollReveal><About /></ScrollReveal>
+        
+        <ScrollReveal><Testimonials /></ScrollReveal>
+
         <ScrollReveal><Contact /></ScrollReveal>
       </main>
 

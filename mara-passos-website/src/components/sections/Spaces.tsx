@@ -33,13 +33,23 @@ export default function Spaces() {
 
   const spaces = [
     { name: "Estúdio Mara Passos", img: "/spaces/fachada.webp" },
-    { name: "Sala de aula de piano", img: "/spaces/piano.webp" },
-    { name: "Certificados", img: "/spaces/certificados.webp" },
     { name: "Recepção", img: "/spaces/entrada.webp" },
-    { name: "Área externa", img: "/spaces/externa.webp" },
-    { name: "Sala de Musicalização", img: "/spaces/musicalizacao.webp" },
+    { name: "Recepção", img: "/spaces/entrada-1.webp" },
+    { name: "Recepção", img: "/spaces/entrada-2.webp" },
+    { name: "Área Interna", img: "/spaces/interna.webp" },
+    { name: "Área Interna", img: "/spaces/interna-1.webp" },
+    { name: "Sala de Piano", img: "/spaces/piano.webp" },
+    { name: "Sala de Piano", img: "/spaces/piano-1.webp" },
+    { name: "Sala de Piano", img: "/spaces/piano-2.webp" },
+    { name: "Sala de Musicalização", img: "/spaces/musicalizacao-1.webp" },
     { name: "Sala de Instrumentos", img: "/spaces/instrumentos.webp" },
+    { name: "Sala de Jogos", img: "/spaces/sala-jogos.webp" },
+    { name: "Escada", img: "/spaces/escada.webp" },
+    { name: "Certificados", img: "/spaces/certificados.webp" },
     { name: "Relaxamento", img: "/spaces/relaxamento.webp" },
+    { name: "Secretaria", img: "/spaces/pc.webp" },
+    { name: "Corredor", img: "/spaces/IMG_4326.webp" },
+    { name: "Certificados", img: "/spaces/IMG_4337.webp" },
   ];
 
   return (

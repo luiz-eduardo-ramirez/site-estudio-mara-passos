@@ -1,6 +1,9 @@
 import os
 from pathlib import Path
 from PIL import Image
+from pillow_heif import register_heif_opener
+
+register_heif_opener()
 
 def converter_para_webp(pasta_raiz='public', qualidade=85):
     """
@@ -14,7 +17,7 @@ def converter_para_webp(pasta_raiz='public', qualidade=85):
         return
 
     # Extensões que queremos converter
-    extensoes_alvo = {'.png', '.jpg', '.jpeg'}
+    extensoes_alvo = {'.png', '.jpg', '.jpeg', '.heic'}
     arquivos_convertidos = 0
 
     print(f"Iniciando conversão na pasta: {caminho_base.resolve()}...\n")

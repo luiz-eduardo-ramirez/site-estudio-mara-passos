@@ -319,31 +319,37 @@ export default function AulasDePiano() {
                     <p className="text-gray-300 max-w-2xl mx-auto text-lg">Um ambiente totalmente climatizado, acústico e equipado com os melhores instrumentos para o seu aprendizado.</p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div className="relative aspect-video md:aspect-auto md:h-80 rounded-3xl overflow-hidden group border border-white/10 shadow-lg">
-                        <Image 
-                            src="/spaces/entrada.webp"
-                            alt="Sala de Piano Estúdio Mara Passos" 
-                            fill
-                            className="object-cover group-hover:scale-105 transition-transform duration-700"
-                        />
-                    </div>
-                    <div className="relative aspect-video md:aspect-auto md:h-80 rounded-3xl overflow-hidden group border border-white/10 shadow-lg">
-                        <Image 
-                            src="/spaces/instrumentos.webp"
-                            alt="Nossos Pianos" 
-                            fill
-                            className="object-cover group-hover:scale-105 transition-transform duration-700"
-                        />
-                    </div>
-                    <div className="relative aspect-video md:aspect-auto md:h-80 rounded-3xl overflow-hidden group border border-white/10 shadow-lg">
-                        <Image 
-                            src="/spaces/relaxamento.webp"
-                            alt="Ambiente de Aulas Lapa" 
-                            fill
-                            className="object-cover group-hover:scale-105 transition-transform duration-700"
-                        />
-                    </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {[
+                        { name: "Estúdio Mara Passos", img: "/spaces/fachada.webp" },
+                        { name: "Recepção", img: "/spaces/entrada.webp" },
+                        { name: "Recepção (Detalhe 1)", img: "/spaces/entrada-1.webp" },
+                        { name: "Recepção (Detalhe 2)", img: "/spaces/entrada-2.webp" },
+                        { name: "Área Interna", img: "/spaces/interna.webp" },
+                        { name: "Área Interna (Detalhe)", img: "/spaces/interna-1.webp" },
+                        { name: "Sala de Piano (1)", img: "/spaces/piano.webp" },
+                        { name: "Sala de Piano (2)", img: "/spaces/piano-1.webp" },
+                        { name: "Sala de Piano (3)", img: "/spaces/piano-2.webp" },
+                        { name: "Sala de Musicalização", img: "/spaces/musicalizacao-1.webp" },
+                        { name: "Sala de Instrumentos", img: "/spaces/instrumentos.webp" },
+                        { name: "Sala de Jogos", img: "/spaces/sala-jogos.webp" },
+                        { name: "Escada", img: "/spaces/escada.webp" },
+                        { name: "Certificados", img: "/spaces/certificados.webp" },
+                        { name: "Relaxamento", img: "/spaces/relaxamento.webp" },
+                        { name: "PC", img: "/spaces/pc.webp" },
+                        { name: "Espaço Extra (1)", img: "/spaces/IMG_4326.webp" },
+                        { name: "Espaço Extra (2)", img: "/spaces/IMG_4337.webp" },
+                    ].map((space, i) => (
+                        <div key={i} className="relative aspect-video md:aspect-auto md:h-80 rounded-3xl overflow-hidden group border border-white/10 shadow-lg">
+                            <Image 
+                                src={space.img}
+                                alt={space.name}
+                                fill
+                                className="object-cover group-hover:scale-105 transition-transform duration-700"
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            />
+                        </div>
+                    ))}
                 </div>
             </motion.section>
 
