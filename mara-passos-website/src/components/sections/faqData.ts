@@ -1,11 +1,11 @@
 export const faqData = [
   {
     question: "Com qual idade meu filho pode começar a estudar música?",
-    answer: "A idade aconselhada para começar um instrumento depende de diversos fatores, como a capacidade de concentração, o interesse e o desenvolvimento individual de cada criança. No Estúdio Musical Mara Passos, aceitamos crianças a partir dos 3 anos na disciplina de Musicalização. As aulas de instrumento (como piano e violão) são aconselhadas a partir dos 6 anos."
+    answer: "A idade recomendada varia de acordo com o curso. Em nosso estúdio, oferecemos aulas de Musicalização para bebês a partir de 6 meses. Para Piano e Bateria, a idade ideal é de aproximadamente 5 anos. Já para os cursos de Guitarra, Violão e Canto, aconselhamos iniciar a partir dos 7 anos."
   },
   {
-    question: "Por que meu filho deve começar a aprender música desde cedo?",
-    answer: "O contato com a música desde cedo ajuda a criança a desenvolver capacidades de concentração auditiva e de comunicação, além de aumentar a confiança e a criatividade."
+    question: "Por que estudar música desde cedo?",
+    answer: "É comprovado pela ciência que o estudo da música desde a primeira infância contribui de forma muito significativa para o desenvolvimento cerebral. Além disso, o aprendizado musical traz diversas outras vantagens valiosas, auxiliando na socialização, sensibilização, capacidade de concentração, entre outros benefícios que acompanham a criança por toda a vida."
   },
   {
     question: "Como sei qual instrumento meu filho deve escolher?",
