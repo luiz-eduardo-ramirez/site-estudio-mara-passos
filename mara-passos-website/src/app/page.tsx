@@ -29,6 +29,9 @@ type Props = {
 };
 
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
+  // 1. A variável baseUrl declarada aqui resolve o erro "Cannot find name"
+  const baseUrl = "https://estudiomusicalmarapassos.com.br";
+  
   const sp = await searchParams;
   const cursoParam = sp?.curso;
   const curso = Array.isArray(cursoParam) ? cursoParam[0] : cursoParam;
@@ -39,6 +42,10 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
       return {
         title: `Aulas de ${instrument.nome} em São Paulo | Estúdio Mara Passos`,
         description: instrument.detalhes,
+        alternates: {
+          // Agora o TypeScript sabe o que é baseUrl
+          canonical: `${baseUrl}/?curso=${curso}`, 
+        }
       };
     }
   }
@@ -46,6 +53,9 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   return {
     title: "Estúdio Musical Mara Passos",
     description: "Escola de música com metodologia lúdica, curativa e acolhedora. Cursos de piano, violão, canto, musicalização e muito mais.",
+    alternates: {
+      canonical: baseUrl,
+    }
   };
 }
 
