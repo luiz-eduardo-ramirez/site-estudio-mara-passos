@@ -31,12 +31,22 @@ export default function News() {
   }, []);
 
   useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSelectedNews(null);
+        setIsImageExpanded(false);
+      }
+    };
     if (selectedNews) {
       document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleEsc);
     } else {
       document.body.style.overflow = 'unset';
     }
-    return () => { document.body.style.overflow = 'unset'; };
+    return () => { 
+      document.body.style.overflow = 'unset';
+      window.removeEventListener('keydown', handleEsc);
+    };
   }, [selectedNews]);
 
   // Função para fechar tudo com segurança

@@ -23,7 +23,7 @@ export default function Navbar() {
     { name: 'Cursos', href: '#instrumentos' },
     { name: 'Professores', href: '#professores' },
     { name: 'Espaços', href: '#espacos' },
-    { name: 'Quem somos ', href: '#sobre-nos' },
+    { name: 'Quem somos', href: '#sobre-nos' },
     { name: 'Depoimentos', href: '#depoimentos' },
     { name: 'Dúvidas', href: '#faq' },
   ];
@@ -137,7 +137,7 @@ export default function Navbar() {
 
         {/* MENU MOBILE */}
         <div className={`
-          fixed top-0 right-0 h-screen w-full md:w-80 bg-black/98 backdrop-blur-xl transform transition-transform duration-500 ease-in-out flex flex-col pt-24 px-8 pb-8 z-40
+          fixed top-0 right-0 h-screen w-full md:w-80 bg-black/95 backdrop-blur-xl transform transition-transform duration-500 ease-in-out flex flex-col pt-24 px-8 pb-8 z-40
           ${isMobileOpen ? 'translate-x-0' : 'translate-x-full'}
           xl:hidden
         `}>

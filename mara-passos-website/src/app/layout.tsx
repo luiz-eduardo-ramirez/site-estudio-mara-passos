@@ -63,8 +63,8 @@ export default function RootLayout({
         <MetaPixel /> 
         {children}
         <CookieConsent />
+        <GoogleAnalytics gaId="G-YTK6JLQJBG" />
       </body>
-      <GoogleAnalytics gaId="G-YTK6JLQJBG" />
     </html>
   );
 }

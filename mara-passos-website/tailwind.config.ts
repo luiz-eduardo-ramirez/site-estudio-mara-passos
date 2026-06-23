@@ -10,7 +10,7 @@ const config: Config = {
     extend: {
       colors: {
         mara: {
-          orange: "#FF6600", // Laranja vibrante das imagens
+          orange: "#f26522", // Laranja vibrante das imagens
           dark: "#080808",   // Fundo preto principal
           gray: "#141414",   // Fundo de cards/seções secundárias
           text: "#E5E5E5",   // Texto claro de fácil leitura

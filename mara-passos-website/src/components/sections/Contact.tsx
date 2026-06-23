@@ -22,7 +22,7 @@ export default function Contact() {
     const instrumento = formData.get('instrumento');
 
     // Monta a mensagem que vai chegar pronta no WhatsApp do Estúdio
-    const mensagem = `Olá,meu nome é ${nome} e gostaria de agendar uma aula experimental de ${instrumento}.\n\nMeu telefone para contato é: ${telefone}\n\n*Regra de cancelamento:* Se eu faltar sem avisar com 24h de antecedência, não poderei repor a aula.\n\n *Confirmo que estou ciente da regra de cancelamento: se eu faltar sem avisar com 24h de antecedência, não poderei repor a aula.*\n\nAguardo o retorno para definirmos o melhor horário!`;
+    const mensagem = `Olá, meu nome é ${nome} e gostaria de agendar uma aula experimental de ${instrumento}.\n\nMeu telefone para contato é: ${telefone}\n\n*Regra de cancelamento:* Se eu faltar sem avisar com 24h de antecedência, não poderei repor a aula.\n\n *Confirmo que estou ciente da regra de cancelamento: se eu faltar sem avisar com 24h de antecedência, não poderei repor a aula.*\n\nAguardo o retorno para definirmos o melhor horário!`;
 
     // Cria o link do WhatsApp com a mensagem codificada (para aceitar espaços e acentos)
     const urlWhatsApp = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(mensagem)}`;
@@ -64,8 +64,9 @@ export default function Contact() {
 
           <form ref={form} onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-mara-orange font-bold text-sm mb-2">Nome *</label>
+              <label htmlFor="user_name" className="block text-mara-orange font-bold text-sm mb-2">Nome *</label>
               <input
+                id="user_name"
                 type="text"
                 name="user_name"
                 required
@@ -75,8 +76,9 @@ export default function Contact() {
             </div>
 
             <div>
-              <label className="block text-mara-orange font-bold text-sm mb-2">Telefone *</label>
+              <label htmlFor="user_phone" className="block text-mara-orange font-bold text-sm mb-2">Telefone *</label>
               <input
+                id="user_phone"
                 type="tel"
                 name="user_phone"
                 required
@@ -93,8 +95,9 @@ export default function Contact() {
             </div>
 
             <div>
-              <label className="block text-mara-orange font-bold text-sm mb-2">Aula de *</label>
+              <label htmlFor="instrumento" className="block text-mara-orange font-bold text-sm mb-2">Aula de *</label>
               <select
+                id="instrumento"
                 name="instrumento"
                 required
                 defaultValue=""

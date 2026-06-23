@@ -74,18 +74,8 @@ body {
 }
 
 /* Estilos customizados para a paginação do Swiper (Bolinhas laranjas) */
-.swiper-pagination-bullet.custom-pagination-bullet {
-    background-color: #F97316;
-    opacity: 0.5;
-}
-
-.swiper-pagination-bullet.custom-pagination-bullet-active {
-    background-color: #F97316;
-    opacity: 1;
-}
-
 .custom-pagination-bullet {
-    background-color: #f97316 !important; /* Laranja */
+    background-color: var(--color-mara-orange) !important;
     opacity: 0.5;
     width: 12px;
     height: 12px;
@@ -96,7 +86,7 @@ body {
 
 .custom-pagination-bullet-active {
     opacity: 1 !important;
-    background-color: #f97316 !important;
+    background-color: var(--color-mara-orange) !important;
 }
 
 /* Esconder setas de navegação do Swiper no mobile */
@@ -109,7 +99,7 @@ body {
     .news-swiper .swiper-button-next,
     .news-swiper .swiper-button-prev {
         display: flex !important;
-        color: #f97316 !important;
+        color: var(--color-mara-orange) !important;
         --swiper-navigation-size: 28px;
     }
 }

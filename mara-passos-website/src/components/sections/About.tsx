@@ -59,7 +59,7 @@ export default function About() {
               AGENDAR AULA EXPERIMENTAL
             </Link>
             <span className="text-gray-400 text-sm flex items-center gap-2">
-              <i className="bi bi-calendar-check"></i> Fale com a gente!
+              Fale com a gente!
             </span>
           </div>
         </div>

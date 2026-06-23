@@ -25,7 +25,7 @@ export default function CampanhaInstagram() {
     // 1. Monta a mensagem e abre o WhatsApp IMEDIATAMENTE (evita bloqueadores de pop-up)
     const mensagem = `Olá! Vim do Instagram. Meu nome é ${nome} e gostaria de agendar uma aula experimental de ${instrumento}.\n\nMeu telefone é: ${telefone}\n\nAguardo o retorno para definirmos o melhor horário!`;
     const urlWhatsApp = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(mensagem)}`;
-    window.open(urlWhatsApp, '_blank');
+    window.open(urlWhatsApp, '_blank', 'noopener,noreferrer');
 
     // 2. Envia os dados para o e-mail em background (Registro do Lead)
     try {
@@ -33,7 +33,7 @@ export default function CampanhaInstagram() {
       formData.append("_subject", "Novo Lead do Instagram - Ebook!");
       
       // Substitua SEU_EMAIL_AQUI pelo email do estúdio
-      await fetch("https://formsubmit.co/ajax/estudiomapassos@gmail.com", {
+      await fetch("https://formsubmit.co/ajax/estudiomarapassos@gmail.com", {
         method: "POST",
         body: formData,
       });

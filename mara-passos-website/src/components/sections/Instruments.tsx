@@ -27,13 +27,23 @@ function InstrumentsContent() {
   }, []);
 
   useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsModalOpen(false);
+        router.push('/#instrumentos', { scroll: false });
+      }
+    };
     if (isModalOpen) {
       document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleEsc);
     } else {
       document.body.style.overflow = 'unset';
     }
-    return () => { document.body.style.overflow = 'unset'; };
-  }, [isModalOpen]);
+    return () => { 
+      document.body.style.overflow = 'unset'; 
+      window.removeEventListener('keydown', handleEsc);
+    };
+  }, [isModalOpen, router]);
 
   // Escuta mudanças na URL para abrir o modal
   useEffect(() => {

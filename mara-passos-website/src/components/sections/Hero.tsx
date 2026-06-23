@@ -1,4 +1,3 @@
-"use function"; // Obrigatório agora, pois a animação acontece no navegador do usuário
 "use client";
 
 import { TypeAnimation } from 'react-type-animation';

@@ -23,12 +23,21 @@ export default function Spaces() {
   }, []);
 
   useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSelectedImage(null);
+      }
+    };
     if (selectedImage) {
       document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleEsc);
     } else {
       document.body.style.overflow = 'unset';
     }
-    return () => { document.body.style.overflow = 'unset'; };
+    return () => { 
+      document.body.style.overflow = 'unset';
+      window.removeEventListener('keydown', handleEsc);
+    };
   }, [selectedImage]);
 
   const spaces = [
