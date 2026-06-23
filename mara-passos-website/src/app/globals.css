@@ -98,3 +98,31 @@ body {
     opacity: 1 !important;
     background-color: #f97316 !important;
 }
+
+/* Esconder setas de navegação do Swiper no mobile */
+.news-swiper .swiper-button-next,
+.news-swiper .swiper-button-prev {
+    display: none !important;
+}
+
+@media (min-width: 640px) {
+    .news-swiper .swiper-button-next,
+    .news-swiper .swiper-button-prev {
+        display: flex !important;
+        color: #f97316 !important;
+        --swiper-navigation-size: 28px;
+    }
+}
+
+@media (min-width: 768px) {
+    .news-swiper .swiper-button-next,
+    .news-swiper .swiper-button-prev {
+        --swiper-navigation-size: 36px;
+    }
+}
+
+/* Garantir que o Swiper não ultrapasse a tela */
+.news-swiper {
+    max-width: 100% !important;
+    box-sizing: border-box;
+}

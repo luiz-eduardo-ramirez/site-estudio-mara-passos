@@ -54,7 +54,7 @@ export default function News() {
 
         {/* CARROSSEL */}
         <Swiper
-          spaceBetween={30}
+          spaceBetween={16}
           centeredSlides={true}
           autoplay={{
             delay: 4000,
@@ -67,11 +67,11 @@ export default function News() {
           }}
           navigation={true}
           modules={[Autoplay, Pagination, Navigation]}
-          className="w-full max-w-5xl rounded-2xl shadow-2xl border-2 border-orange-500 overflow-hidden"
+          className="news-swiper w-full max-w-5xl rounded-2xl shadow-2xl border-2 border-orange-500 overflow-hidden"
         >
           {newsData.map((news: NewsItem) => (
             <SwiperSlide key={news.id}>
-              <div className="relative w-full h-[400px] md:h-[500px] group">
+              <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] group">
                 <Image
                   src={news.image}
                   alt={news.title}
@@ -80,17 +80,17 @@ export default function News() {
                   sizes="(max-width: 768px) 100vw, 1024px"
                 />
 
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex flex-col justify-end items-center p-6 md:p-12 text-center pb-16">
-                  <h3 className="text-2xl md:text-4xl font-bold text-white mb-3">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex flex-col justify-end items-center p-4 sm:p-6 md:p-12 text-center pb-12 sm:pb-16">
+                  <h3 className="text-xl sm:text-2xl md:text-4xl font-bold text-white mb-2 sm:mb-3 px-2">
                     {news.title}
                   </h3>
-                  <p className="text-gray-200 text-sm md:text-lg mb-6 line-clamp-2 max-w-2xl relative z-10">
+                  <p className="text-gray-200 text-xs sm:text-sm md:text-lg mb-4 sm:mb-6 line-clamp-2 max-w-2xl relative z-10 px-2">
                     {news.description}
                   </p>
 
                   <button
                     onClick={() => setSelectedNews(news)}
-                    className="inline-block px-8 py-3 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-full transition-colors w-max shadow-lg relative z-10 cursor-pointer"
+                    className="inline-block px-5 sm:px-8 py-2 sm:py-3 bg-orange-500 hover:bg-orange-600 text-white text-sm sm:text-base font-bold rounded-full transition-colors w-max shadow-lg relative z-10 cursor-pointer"
                   >
                     Ler a matéria completa
                   </button>
@@ -118,29 +118,43 @@ export default function News() {
 
                 {/* Container do Modal */}
                 <motion.div
-                  initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                  initial={{ scale: 0.95, opacity: 0, y: 20 }}
                   animate={{ scale: 1, opacity: 1, y: 0 }}
-                  exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                  exit={{ scale: 0.95, opacity: 0, y: 20 }}
                   transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                  className="bg-gray-950/90 backdrop-blur-2xl border border-orange-500/50 rounded-2xl w-[95vw] max-w-7xl h-auto md:h-[80vh] min-h-[60vh] overflow-hidden flex flex-col md:flex-row shadow-2xl relative z-10"
+                  className="bg-gray-950/90 backdrop-blur-2xl border border-orange-500/50 rounded-xl sm:rounded-2xl w-[calc(100vw-1rem)] sm:w-[90vw] max-w-7xl max-h-[calc(100vh-2rem)] sm:max-h-[85vh] overflow-y-auto overflow-x-hidden flex flex-col md:flex-row shadow-2xl relative z-10"
                   onClick={(e) => e.stopPropagation()}
                 >
 
+                  {/* Botão de Fechar Principal (X) - posicionado sobre o modal inteiro */}
+                  <button
+                    onClick={handleClose}
+                    className="absolute top-3 right-3 sm:top-4 sm:right-4 z-50 w-8 h-8 sm:w-10 sm:h-10 bg-black/80 hover:bg-orange-500 text-white rounded-full flex items-center justify-center transition-colors border border-white/20 hover:border-orange-500 cursor-pointer shrink-0"
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="sm:w-6 sm:h-6">
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                  </button>
+
                   {/* Lado Esquerdo: Imagem com funcionalidade de Expandir */}
                   <div
-                    className="w-full md:w-[55%] h-64 md:h-full relative bg-black flex items-center justify-center cursor-zoom-in group overflow-hidden"
-                    onClick={() => setIsImageExpanded(true)}
+                    className="w-full md:w-[55%] h-48 sm:h-64 md:h-auto md:min-h-[400px] relative bg-black flex items-center justify-center md:cursor-zoom-in group overflow-hidden shrink-0"
+                    onClick={() => {
+                      // Só ativar zoom em desktop
+                      if (window.innerWidth >= 768) setIsImageExpanded(true);
+                    }}
                   >
                     <Image
                       src={selectedNews.image}
                       alt={selectedNews.title}
                       fill
-                      className="object-contain p-2 md:p-4 transition-transform duration-500 group-hover:scale-105"
+                      className="object-contain p-2 md:p-4 transition-transform duration-500 group-hover:md:scale-105"
                       sizes="(max-width: 768px) 100vw, 55vw"
                     />
 
-                    {/* Overlay de Hover para indicar que é clicável */}
-                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    {/* Overlay de Hover para indicar que é clicável - apenas em desktop */}
+                    <div className="absolute inset-0 bg-black/40 opacity-0 hidden md:flex group-hover:opacity-100 transition-opacity duration-300 items-center justify-center">
                       <span className="bg-orange-500/90 text-white px-4 py-2 rounded-full font-semibold flex items-center gap-2 shadow-lg backdrop-blur-sm">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                           <circle cx="11" cy="11" r="8"></circle>
@@ -154,37 +168,26 @@ export default function News() {
                   </div>
 
                   {/* Lado Direito: Textos */}
-                  <div className="w-full md:w-[45%] p-8 md:p-12 flex flex-col overflow-y-auto custom-scrollbar relative z-10">
+                  <div className="w-full md:w-[45%] p-5 sm:p-8 md:p-12 flex flex-col overflow-y-auto custom-scrollbar relative z-10">
 
-                    {/* Botão de Fechar Principal (X) */}
-                    <button
-                      onClick={handleClose}
-                      className="absolute top-4 right-4 z-50 w-10 h-10 bg-black/80 hover:bg-orange-500 text-white rounded-full flex items-center justify-center transition-colors border border-white/20 hover:border-orange-500 cursor-pointer"
-                    >
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                      </svg>
-                    </button>
-
-                    <h3 className="text-3xl md:text-5xl font-extrabold text-white mb-8 drop-shadow-md mt-4 pr-10">
+                    <h3 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-extrabold text-white mb-4 sm:mb-6 md:mb-8 drop-shadow-md pr-8 sm:pr-10">
                       {selectedNews.title}
                     </h3>
 
-                    <div className="text-gray-200 text-lg md:text-xl leading-relaxed mb-8 space-y-6 font-light">
+                    <div className="text-gray-200 text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed mb-6 sm:mb-8 space-y-4 sm:space-y-6 font-light">
                       <p>{selectedNews.fullText || selectedNews.description}</p>
                     </div>
 
-                    <div className="mt-auto pt-8 border-t border-white/10">
+                    <div className="mt-auto pt-4 sm:pt-8 border-t border-white/10">
                       {selectedNews.link && (
                         <a
                           href={selectedNews.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-3 text-orange-400 hover:text-orange-300 transition-colors font-bold text-lg group"
+                          className="inline-flex items-center gap-2 sm:gap-3 text-orange-400 hover:text-orange-300 transition-colors font-bold text-sm sm:text-base md:text-lg group"
                         >
                           Ver postagem original no Instagram
-                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:translate-x-1">
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:translate-x-1 w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6">
                             <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                             <polyline points="15 3 21 3 21 9"></polyline>
                             <line x1="10" y1="14" x2="21" y2="3"></line>
