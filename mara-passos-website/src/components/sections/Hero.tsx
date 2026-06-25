@@ -1,24 +1,36 @@
 "use client";
 
 import { TypeAnimation } from 'react-type-animation';
+import { useState, useEffect } from 'react';
 
 export default function Hero() {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    // Atrasa o carregamento do vídeo para não bloquear a renderização inicial
+    const timer = setTimeout(() => setIsMounted(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <section id="inicio" className="relative w-full h-screen flex items-center justify-center overflow-hidden">
 
-      {/* Vídeo de Fundo */}
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        poster="/hero-bg.webp"
-        className="absolute inset-0 w-full h-full object-cover"
-      >
-        <source src="/hero-bg.mp4" type="video/mp4" />
-        {/* Fallback caso o navegador não suporte vídeo */}
-        Seu navegador não suporta a reprodução de vídeos.
-      </video>
+      {/* Imagem de Fundo Estática (First Contentful Paint Rápido) */}
+      <img src="/hero-bg.webp" alt="Estúdio Mara Passos" className="absolute inset-0 w-full h-full object-cover" />
+
+      {/* Vídeo de Fundo (Deferred Loading) */}
+      {isMounted && (
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="/hero-bg.mp4" type="video/mp4" />
+          Seu navegador não suporta a reprodução de vídeos.
+        </video>
+      )}
 
       {/* Overlay escuro */}
       <div className="absolute inset-0 bg-mara-dark/80"></div>

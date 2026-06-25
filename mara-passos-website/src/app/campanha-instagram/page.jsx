@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { CheckCircle2, Download, BookOpen, Loader2 } from 'lucide-react';
-
+import Image from "next/image";
 
 export default function CampanhaInstagram() {
   const form = useRef(null);
@@ -221,10 +221,12 @@ export default function CampanhaInstagram() {
         {/* Lado Direito: Imagem da Campanha / Mockup do eBook */}
         <div className="w-full lg:w-1/2 flex justify-center lg:justify-end animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
           <div className="relative w-full max-w-md aspect-[4/5] md:aspect-square rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.8)] border-4 border-white/10 transform hover:scale-[1.02] transition-transform duration-500">
-            <img
+            <Image
               src="/ebook.webp"
               alt="Baixe o eBook exclusivo do Estúdio Mara Passos"
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
             <div className="absolute top-4 right-4 bg-mara-orange text-white text-xs font-black px-4 py-2 rounded-full shadow-lg uppercase tracking-wider">
               100% Gratuito

@@ -19,47 +19,19 @@ const Testimonials = dynamic(() => import("../components/sections/Testimonials")
 const FAQ = dynamic(() => import("../components/sections/FAQ"));
 const Contact = dynamic(() => import("../components/sections/Contact"));
 
-
 import { faqData } from "../components/sections/faqData";
 import { Metadata } from 'next';
 import { instrumentsList } from '../data/instrumentsList';
 
-type Props = {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+export const metadata: Metadata = {
+  title: "Estúdio Musical Mara Passos",
+  description: "Escola de música com metodologia lúdica, curativa e acolhedora. Cursos de piano, violão, canto, musicalização e muito mais.",
+  alternates: {
+    canonical: "https://estudiomusicalmarapassos.com.br",
+  }
 };
 
-export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
-  // 1. A variável baseUrl declarada aqui resolve o erro "Cannot find name"
-  const baseUrl = "https://estudiomusicalmarapassos.com.br";
-  
-  const sp = await searchParams;
-  const cursoParam = sp?.curso;
-  const curso = Array.isArray(cursoParam) ? cursoParam[0] : cursoParam;
-
-  if (curso) {
-    const instrument = instrumentsList.find(inst => inst.nome === curso);
-    if (instrument) {
-      return {
-        title: `Aulas de ${instrument.nome} em São Paulo | Estúdio Mara Passos`,
-        description: instrument.detalhes,
-        alternates: {
-          // Agora o TypeScript sabe o que é baseUrl
-          canonical: `${baseUrl}/?curso=${curso}`, 
-        }
-      };
-    }
-  }
-
-  return {
-    title: "Estúdio Musical Mara Passos",
-    description: "Escola de música com metodologia lúdica, curativa e acolhedora. Cursos de piano, violão, canto, musicalização e muito mais.",
-    alternates: {
-      canonical: baseUrl,
-    }
-  };
-}
-
-export default async function Home({ searchParams }: Props) {
+export default function Home() {
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",

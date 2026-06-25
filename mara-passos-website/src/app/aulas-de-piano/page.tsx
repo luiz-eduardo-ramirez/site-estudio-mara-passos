@@ -1,12 +1,46 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { CheckCircle, HelpCircle, Brain, Music, Sparkles, ChevronLeft, ChevronRight, CalendarDays, Smartphone, CreditCard, FileSignature, History } from "lucide-react";
 import { motion } from "framer-motion";
 import Contact from "../../components/sections/Contact";
 import SocialButtons from "../../components/layout/SocialButtons";
 import Navbar from "../../components/layout/Navbar";
+
+const LazyVideo = ({ src }: { src: string }) => {
+    const videoRef = useRef<HTMLVideoElement>(null);
+    const [shouldLoad, setShouldLoad] = useState(false);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setShouldLoad(true);
+                    observer.disconnect();
+                }
+            },
+            { rootMargin: '200px' }
+        );
+
+        if (videoRef.current) {
+            observer.observe(videoRef.current);
+        }
+
+        return () => observer.disconnect();
+    }, []);
+
+    return (
+        <video 
+            ref={videoRef}
+            src={shouldLoad ? src : undefined}
+            className="video-player absolute inset-0 w-full h-full object-cover"
+            controls
+            preload="metadata"
+            playsInline
+        />
+    );
+};
 
 export default function AulasDePiano() {
     const carouselRef = useRef<HTMLDivElement>(null);
@@ -284,13 +318,7 @@ export default function AulasDePiano() {
                                 key={i} 
                                 className="relative w-[260px] sm:w-[280px] md:w-[320px] shrink-0 snap-center bg-neutral-900 rounded-3xl overflow-hidden border border-white/10 hover:border-mara-orange/50 transition-all group aspect-[9/16] shadow-xl"
                             >
-                                <video 
-                                    src={video.src}
-                                    className="video-player absolute inset-0 w-full h-full object-cover"
-                                    controls
-                                    preload="metadata"
-                                    playsInline
-                                />
+                                <LazyVideo src={video.src} />
                             </div>
                         ))}
                     </div>
