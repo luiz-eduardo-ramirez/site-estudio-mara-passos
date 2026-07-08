@@ -17,5 +17,12 @@ export const newsData = [
     link: "https://www.instagram.com/p/DYxjxrikW3-/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
     fullText: "Estamos muito felizes em anunciar a implementação da nossa nova plataforma digital! Agora, todos os alunos e responsáveis podem acessar um portal exclusivo onde é possível verificar a agenda de aulas, solicitar reagendamentos de forma rápida, visualizar histórico financeiro, gerar cobranças Pix, e acompanhar a evolução das notas e frequência.\n\nEsse sistema moderno e intuitivo foi pensado para dar muito mais autonomia e transparência no dia a dia do estúdio. Fale com a secretaria para ativar o seu acesso e aproveite todas essas facilidades!"
   },
-  
+  {
+    id: 3,
+    title: "Semana da Fantasia no Estúdio!",
+    description: "Na última semana, celebramos o início das férias com muita música e criatividade na nossa Semana da Fantasia! Nossos pequenos brilharam com seus looks incríveis. 🎶",
+    image: "/images/noticia-3.webp",
+    link: "https://www.instagram.com/p/DadNgLEkTo1/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
+    fullText: "Na última semana, tivemos a Semana da Fantasia para comemorar o tão aguardado início das férias! 🎶\n\nNossos pequenos alunos abrilhantaram a escola com muita criatividade, trazendo seus looks e personagens favoritos para as aulas.\n\nNas fotos, temos a Antonella, Paola e Amora dando um show como Guerreiras do K-Pop, além do Leonardo e Ziggy arrasando de Piratas! 🥰\n\nFoi um momento mágico e muito divertido. Obrigado a todos que participaram e trouxeram ainda mais vida para o nosso estúdio! 🎶"
+  }
 ];
