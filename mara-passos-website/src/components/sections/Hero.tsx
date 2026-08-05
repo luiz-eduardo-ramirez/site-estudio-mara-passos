@@ -16,7 +16,7 @@ export default function Hero() {
     <section id="inicio" className="relative w-full h-screen flex items-center justify-center overflow-hidden">
 
       {/* Imagem de Fundo Estática (First Contentful Paint Rápido) */}
-      <img src="/hero-bg.webp" alt="Estúdio Mara Passos" className="absolute inset-0 w-full h-full object-cover" />
+      <img src="/hero-bg.webp" alt="Alunos sorrindo no Estúdio Mara Passos" fetchPriority="high" className="absolute inset-0 w-full h-full object-cover" />
 
       {/* Vídeo de Fundo (Deferred Loading) */}
       {isMounted && (

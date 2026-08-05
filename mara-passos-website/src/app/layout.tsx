@@ -61,6 +61,9 @@ export default function RootLayout({
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <MetaPixel /> 
+        <a href="#inicio" className="sr-only focus:not-sr-only focus:absolute focus:z-[9999] focus:p-4 focus:bg-[#f26522] focus:text-white focus:top-0 focus:left-0 font-bold">
+          Pular para o conteúdo principal
+        </a>
         {children}
         <CookieConsent />
         <GoogleAnalytics gaId="G-YTK6JLQJBG" />

@@ -70,6 +70,7 @@ export default function Contact() {
                 type="text"
                 name="user_name"
                 required
+                aria-required="true"
                 placeholder="Digite o seu nome completo..."
                 className="w-full bg-white text-black rounded-full px-5 py-3 focus:outline-none focus:ring-2 focus:ring-mara-orange transition-shadow"
               />
@@ -82,6 +83,7 @@ export default function Contact() {
                 type="tel"
                 name="user_phone"
                 required
+                aria-required="true"
                 maxLength={15}
                 placeholder="(11) 90000-0000"
                 onChange={(e) => {
@@ -100,6 +102,7 @@ export default function Contact() {
                 id="instrumento"
                 name="instrumento"
                 required
+                aria-required="true"
                 defaultValue=""
                 className="w-full bg-white text-black rounded-full px-5 py-3 focus:outline-none focus:ring-2 focus:ring-mara-orange transition-shadow appearance-none cursor-pointer"
               >
@@ -131,6 +134,7 @@ export default function Contact() {
                 id="termos-experimental"
                 name="termos_experimental"
                 required
+                aria-required="true"
                 checked={aceitouTermos}
                 onChange={(e) => setAceitouTermos(e.target.checked)}
                 className="mt-1 w-5 h-5 accent-mara-orange cursor-pointer shrink-0 rounded border-gray-600 focus:ring-mara-orange"

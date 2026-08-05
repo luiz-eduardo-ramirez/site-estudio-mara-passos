@@ -17,6 +17,16 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isMobileOpen) {
+        setIsMobileOpen(false);
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isMobileOpen]);
+
   const navLinks = [
     { name: 'Início', href: '#inicio' },
     { name: 'Sobre', href: '#sobre' },
@@ -113,7 +123,9 @@ export default function Navbar() {
         <button
           className="xl:hidden text-white z-50 p-2 focus:outline-none group"
           onClick={() => setIsMobileOpen(!isMobileOpen)}
-          aria-label="Abrir menu"
+          aria-label={isMobileOpen ? "Fechar menu" : "Abrir menu"}
+          aria-expanded={isMobileOpen}
+          aria-controls="mobile-menu"
         >
           <div className="relative w-8 h-8 flex items-center justify-center">
             <div className="relative w-full h-full flex flex-col justify-between">
@@ -136,7 +148,7 @@ export default function Navbar() {
         </button>
 
         {/* MENU MOBILE */}
-        <div className={`
+        <div id="mobile-menu" className={`
           fixed top-0 right-0 h-screen w-full md:w-80 bg-black/95 backdrop-blur-xl transform transition-transform duration-500 ease-in-out flex flex-col pt-24 px-8 pb-8 z-40
           ${isMobileOpen ? 'translate-x-0' : 'translate-x-full'}
           xl:hidden

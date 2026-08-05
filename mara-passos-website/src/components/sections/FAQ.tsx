@@ -57,6 +57,9 @@ export default function FAQ() {
                 className="bg-neutral-900 border border-white/10 rounded-lg overflow-hidden"
               >
                 <button
+                  id={`faq-btn-${index}`}
+                  aria-expanded={isOpen}
+                  aria-controls={`faq-content-${index}`}
                   onClick={() => toggleFAQ(index)}
                   className="w-full flex items-center justify-between p-6 cursor-pointer text-left text-lg font-semibold text-white hover:text-mara-orange transition-colors focus:outline-none"
                 >
@@ -75,6 +78,9 @@ export default function FAQ() {
                 <AnimatePresence initial={false}>
                   {isOpen && (
                     <motion.div
+                      id={`faq-content-${index}`}
+                      role="region"
+                      aria-labelledby={`faq-btn-${index}`}
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
