@@ -119,15 +119,27 @@ export default function Navbar() {
           </div>
         </nav>
 
-        {/* BOTÃO PIANO HAMBURGUER MOBILE */}
-        <button
-          className="xl:hidden text-white z-50 p-2 focus:outline-none group"
-          onClick={() => setIsMobileOpen(!isMobileOpen)}
-          aria-label={isMobileOpen ? "Fechar menu" : "Abrir menu"}
-          aria-expanded={isMobileOpen}
-          aria-controls="mobile-menu"
-        >
-          <div className="relative w-8 h-8 flex items-center justify-center">
+        {/* AÇÕES MOBILE (Portal + Menu) */}
+        <div className="flex items-center gap-3 xl:hidden z-50">
+          <Link
+            href="https://portal.estudiomusicalmarapassos.com.br"
+            target="_blank"
+            className="flex items-center gap-2 text-white border border-white/20 hover:border-mara-orange hover:text-mara-orange px-3 py-1.5 rounded-full font-bold text-xs transition-all"
+          >
+            <User size={14} />
+            <span className="hidden sm:inline">Portal do Aluno</span>
+            <span className="sm:hidden">Portal</span>
+          </Link>
+
+          {/* BOTÃO PIANO HAMBURGUER MOBILE */}
+          <button
+            className="text-white p-2 focus:outline-none group"
+            onClick={() => setIsMobileOpen(!isMobileOpen)}
+            aria-label={isMobileOpen ? "Fechar menu" : "Abrir menu"}
+            aria-expanded={isMobileOpen}
+            aria-controls="mobile-menu"
+          >
+            <div className="relative w-8 h-8 flex items-center justify-center">
             <div className="relative w-full h-full flex flex-col justify-between">
               {/* Tecla Branca 1 (Topo) */}
               <span className={`block w-full h-[6px] bg-white rounded-sm transition-all duration-300 shadow-[0_2px_0_rgba(255,255,255,0.4)] ${isMobileOpen ? 'rotate-45 translate-y-[11px] shadow-none bg-mara-orange' : 'hover:translate-y-[2px] hover:shadow-none'}`}></span>
@@ -145,7 +157,8 @@ export default function Navbar() {
               <span className={`block w-full h-[6px] bg-white rounded-sm transition-all duration-300 shadow-[0_2px_0_rgba(255,255,255,0.4)] ${isMobileOpen ? '-rotate-45 -translate-y-[11px] shadow-none bg-mara-orange' : 'hover:translate-y-[2px] hover:shadow-none'}`}></span>
             </div>
           </div>
-        </button>
+          </button>
+        </div>
 
         {/* MENU MOBILE */}
         <div id="mobile-menu" className={`
@@ -180,14 +193,6 @@ export default function Navbar() {
 
           {/* Conversion Zone Fixa na Base */}
           <div className="mt-auto pt-6 border-t border-white/10 flex flex-col gap-3">
-            <Link
-              href="https://portal.estudiomusicalmarapassos.com.br"
-              onClick={() => setIsMobileOpen(false)}
-              className="flex items-center justify-center gap-2 border border-white/20 text-white py-3.5 rounded-xl font-bold text-sm hover:bg-white/5 transition-colors"
-            >
-              <User size={16} />
-              Portal do Aluno
-            </Link>
             <Link
               href="/#agendamentos"
               onClick={() => setIsMobileOpen(false)}

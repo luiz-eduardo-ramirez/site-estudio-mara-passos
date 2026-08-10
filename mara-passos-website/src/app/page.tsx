@@ -55,7 +55,7 @@ export default function Home() {
       <Navbar />
       <FloatingNotes />
 
-      <main>
+      <main id="main-content" tabIndex={-1} className="outline-none">
         <Hero />
         <ScrollReveal><News /></ScrollReveal>
 
