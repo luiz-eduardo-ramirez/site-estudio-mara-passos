@@ -128,6 +128,13 @@ export default function Teachers() {
       bio: "Formada em Piano Erudito pelo Conservatório Dramático e Musical de São Paulo. Leciona Flauta Transversal e possui formação pelo Curso Sopro Novo de Flautas Doce da Yamaha. Com cursos complementares em Musicalização Infantil, Márcia também desenvolveu trabalho de Canto Coral em diversos coros da Capital e atualmente é integrante do Zimana no CoralUsp.",
       foto: "/teachers/marcia.webp" // Ajuste o nome do arquivo se necessário
     },
+    {
+      id: 8,
+      nome: "Vitor Magalhães",
+      especialidades: ["Violino"],
+      bio: "Formado em Bacharelado em Violino pela Faculdade Santa Marcelina e com experiência no Projeto Guri, atua como professor desde 2021, com uma abordagem humanizada que valoriza a autonomia, a criatividade e o desenvolvimento da escuta. Com uma perspectiva decolonial, amplia o ensino do violino para além da música clássica, explorando diferentes gêneros e possibilidades musicais.",
+      foto: "/teachers/vitor.webp"
+    },
   ];
 
   return (

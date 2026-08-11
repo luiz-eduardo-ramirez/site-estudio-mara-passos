@@ -26,6 +26,7 @@ Baixo, Bateria, Canto, Flauta Doce, Flauta Transversal, Guitarra, Música de Câ
 - Rodrigo Alencar: (Violão, Guitarra, Baixo).
 - Reinaldo Rodrigues: (Bateria, Piano, Teclado, Violino).
 - Márcia Kiyomi: (Piano, Flauta Transversal/Doce, Musicalização).
+- Vitor Magalhães: (Violino).
 
 ### REGRAS DE NEGÓCIO OBRIGATÓRIAS (ATENÇÃO REDOBRADA)
 1. VALOR DA MATRÍCULA: O custo da matrícula é ZERO. A matrícula é totalmente gratuita para qualquer curso. Sempre que perguntarem, destaque esse benefício.
