@@ -6,15 +6,11 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
-function TeacherCard({ teacher, index }: { teacher: any, index: number }) {
+function TeacherCard({ teacher }: { teacher: any }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <motion.div 
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.6, delay: (index % 3) * 0.1 }}
+    <div
       className="flex flex-col bg-[#111] border border-white/5 rounded-3xl overflow-hidden hover:bg-[#1a1a1a] hover:border-mara-orange/20 transition-all duration-500 group shadow-xl"
     >
       {/* Contêiner de Imagem Dedicado: Formato de Retrato Perfeito */}
@@ -73,7 +69,7 @@ function TeacherCard({ teacher, index }: { teacher: any, index: number }) {
           </button>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -145,7 +141,7 @@ export default function Teachers() {
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6 }}
           className="text-center mb-20"
         >
@@ -159,8 +155,8 @@ export default function Teachers() {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 xl:gap-10">
-          {teachersList.map((teacher, index) => (
-            <TeacherCard key={teacher.id} teacher={teacher} index={index} />
+          {teachersList.map((teacher) => (
+            <TeacherCard key={teacher.id} teacher={teacher} />
           ))}
         </div>
       </div>
