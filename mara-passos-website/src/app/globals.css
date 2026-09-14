@@ -99,15 +99,62 @@ body {
     .news-swiper .swiper-button-next,
     .news-swiper .swiper-button-prev {
         display: flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        background: rgba(0, 0, 0, 0.45);
+        border: 1px solid rgba(242, 101, 34, 0.4);
+        border-radius: 9999px;
+        backdrop-filter: blur(6px);
         color: var(--color-mara-orange) !important;
-        --swiper-navigation-size: 28px;
+        --swiper-navigation-size: 18px;
+        transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+    }
+    .news-swiper .swiper-button-prev {
+        left: 16px !important;
+    }
+    .news-swiper .swiper-button-next {
+        right: 16px !important;
+    }
+    .news-swiper .swiper-button-next:hover,
+    .news-swiper .swiper-button-prev:hover {
+        background: var(--color-mara-orange);
+        border-color: var(--color-mara-orange);
+        color: #fff !important;
     }
 }
 
 @media (min-width: 768px) {
     .news-swiper .swiper-button-next,
     .news-swiper .swiper-button-prev {
-        --swiper-navigation-size: 36px;
+        width: 52px;
+        height: 52px;
+        --swiper-navigation-size: 20px;
+    }
+    .news-swiper .swiper-button-prev {
+        left: 24px !important;
+    }
+    .news-swiper .swiper-button-next {
+        right: 24px !important;
+    }
+}
+
+/* Paginação no canto superior direito, longe do texto editorial no rodapé da imagem */
+.news-swiper .swiper-pagination {
+    top: 20px !important;
+    bottom: auto !important;
+    right: 20px !important;
+    left: auto !important;
+    width: auto !important;
+    display: flex !important;
+    gap: 4px;
+}
+
+@media (min-width: 768px) {
+    .news-swiper .swiper-pagination {
+        top: 28px !important;
+        right: 28px !important;
     }
 }
 
@@ -115,4 +162,18 @@ body {
 .news-swiper {
     max-width: 100% !important;
     box-sizing: border-box;
+}
+/* Respeita quem pediu menos movimento no sistema operacional */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

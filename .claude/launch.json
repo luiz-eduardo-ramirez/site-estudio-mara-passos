@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "mara-passos-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "mara-passos-website", "run", "dev"],
+      "port": 3000,
+      "autoPort": true
+    }
+  ]
+}

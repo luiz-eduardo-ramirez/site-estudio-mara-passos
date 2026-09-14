@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next';
+import { newsData } from './data/news';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://estudiomusicalmarapassos.com.br';
@@ -19,6 +20,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
+  const noticiasUrls = newsData.map((news) => ({
+    url: `${baseUrl}/noticias/${news.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.6,
+  }));
+
   return [
     {
       url: baseUrl,
@@ -28,5 +36,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     ...cursosUrls,
     ...novasRotasUrls,
+    ...noticiasUrls,
   ];
 }
