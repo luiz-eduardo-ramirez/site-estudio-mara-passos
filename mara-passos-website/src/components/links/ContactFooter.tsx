@@ -14,7 +14,7 @@ const iconProps = {
 export default function ContactFooter({ index }: { index: number }) {
   return (
     <footer
-      className="lt-rise mt-12 flex flex-col items-center gap-5 text-center"
+      className="lt-rise-view mt-12 flex flex-col items-center gap-5 text-center"
       style={{ "--i": index } as React.CSSProperties}
     >
       <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#9ca3af]">
@@ -22,7 +22,7 @@ export default function ContactFooter({ index }: { index: number }) {
       </p>
 
       {/* gap-1 porque cada link já carrega 44px de altura mínima de toque */}
-      <ul className="flex flex-col items-center gap-1 text-[13px] text-mara-text">
+      <ul className="flex flex-col items-center gap-1 text-[0.82rem] text-mara-text">
         <li>
           <a
             href={CONTACT.phoneHref}
@@ -62,7 +62,7 @@ export default function ContactFooter({ index }: { index: number }) {
         </li>
       </ul>
 
-      <p className="mt-2 max-w-[34ch] text-[11px] leading-relaxed text-[#9ca3af]/80">
+      <p className="mt-2 max-w-[34ch] text-[0.66rem] leading-relaxed text-[#9ca3af]/80">
         © {new Date().getFullYear()} Estúdio Musical e Cultural Mara Passos
         <br />
         CNPJ {CONTACT.cnpj}

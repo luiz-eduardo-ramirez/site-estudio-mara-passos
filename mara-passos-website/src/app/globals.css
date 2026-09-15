@@ -178,7 +178,6 @@ body {
   }
 }
 
-
 /* ==========================================================================
    Página /links — o "link na bio"
    Bloco isolado: todas as classes usam o prefixo lt- e nada aqui altera as
@@ -188,11 +187,26 @@ body {
 /*
  * O site roda com a raiz em 110% e o corpo em 1.125rem. A página /links foi
  * calibrada com a raiz em 100% e seu container tem largura fixa em px — a 110%
- * o texto cresceria dentro de uma caixa que não cresce junto. Estas duas regras
- * devolvem a escala padrão enquanto a página estiver montada.
+ * o texto cresceria dentro de uma caixa que não cresce junto.
+ *
+ * O fundo também muda: #14100e é o preto da marca elevado com um viés quente.
+ * Sobre o #080808 puro, o pentagrama ficava em 1,1:1 de contraste — existia no
+ * HTML e não na tela. O #080808 continua sendo o preto do site e o que a
+ * vinheta usa para devolver escuridão às bordas.
  */
 html:has(.lt-page) {
   font-size: 100%;
+}
+
+/*
+ * Só o body pinta o fundo — nunca os dois juntos. Quando apenas o body tem
+ * background, o navegador o propaga para o canvas e trata o próprio body como
+ * transparente; é isso que deixa o Backdrop, que vive em z-index -10, ser
+ * visto. Pintando html e body, a propagação não acontece, o body pinta por
+ * cima e o fundo animado desaparece por inteiro, sem nenhum erro no console.
+ */
+html:has(.lt-page) body {
+  background-color: #14100e;
 }
 
 .lt-page {
@@ -211,10 +225,10 @@ html:has(.lt-page) {
 }
 
 /*
- * Entrada escalonada dos cards. O atraso vem da custom property --i definida
- * inline em cada item, o que dispensa JavaScript. A regra inteira vive dentro
- * do media query: quem pede movimento reduzido nunca recebe o opacity:0 inicial
- * e vê a página já montada.
+ * Entrada escalonada. O atraso vem da custom property --i definida inline em
+ * cada item, o que dispensa JavaScript. A regra inteira vive dentro do media
+ * query: quem pede movimento reduzido nunca recebe o opacity:0 inicial e vê a
+ * página já montada.
  */
 @keyframes lt-rise {
   from {
@@ -233,46 +247,117 @@ html:has(.lt-page) {
     animation: lt-rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     animation-delay: calc(var(--i, 0) * 70ms);
   }
+
+  /*
+   * Mesma entrada, disparada pela posição do item na tela em vez do relógio.
+   * Vale para o que nasce abaixo da dobra — cards e rodapé; o cabeçalho segue
+   * no .lt-rise, porque a cascata no carregamento dá o ritmo de abertura.
+   *
+   * O atalho `animation` é o plano B: onde view() não existe, roda pelo tempo
+   * e pelo índice. Onde existe, a timeline substitui o relógio.
+   */
+  .lt-rise-view {
+    opacity: 0;
+    animation: lt-rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: calc(var(--i, 0) * 70ms);
+  }
+
+  @supports (animation-timeline: view()) {
+    .lt-rise-view {
+      animation-timeline: view();
+      animation-range: entry 6% entry 64%;
+    }
+  }
 }
 
 /*
- * Pentagrama em parallax. O StaffParallax escreve --px e --py (ambas em -1..1)
- * conforme o ponteiro; cada camada multiplica esses valores por uma distância
- * diferente, e é essa diferença que cria a profundidade. O deslocamento fica só
- * na composição, sem recalcular layout.
+ * Pentagrama: três movimentos independentes, cada um na sua propriedade, para
+ * não disputarem a mesma e se anularem.
+ *
+ *   .lt-staff-far/mid/near  →  `translate`  : parallax de ponteiro
+ *   .lt-staff-run           →  `transform`  : a corrida presa à rolagem
+ *   o div interno           →  `transform`  : a centralização
  */
 .lt-staff-far,
 .lt-staff-mid,
 .lt-staff-near {
+  will-change: translate;
+}
+
+.lt-staff-run {
+  position: absolute;
+  inset: 0;
   will-change: transform;
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  /* 1. O ponteiro */
   .lt-staff-far {
-    transform: translate3d(calc(var(--px, 0) * 8px), calc(var(--py, 0) * 5px), 0);
+    translate: calc(var(--px, 0) * 8px) calc(var(--py, 0) * 5px);
   }
 
   .lt-staff-mid {
-    transform: translate3d(calc(var(--px, 0) * 19px), calc(var(--py, 0) * 11px), 0);
+    translate: calc(var(--px, 0) * 19px) calc(var(--py, 0) * 11px);
   }
 
   .lt-staff-near {
-    transform: translate3d(calc(var(--px, 0) * 34px), calc(var(--py, 0) * 20px), 0);
+    translate: calc(var(--px, 0) * 34px) calc(var(--py, 0) * 20px);
   }
 
-  /* Sem ponteiro fino (celular) não há gesto a seguir: as camadas derivam sozinhas */
-  .lt-staff[data-drift="on"] .lt-staff-far {
-    animation: lt-drift 53s ease-in-out infinite alternate;
+  /*
+   * 2. A rolagem. `scroll(root block)`, nunca `scroll(nearest)`: o Backdrop é
+   * overflow-hidden, e todo elemento com overflow não-visível já é um scroll
+   * container. O `nearest` se prenderia a ele, que nunca rola, e a animação
+   * congelaria em 0% — sem erro nenhum no console.
+   */
+  .lt-staff-far {
+    --run: 60px;
   }
 
-  .lt-staff[data-drift="on"] .lt-staff-mid {
-    animation: lt-drift 41s ease-in-out -14s infinite alternate;
-    --lt-drift-x: 16px;
+  .lt-staff-mid {
+    --run: 140px;
   }
 
-  .lt-staff[data-drift="on"] .lt-staff-near {
-    animation: lt-drift 34s ease-in-out -27s infinite alternate;
-    --lt-drift-x: 26px;
+  .lt-staff-near {
+    --run: 260px;
+  }
+
+  /*
+   * O @supports não é zelo excessivo: sem timeline de rolagem a duração
+   * inicial é 0s, e o `both` cravaria o quadro final de imediato — a pauta
+   * nasceria 260px deslocada.
+   */
+  @supports (animation-timeline: scroll()) {
+    .lt-staff-run {
+      animation: lt-staff-run linear both;
+      animation-timeline: scroll(root block);
+    }
+  }
+
+  /*
+   * 3. A deriva autônoma, agora só como plano B: onde não há timeline de
+   * rolagem e não há ponteiro fino, é ela que impede o fundo de ficar morto.
+   */
+  @supports not (animation-timeline: scroll()) {
+    .lt-staff[data-drift="on"] .lt-staff-far {
+      animation: lt-drift 53s ease-in-out infinite alternate;
+    }
+
+    .lt-staff[data-drift="on"] .lt-staff-mid {
+      animation: lt-drift 41s ease-in-out -14s infinite alternate;
+      --lt-drift-x: 16px;
+    }
+
+    .lt-staff[data-drift="on"] .lt-staff-near {
+      animation: lt-drift 34s ease-in-out -27s infinite alternate;
+      --lt-drift-x: 26px;
+    }
+  }
+}
+
+@keyframes lt-staff-run {
+  to {
+    transform: translate3d(calc(var(--run, 0px) * -1), 0, 0);
   }
 }
 
@@ -282,5 +367,64 @@ html:has(.lt-page) {
   }
   to {
     transform: translate3d(var(--lt-drift-x, 9px), 0, 0);
+  }
+}
+
+/*
+ * Chuva de notas.
+ *
+ * Três camadas de profundidade: --d (0..1) diz o quanto cada uma sobe ao longo
+ * da rolagem. O balanço lateral fica no `transform` do próprio glifo e a
+ * subida no `transform` da camada — elementos diferentes, sem disputa.
+ *
+ * A opacidade 0,42 é a mesma faixa em que o site roda seus glifos no floatUp
+ * (0,40): quem vem do Instagram para o link e do link para o site vê o mesmo
+ * motivo na jornada inteira.
+ */
+.lt-rain-depth {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+.lt-note {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  font-size: var(--sz);
+  line-height: 1;
+  color: var(--color-mara-orange);
+  opacity: 0.42;
+  user-select: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Mesma razão do .lt-staff-run: sem timeline, `both` com duração 0s cravaria
+     o quadro final e a chuva nasceria 320px acima de onde deveria. */
+  @supports (animation-timeline: scroll()) {
+    .lt-rain-depth {
+      animation: lt-note-rise linear both;
+      animation-timeline: scroll(root block);
+    }
+  }
+
+  .lt-note {
+    animation: lt-note-sway var(--sway, 9s) ease-in-out var(--delay, 0s)
+      infinite alternate;
+  }
+}
+
+@keyframes lt-note-rise {
+  to {
+    transform: translate3d(0, calc(var(--d, 0.5) * -320px), 0);
+  }
+}
+
+@keyframes lt-note-sway {
+  from {
+    transform: translateX(-9px) rotate(-7deg);
+  }
+  to {
+    transform: translateX(9px) rotate(7deg);
   }
 }

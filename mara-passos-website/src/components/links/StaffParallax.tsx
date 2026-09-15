@@ -11,8 +11,12 @@ import { useEffect, useRef } from "react";
  * React, então mover o mouse não dispara nenhum render — só a composição do
  * navegador, que roda fora da thread principal.
  *
- * Onde não há ponteiro fino (celular, que é a origem da maior parte do tráfego
- * de link na bio) as camadas ganham uma deriva autônoma lenta via animação CSS.
+ * Além do ponteiro, as três camadas correm para a esquerda conforme a página
+ * rola — distâncias em app/globals.css. É o movimento que vale no celular, de
+ * onde vem a maior parte do tráfego de link na bio: lá não há ponteiro para
+ * seguir, mas há o gesto de rolar. A deriva autônoma ficou como plano B, só
+ * para navegadores sem timeline de rolagem.
+ *
  * Sob prefers-reduced-motion nada se move.
  */
 export default function StaffParallax() {
@@ -64,7 +68,7 @@ export default function StaffParallax() {
 
   return (
     <div ref={ref} aria-hidden="true" className="lt-staff absolute inset-0">
-      <Staff className="lt-staff-far" top="11%" opacity={0.075} scale={0.82}>
+      <Staff className="lt-staff-far" top="11%" opacity={0.199} scale={0.82}>
         <TimeSignature x={200} />
         <Note x={300} line={3} />
         <Note x={352} line={2} flag />
@@ -76,7 +80,7 @@ export default function StaffParallax() {
         <Note x={1030} line={1} flag />
       </Staff>
 
-      <Staff className="lt-staff-mid" top="44%" opacity={0.095} scale={1}>
+      <Staff className="lt-staff-mid" top="44%" opacity={0.244} scale={1}>
         <Note x={175} line={2} flag />
         <Beam x={210} lines={[3, 4]} />
         <Flat x={380} line={2} />
@@ -89,7 +93,7 @@ export default function StaffParallax() {
         <Note x={1020} line={2} hollow />
       </Staff>
 
-      <Staff className="lt-staff-near" top="76%" opacity={0.11} scale={1.18}>
+      <Staff className="lt-staff-near" top="76%" opacity={0.284} scale={1.18}>
         <TimeSignature x={185} />
         <Note x={250} line={4} />
         <Beam x={350} lines={[3, 2]} />
@@ -125,33 +129,37 @@ function Staff({
   scale: number;
 }) {
   return (
-    // Wrapper externo: só o deslocamento de parallax, para não disputar a
-    // propriedade transform com o -translate-x-1/2 que centraliza a pauta.
+    // Três wrappers, três propriedades, para nenhum movimento pisar no outro:
+    // o externo leva o parallax de ponteiro em `translate`, o do meio leva a
+    // corrida da rolagem em `transform`, e o interno guarda o
+    // -translate-x-1/2 que centraliza a pauta.
     <div className={`absolute inset-0 ${className}`}>
-      <div
-        className="absolute left-1/2 w-[135%] max-w-none -translate-x-1/2"
-        style={{ top, opacity }}
-      >
-        <svg
-          viewBox="0 0 1200 190"
-          className="h-auto w-full text-mara-orange"
-          style={{ transform: `scale(${scale})` }}
-          fill="none"
+      <div className="lt-staff-run">
+        <div
+          className="absolute left-1/2 w-[135%] max-w-none -translate-x-1/2"
+          style={{ top, opacity }}
         >
-          {/* As cinco linhas da pauta */}
-          {[1, 2, 3, 4, 5].map((line) => (
-            <line
-              key={line}
-              x1="0"
-              x2="1200"
-              y1={yOf(line)}
-              y2={yOf(line)}
-              stroke="currentColor"
-              strokeWidth="1.5"
-            />
-          ))}
-          {children}
-        </svg>
+          <svg
+            viewBox="0 0 1200 190"
+            className="h-auto w-full text-mara-orange"
+            style={{ transform: `scale(${scale})` }}
+            fill="none"
+          >
+            {/* As cinco linhas da pauta */}
+            {[1, 2, 3, 4, 5].map((line) => (
+              <line
+                key={line}
+                x1="0"
+                x2="1200"
+                y1={yOf(line)}
+                y2={yOf(line)}
+                stroke="currentColor"
+                strokeWidth="1.5"
+              />
+            ))}
+            {children}
+          </svg>
+        </div>
       </div>
     </div>
   );

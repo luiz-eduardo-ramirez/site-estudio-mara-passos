@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { playfair } from "../../lib/fonts";
 import { LINKS } from "../../data/links";
 import Backdrop from "../../components/links/Backdrop";
@@ -23,6 +23,13 @@ export const metadata: Metadata = {
     description: DESCRIPTION,
   },
   twitter: { card: "summary_large_image" },
+};
+
+export const viewport: Viewport = {
+  // O piso do palco, não o preto da marca: é esta cor que encosta na barra do
+  // navegador no celular. Vale só nesta rota; o resto do site não tem viewport.
+  themeColor: "#14100e",
+  colorScheme: "dark",
 };
 
 // O cabeçalho consome os índices 0–4 na animação de entrada;
