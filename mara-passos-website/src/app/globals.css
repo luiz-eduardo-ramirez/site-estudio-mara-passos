@@ -177,3 +177,110 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* ==========================================================================
+   Página /links — o "link na bio"
+   Bloco isolado: todas as classes usam o prefixo lt- e nada aqui altera as
+   demais páginas do site.
+   ========================================================================== */
+
+/*
+ * O site roda com a raiz em 110% e o corpo em 1.125rem. A página /links foi
+ * calibrada com a raiz em 100% e seu container tem largura fixa em px — a 110%
+ * o texto cresceria dentro de uma caixa que não cresce junto. Estas duas regras
+ * devolvem a escala padrão enquanto a página estiver montada.
+ */
+html:has(.lt-page) {
+  font-size: 100%;
+}
+
+.lt-page {
+  font-size: 16px;
+}
+
+.lt-page ::selection {
+  background: var(--color-mara-orange);
+  color: #fff;
+}
+
+.lt-page :focus-visible {
+  outline: 2px solid var(--color-mara-orange);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/*
+ * Entrada escalonada dos cards. O atraso vem da custom property --i definida
+ * inline em cada item, o que dispensa JavaScript. A regra inteira vive dentro
+ * do media query: quem pede movimento reduzido nunca recebe o opacity:0 inicial
+ * e vê a página já montada.
+ */
+@keyframes lt-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .lt-rise {
+    opacity: 0;
+    animation: lt-rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: calc(var(--i, 0) * 70ms);
+  }
+}
+
+/*
+ * Pentagrama em parallax. O StaffParallax escreve --px e --py (ambas em -1..1)
+ * conforme o ponteiro; cada camada multiplica esses valores por uma distância
+ * diferente, e é essa diferença que cria a profundidade. O deslocamento fica só
+ * na composição, sem recalcular layout.
+ */
+.lt-staff-far,
+.lt-staff-mid,
+.lt-staff-near {
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .lt-staff-far {
+    transform: translate3d(calc(var(--px, 0) * 8px), calc(var(--py, 0) * 5px), 0);
+  }
+
+  .lt-staff-mid {
+    transform: translate3d(calc(var(--px, 0) * 19px), calc(var(--py, 0) * 11px), 0);
+  }
+
+  .lt-staff-near {
+    transform: translate3d(calc(var(--px, 0) * 34px), calc(var(--py, 0) * 20px), 0);
+  }
+
+  /* Sem ponteiro fino (celular) não há gesto a seguir: as camadas derivam sozinhas */
+  .lt-staff[data-drift="on"] .lt-staff-far {
+    animation: lt-drift 53s ease-in-out infinite alternate;
+  }
+
+  .lt-staff[data-drift="on"] .lt-staff-mid {
+    animation: lt-drift 41s ease-in-out -14s infinite alternate;
+    --lt-drift-x: 16px;
+  }
+
+  .lt-staff[data-drift="on"] .lt-staff-near {
+    animation: lt-drift 34s ease-in-out -27s infinite alternate;
+    --lt-drift-x: 26px;
+  }
+}
+
+@keyframes lt-drift {
+  from {
+    transform: translate3d(calc(var(--lt-drift-x, 9px) * -1), 0, 0);
+  }
+  to {
+    transform: translate3d(var(--lt-drift-x, 9px), 0, 0);
+  }
+}
