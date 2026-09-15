@@ -21,7 +21,7 @@ export const MAPS_URL =
 export type IconName = "instagram" | "facebook" | "map";
 
 export type LinkItem = {
-  /** Identificador usado na rota de redirecionamento /links/r/[slug]. */
+  /** Identificador do destino; vira o utm_campaign do link. */
   slug: string;
   title: string;
   /** Linha de apoio em caixa alta sob o título. */
@@ -31,9 +31,9 @@ export type LinkItem = {
   thumb?: string;
   icon?: IconName;
   /**
-   * Passa pela rota /links/r/[slug] para anexar UTM e permitir medir o clique.
-   * Só vale para destinos próprios: em redes sociais o link direto é mais
-   * confiável para abrir o aplicativo nativo no celular.
+   * Anexa UTM ao destino, para separar no analytics os cliques vindos do link
+   * na bio. Só vale para domínios próprios: em redes sociais e no Google Maps
+   * a URL limpa é mais confiável para abrir o aplicativo nativo no celular.
    */
   track: boolean;
 };
@@ -88,14 +88,23 @@ export const LINKS: LinkItem[] = [
   },
 ];
 
-/** Destinos que a rota /links/r/[slug] sabe resolver. */
-export const TRACKED: Record<string, string> = Object.fromEntries(
-  [...LINKS, PRIMARY_CTA]
-    .filter((item) => item.track)
-    .map((item) => [item.slug, item.href]),
-);
-
-/** Caminho que o card deve apontar: rota medida ou destino direto. */
+/**
+ * URL final do card, com UTM já embutido quando `track` é verdadeiro.
+ *
+ * Antes isto apontava para uma rota /links/r/[slug] que redirecionava anexando
+ * os parâmetros. Route Handlers, porém, são compilados como função Node, e o
+ * @cloudflare/next-on-pages — que constrói este site no Cloudflare Pages —
+ * recusa o build de qualquer rota que não rode no Edge Runtime. Como a função
+ * roda em tempo de build, o resultado para o visitante é o mesmo, sem custo de
+ * um salto extra e sem nenhuma rota dinâmica no projeto.
+ */
 export function hrefFor(item: { slug: string; href: string; track: boolean }) {
-  return item.track ? `/links/r/${item.slug}` : item.href;
+  if (!item.track) return item.href;
+
+  // O construtor preserva o fragmento (#agendamentos) e põe a query antes dele
+  const url = new URL(item.href);
+  url.searchParams.set("utm_source", "linktree");
+  url.searchParams.set("utm_medium", "bio");
+  url.searchParams.set("utm_campaign", item.slug);
+  return url.toString();
 }
