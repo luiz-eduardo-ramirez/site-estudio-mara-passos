@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { GoogleAnalytics } from '@next/third-parties/google'; 
 import CookieConsent from "../components/layout/CookieConsent";
-import MetaPixel from '../components/MetaPixel';
+import ConsentGate from "../components/layout/ConsentGate";
 // @ts-ignore: CSS imports may not have type declarations in this setup
 import "./globals.css";
 
@@ -60,13 +59,13 @@ export default function RootLayout({
         />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <MetaPixel /> 
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-[9999] focus:p-4 focus:bg-[#f26522] focus:text-white focus:top-0 focus:left-0 font-bold">
           Pular para o conteúdo principal
         </a>
         {children}
         <CookieConsent />
-        <GoogleAnalytics gaId="G-YTK6JLQJBG" />
+        {/* Analytics e Pixel entram só depois do aceite — ver ConsentGate */}
+        <ConsentGate />
       </body>
     </html>
   );
