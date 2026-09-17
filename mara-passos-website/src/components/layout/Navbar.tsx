@@ -14,6 +14,13 @@ export default function Navbar() {
       setIsScrolled(window.scrollY > 50);
     };
     window.addEventListener('scroll', handleScroll);
+
+    // Primeira leitura no ato: quem chega por uma âncora (#agendamentos vindo
+    // do link na bio) já nasce no meio da página, e nenhum evento de rolagem
+    // vai acontecer depois. Sem isto o cabeçalho fica preso no estado "topo"
+    // — alto e transparente — a 14.000px do topo, cobrindo o formulário.
+    handleScroll();
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 

@@ -2,6 +2,7 @@ import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import Hero from "../components/sections/Hero";
 import ScrollReveal from "../components/layout/ScrollReveal";
+import HashScroll from "../components/layout/HashScroll";
 import FloatingNotes from "./FloatingNotes";
 import SocialButtons from "../components/layout/SocialButtons";
 import dynamic from "next/dynamic";
@@ -52,6 +53,7 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
+      <HashScroll />
       <Navbar />
       <FloatingNotes />
 

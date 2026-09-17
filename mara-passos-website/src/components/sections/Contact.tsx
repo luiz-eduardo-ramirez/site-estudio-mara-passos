@@ -45,13 +45,31 @@ export default function Contact() {
   };
 
   return (
-    <section id="agendamentos" className="py-32 bg-mara-gray relative">
+    <section className="py-32 bg-mara-gray relative">
       {/* Divisor superior */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
       <div className="container mx-auto px-6 max-w-6xl flex flex-col lg:flex-row items-center gap-12">
 
-        {/* Formulário (Lado Esquerdo) */}
-        <div className="w-full lg:w-1/2 bg-[#0b0b0b] rounded-2xl p-8 md:p-12 shadow-2xl border border-white/5 relative">
+        {/*
+          Formulário (Lado Esquerdo) — e o destino de #agendamentos.
+
+          A âncora vive no card, e não no <section>: o topo da seção são os
+          8rem de py-32, então parar ali gastava a primeira tela com respiro e,
+          no celular, deixava o formulário fora de vista. O scroll-mt-24 devolve
+          a altura do cabeçalho fixo, que é position: fixed e não ocupa espaço
+          no fluxo — sem ele o navegador encosta o card na borda da tela e o
+          cabeçalho cobre o título. São dois valores porque o cabeçalho tem duas
+          alturas: 79px no celular e 114px a partir do md, medidos já no estado
+          compacto, que é o único em que se chega aqui. Os dois deixam a mesma
+          folga de ~27px entre o cabeçalho e o topo do card.
+
+          Todos os links para #agendamentos (topo, herói, rodapé, cursos, sobre
+          e o link na bio) passam a chegar aqui, sem precisarem mudar.
+        */}
+        <div
+          id="agendamentos"
+          className="scroll-mt-24 md:scroll-mt-32 w-full lg:w-1/2 bg-[#0b0b0b] rounded-2xl p-8 md:p-12 shadow-2xl border border-white/5 relative"
+        >
 
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-mara-orange mb-4">
