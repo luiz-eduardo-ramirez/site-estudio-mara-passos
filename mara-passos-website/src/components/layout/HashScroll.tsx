@@ -7,16 +7,10 @@ import { useEffect } from "react";
  * bio, do Instagram ou de uma aba antiga — e a segura lá enquanto o layout
  * assenta.
  *
- * O salto nativo do navegador não dá conta desta home, por dois motivos que se
- * somam:
- *
- * 1. `html { scroll-behavior: smooth }`, em globals.css, transforma o salto de
- *    carregamento numa animação. #agendamentos é a última seção: são ~14.000px
- *    no desktop e ~22.000px no celular, cerca de 1,5s de animação que qualquer
- *    toque do visitante ou mudança de layout cancela no meio do caminho.
- * 2. São onze seções com imagens, carrosséis e animações de entrada. A posição
- *    final da âncora só existe depois que tudo isso assenta — e o destino da
- *    animação é calculado antes, no início do carregamento.
+ * O salto nativo do navegador não dá conta desta home: são onze seções com
+ * imagens, carrosséis e animações de entrada, e o salto acontece bem antes de
+ * tudo isso assentar. A posição final da âncora só existe depois; o navegador
+ * mira na posição que ela tinha no início do carregamento.
  *
  * Medido em produção: o visitante parava no rodapé (desktop, cache frio) ou não
  * saía do topo (celular). Aqui o salto é imediato e se repete a cada quadro
@@ -24,8 +18,14 @@ import { useEffect } from "react";
  * encerra a correção: se ele decidiu ir para outro lugar, a página não o traz
  * de volta à força.
  *
+ * A correção é instantânea de propósito, e é por isso que ela usa scrollTo em
+ * vez da Lenis: não há nada para animar num destino que ainda está mudando de
+ * lugar. A Lenis não briga por isso — parada, ela apenas acompanha a posição
+ * real da página e assume de onde esta rotina parou.
+ *
  * Vale só para a âncora presente na URL ao montar. Cliques em links internos
- * seguem com a rolagem suave do CSS, que é curta e não sofre do problema.
+ * são tratados pelo SmoothScroll, que os rola com a mesma animação da roda do
+ * mouse.
  */
 
 /** Teto de segurança: passado isso a página é do visitante, esteja como estiver. */
@@ -40,20 +40,6 @@ export default function HashScroll() {
     if (!id) return;
 
     const raiz = document.documentElement;
-    const behaviorOriginal = raiz.style.scrollBehavior;
-
-    /*
-     * `scrollTo({ behavior: "auto" })` não serve: "auto" quer dizer "use o que
-     * o CSS mandar", e o CSS aqui manda `smooth`. Medido nesta página, um
-     * scrollTo de 8.000px com "auto" andava 53px antes do quadro seguinte.
-     *
-     * Desligar o smooth no style inline do <html> vence a folha de estilo, vale
-     * em qualquer navegador (ao contrário de `behavior: "instant"`, que é
-     * recente) e, de quebra, tira do caminho a própria animação nativa de
-     * fragmento, que é com quem estamos disputando. O valor é devolvido ao
-     * encerrar, para que os links internos continuem rolando suave.
-     */
-    raiz.style.scrollBehavior = "auto";
 
     let quadro = 0;
     let parada = 0;
@@ -63,7 +49,6 @@ export default function HashScroll() {
     const encerrar = () => {
       cancelAnimationFrame(quadro);
       clearTimeout(parada);
-      raiz.style.scrollBehavior = behaviorOriginal;
       window.removeEventListener("wheel", encerrar);
       window.removeEventListener("touchstart", encerrar);
       window.removeEventListener("keydown", encerrar);
@@ -77,9 +62,10 @@ export default function HashScroll() {
 
     /*
      * Teto por temporizador, e não pelo relógio dentro do rAF: em aba de segundo
-     * plano o requestAnimationFrame não roda, e sem isto o scroll-behavior: auto
-     * ficaria preso no <html> até a aba voltar — matando a rolagem suave dos
-     * links internos, sem nenhum erro no console.
+     * plano o requestAnimationFrame não roda, e o laço abaixo só termina sozinho
+     * quando o documento fica pronto. Um recurso que nunca carrega deixaria a
+     * correção armada indefinidamente, pronta para puxar a página de volta na
+     * hora em que a aba voltasse ao primeiro plano.
      */
     parada = window.setTimeout(encerrar, LIMITE_MS);
 

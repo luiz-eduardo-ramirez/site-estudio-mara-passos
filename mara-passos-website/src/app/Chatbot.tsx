@@ -111,10 +111,14 @@ export default function ChatbotLocal() {
     const [input, setInput] = useState("");
     const [isTyping, setIsTyping] = useState(false);
 
-    const messagesEndRef = useRef<HTMLDivElement>(null);
+    const messagesBoxRef = useRef<HTMLDivElement>(null);
 
+    // Rola a própria caixa, e não um marcador dentro dela com scrollIntoView:
+    // o scrollIntoView rola todos os ancestrais roláveis até a janela, e com a
+    // rolagem suave ativa isso arrastaria a página atrás do chat junto.
     useEffect(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        const caixa = messagesBoxRef.current;
+        caixa?.scrollTo({ top: caixa.scrollHeight, behavior: "smooth" });
     }, [messages, isTyping]);
 
     // Listener para abrir o chat a partir do SocialButtons
@@ -168,7 +172,10 @@ export default function ChatbotLocal() {
                         </div>
 
                         {/* Area de Mensagens */}
-                        <div className="h-80 p-4 overflow-y-auto bg-transparent flex flex-col gap-3">
+                        {/* data-lenis-prevent: sem ele a Lenis engoliria a roda
+                            do mouse sobre o chat e rolaria a página no lugar
+                            do histórico de mensagens. */}
+                        <div ref={messagesBoxRef} data-lenis-prevent className="h-80 p-4 overflow-y-auto bg-transparent flex flex-col gap-3">
                             {messages.map((msg, idx) => (
                                 <motion.div
                                     initial={{ opacity: 0, y: 10 }}
@@ -194,7 +201,6 @@ export default function ChatbotLocal() {
                                     <span className="animate-bounce delay-150">.</span>
                                 </motion.div>
                             )}
-                            <div ref={messagesEndRef} />
                         </div>
 
                         {/* Input Area */}

@@ -4,6 +4,7 @@ import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { CheckCircle, HelpCircle, Brain, Music, Sparkles, ChevronLeft, ChevronRight, CalendarDays, Smartphone, CreditCard, FileSignature, History } from "lucide-react";
 import { motion } from "framer-motion";
+import { useLenis } from "lenis/react";
 import Contact from "../../components/sections/Contact";
 import SocialButtons from "../../components/layout/SocialButtons";
 import Navbar from "../../components/layout/Navbar";
@@ -44,13 +45,18 @@ const LazyVideo = ({ src }: { src: string }) => {
 
 export default function AulasDePiano() {
     const carouselRef = useRef<HTMLDivElement>(null);
+    const lenis = useLenis();
 
+    // Os 80px são a altura do cabeçalho fixo. Quem anima é a Lenis, quando ela
+    // existe; sem ela — em prefers-reduced-motion — o salto é direto, que é o
+    // que essa preferência pede.
     const scrollToForm = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         const element = document.getElementById('agendamento');
         if (element) {
             const y = element.getBoundingClientRect().top + window.scrollY - 80;
-            window.scrollTo({ top: y, behavior: 'smooth' });
+            if (lenis) lenis.scrollTo(y, { duration: 1 });
+            else window.scrollTo({ top: y });
         }
     };
 

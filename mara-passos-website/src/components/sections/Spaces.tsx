@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useLenis } from "lenis/react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { X, ZoomIn } from "lucide-react";
@@ -17,6 +18,7 @@ import 'swiper/css/free-mode';
 export default function Spaces() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
+  const lenis = useLenis();
 
   useEffect(() => {
     setMounted(true);
@@ -28,17 +30,23 @@ export default function Spaces() {
         setSelectedImage(null);
       }
     };
+    // O overflow no body trava a rolagem nativa; o lenis.stop() trava a que a
+    // biblioteca faz por conta própria. Sem o segundo, a roda do mouse sobre a
+    // foto ampliada ficaria acumulada e saltaria toda junta ao fechar.
     if (selectedImage) {
       document.body.style.overflow = 'hidden';
+      lenis?.stop();
       window.addEventListener('keydown', handleEsc);
     } else {
       document.body.style.overflow = 'unset';
+      lenis?.start();
     }
     return () => { 
       document.body.style.overflow = 'unset';
+      lenis?.start();
       window.removeEventListener('keydown', handleEsc);
     };
-  }, [selectedImage]);
+  }, [selectedImage, lenis]);
 
   const spaces = [
     { name: "Estúdio Mara Passos", img: "/spaces/fachada.webp" },

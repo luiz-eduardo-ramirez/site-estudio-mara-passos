@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, Suspense } from 'react';
+import { useLenis } from 'lenis/react';
 import { createPortal } from 'react-dom';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link'; // Importação do Link adicionada
@@ -19,6 +20,7 @@ function InstrumentsContent() {
   const [mounted, setMounted] = useState(false);
   const [filtro, setFiltro] = useState("Todos");
   const [isExpanded, setIsExpanded] = useState(false);
+  const lenis = useLenis();
   
   const categorias = ["Todos", "Teclas", "Cordas", "Sopro", "Percussão", "Voz", "Prática em Grupo", "Teoria e Inicialização"];
 
@@ -33,17 +35,28 @@ function InstrumentsContent() {
         router.push('/#instrumentos', { scroll: false });
       }
     };
+    /*
+     * Com o modal aberto, travar a página exige os dois lados. O overflow no
+     * body impede a rolagem nativa; o lenis.stop() impede que a Lenis continue
+     * somando a roda do mouse num scrollTop que está travado — ela voltaria a
+     * aplicar tudo de uma vez ao fechar, atirando a página para longe.
+     * A coluna de texto do modal rola normalmente: ela é marcada com
+     * data-lenis-prevent, que a biblioteca respeita mesmo parada.
+     */
     if (isModalOpen) {
       document.body.style.overflow = 'hidden';
+      lenis?.stop();
       window.addEventListener('keydown', handleEsc);
     } else {
       document.body.style.overflow = 'unset';
+      lenis?.start();
     }
     return () => { 
       document.body.style.overflow = 'unset'; 
+      lenis?.start();
       window.removeEventListener('keydown', handleEsc);
     };
-  }, [isModalOpen, router]);
+  }, [isModalOpen, router, lenis]);
 
   // Escuta mudanças na URL para abrir o modal
   useEffect(() => {
@@ -218,7 +231,7 @@ function InstrumentsContent() {
                 </div>
 
                 {/* Coluna de Conteúdo */}
-                <div className="w-full md:w-1/2 p-8 md:p-16 flex flex-col overflow-y-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: '#333 transparent' }}>
+                <div data-lenis-prevent className="w-full md:w-1/2 p-8 md:p-16 flex flex-col overflow-y-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: '#333 transparent' }}>
                   <div className="w-14 h-14 bg-mara-orange/10 border border-mara-orange/20 text-mara-orange rounded-2xl flex items-center justify-center mb-8 shrink-0">
                     <selectedInst.icone size={32} />
                   </div>

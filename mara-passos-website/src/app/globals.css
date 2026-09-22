@@ -24,8 +24,14 @@
 }
 
 /* Estilos Base */
+/*
+ * Sem scroll-behavior: smooth. Quem anima a rolagem agora é a Lenis, e a
+ * animação nativa do CSS disputaria com ela o mesmo scrollTop — cada uma
+ * puxando a página para o seu destino no mesmo quadro. Os saltos que sobram
+ * para o navegador (voltar/avançar, âncora na URL de entrada) devem mesmo ser
+ * instantâneos.
+ */
 html {
-  scroll-behavior: smooth;
   font-size: 110%; /* Aumenta o tamanho de todos os elementos */
 }
 
@@ -165,10 +171,7 @@ body {
 }
 /* Respeita quem pediu menos movimento no sistema operacional */
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
+  /* A rolagem suave some junto: o SmoothScroll não cria a Lenis neste caso. */
   *,
   *::before,
   *::after {

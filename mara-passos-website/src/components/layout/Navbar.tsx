@@ -174,7 +174,10 @@ export default function Navbar() {
           xl:hidden
         `}>
           
-          <div className="flex-1 overflow-y-auto">
+          {/* data-lenis-prevent: com a Lenis ativa a roda do mouse é
+              interceptada na página inteira, e sem esta marca o menu não
+              rolaria quando a lista não coubesse na tela. */}
+          <div data-lenis-prevent className="flex-1 overflow-y-auto">
             {/* Seção 1: Navegação Principal */}
             <div className="mb-8">
               <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Navegação</h3>
