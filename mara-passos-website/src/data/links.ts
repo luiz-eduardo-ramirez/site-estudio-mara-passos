@@ -18,7 +18,15 @@ export const MAPS_URL =
   "https://www.google.com/maps/search/?api=1&query=" +
   encodeURIComponent("R. Cuevas, 206 - Lapa, São Paulo");
 
-export type IconName = "instagram" | "facebook" | "map";
+/**
+ * Abre a ficha do Google Maps direto pelo CID do local (em vez do place_id),
+ * porque o link curto "escreva uma avaliação" só existe no painel do Google
+ * Business Profile. Com o CID o visitante cai na ficha certa em um toque e o
+ * botão "Avaliar" fica logo ali — sem depender de acesso a esse painel.
+ */
+export const GOOGLE_REVIEW_URL = "https://www.google.com/maps?cid=13925181421603737467";
+
+export type IconName = "instagram" | "facebook" | "google" | "map";
 
 export type LinkItem = {
   /** Identificador do destino; vira o utm_campaign do link. */
@@ -76,6 +84,14 @@ export const LINKS: LinkItem[] = [
     subtitle: "/estudiomarapassos",
     href: "https://www.facebook.com/estudiomarapassos",
     icon: "facebook",
+    track: false,
+  },
+  {
+    slug: "avalie-no-google",
+    title: "Avalie no Google",
+    subtitle: "Deixe sua avaliação",
+    href: GOOGLE_REVIEW_URL,
+    icon: "google",
     track: false,
   },
   {

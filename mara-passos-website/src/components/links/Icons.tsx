@@ -27,6 +27,14 @@ export default function Icon({ name, className }: Props) {
     );
   }
 
+  if (name === "google") {
+    return (
+      <svg {...common} fill="currentColor">
+        <path d="M21.35 11.1H12.18v2.73h6.51c-.33 3.81-3.5 5.44-6.5 5.44C8.36 19.27 5 16.25 5 12c0-4.1 3.2-7.27 7.19-7.27 3.1 0 4.91 1.97 4.91 1.97L19 4.72S16.56 2 12.1 2C6.42 2 2.03 6.8 2.03 12c0 5.05 4.13 10 10.22 10 5.35 0 9.25-3.67 9.25-9.09 0-1.15-.15-1.81-.15-1.81Z" />
+      </svg>
+    );
+  }
+
   return (
     <svg {...common} fill="none" stroke="currentColor" strokeWidth={1.6}>
       <path
