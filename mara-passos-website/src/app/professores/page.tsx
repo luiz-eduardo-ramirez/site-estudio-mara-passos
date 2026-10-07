@@ -6,6 +6,7 @@ import Teachers from '../../components/sections/Teachers';
 export const metadata: Metadata = {
   title: 'Professores de Música em São Paulo | Estúdio Mara Passos',
   description: 'Conheça nossa equipe de professores de música altamente qualificados e experientes no Estúdio Mara Passos.',
+  alternates: { canonical: '/professores' },
 };
 
 export default function ProfessoresPage() {

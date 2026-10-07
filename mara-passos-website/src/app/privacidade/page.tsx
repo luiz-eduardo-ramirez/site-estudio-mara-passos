@@ -1,5 +1,11 @@
 import Navbar from "../../components/layout/Navbar";
 import Footer from "../../components/layout/Footer";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Política de Privacidade | Estúdio Mara Passos",
+  alternates: { canonical: "/privacidade" },
+};
 
 export default function Privacidade() {
   return (

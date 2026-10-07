@@ -7,6 +7,7 @@ import { instrumentsList } from '../../data/instrumentsList';
 export const metadata: Metadata = {
   title: 'Cursos de Música na Lapa | Estúdio Mara Passos',
   description: 'Conheça nossos cursos de piano, violão, canto, musicalização e muito mais no Estúdio Mara Passos em São Paulo.',
+  alternates: { canonical: '/cursos' },
 };
 export default function CursosPage() {
   return (

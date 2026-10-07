@@ -6,6 +6,7 @@ import AboutUs from '../../components/sections/AboutUs';
 export const metadata: Metadata = {
   title: 'Quem Somos | Estúdio Mara Passos - Escola de Música na Lapa, São Paulo',
   description: 'Descubra a história e a missão do Estúdio Mara Passos, uma escola de música com metodologia lúdica, curativa e acolhedora em São Paulo.',
+  alternates: { canonical: '/sobre-nos' },
 };
 
 export default function SobreNosPage() {

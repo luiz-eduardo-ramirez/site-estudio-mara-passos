@@ -15,7 +15,13 @@ const nextConfig: NextConfig = {
         destination: 'https://estudiomusicalmarapassos.com.br/:path*',
         permanent: true, 
       },
-      // 2. Nova regra: Redireciona a página morta para a Home e resolve o erro 5xx
+      // 2. /index.html respondia 200 como cópia da home
+      {
+        source: '/index.html',
+        destination: '/',
+        permanent: true,
+      },
+      // 3. Nova regra: Redireciona a página morta para a Home e resolve o erro 5xx
       {
         source: '/politica-de-privacidade',
         destination: '/',
