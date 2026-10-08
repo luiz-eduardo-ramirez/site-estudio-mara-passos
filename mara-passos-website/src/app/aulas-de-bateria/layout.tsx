@@ -1,9 +1,9 @@
 import { buildCourseMetadata } from "../../components/course/metadata";
-import { piano } from "./data";
+import { bateria } from "./data";
 
-export const metadata = buildCourseMetadata(piano);
+export const metadata = buildCourseMetadata(bateria);
 
-export default function PianoLayout({
+export default function BateriaLayout({
   children,
 }: {
   children: React.ReactNode;

@@ -126,12 +126,6 @@ function InstrumentsContent() {
               }}
               className="relative h-[400px] rounded-[2rem] overflow-hidden cursor-pointer group bg-[#151515] shadow-lg border border-white/5 hover:border-mara-orange/50 transition-colors duration-500"
             >
-              {inst.slug && (
-                <Link href={inst.slug} className="sr-only">
-                  Acessar página completa de {inst.nome}
-                </Link>
-              )}
-
               {/* Background Image */}
               <div className="absolute inset-0 w-full h-full">
                 <Image 
@@ -153,14 +147,28 @@ function InstrumentsContent() {
                     <inst.icone size={28} />
                   </div>
                   <h3 className="text-3xl font-bold text-white mb-2">{inst.nome}</h3>
-                  <div className="md:opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                  <div className="md:opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-500 delay-100">
                     <p className="text-gray-300 text-sm leading-relaxed mb-6 line-clamp-3">{inst.desc}</p>
-                    <span className="inline-flex items-center text-mara-orange text-sm font-semibold uppercase tracking-wider">
-                      Saber mais 
-                      <svg className="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                      </svg>
-                    </span>
+                    <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
+                      <span className="inline-flex items-center text-mara-orange text-sm font-semibold uppercase tracking-wider">
+                        Saber mais 
+                        <svg className="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                      </span>
+                      {inst.slug && (
+                        /* Link real (crawlável) para a página do curso. O stopPropagation
+                           impede que o clique também abra o modal do card. */
+                        <Link
+                          href={inst.slug}
+                          onClick={(e) => e.stopPropagation()}
+                          className="inline-flex min-h-10 items-center rounded-full border border-mara-orange/60 px-4 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-mara-orange focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                        >
+                          Ver metodologia
+                          <span className="sr-only"> de {inst.nome}</span>
+                        </Link>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -259,7 +267,7 @@ function InstrumentsContent() {
                         onClick={closeModal}
                         className="flex-1 bg-white/5 border border-white/10 text-white px-8 py-4 rounded-xl font-bold text-center hover:bg-white/10 transition-colors"
                       >
-                        Metodologia
+                        Ver metodologia
                       </Link>
                     )}
                   </div>

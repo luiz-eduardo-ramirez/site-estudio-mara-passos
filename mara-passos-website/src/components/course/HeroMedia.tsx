@@ -6,9 +6,9 @@ import Image from "next/image";
 /**
  * Fundo do herói: imagem primeiro, vídeo depois.
  *
- * O hero-bg.mp4 tem 16 MB. Antes ele era o próprio fundo, sem pôster, e entrava
+ * O hero-bg.mp4 (usado na página de piano) tem 16 MB. Antes ele era o próprio fundo, sem pôster, e entrava
  * para todo mundo — inclusive no 4G do celular e para quem pediu menos
- * movimento. Agora o fundo é o hero-bg.webp (93 KB), marcado como priority para
+ * movimento. Agora o fundo é a imagem (hero-bg.webp, 93 KB), marcada como priority para
  * ser o LCP, e o vídeo só entra por cima quando:
  *
  *   - a tela é de tablet para cima (no celular o ganho visual não paga os 16 MB);
@@ -18,7 +18,13 @@ import Image from "next/image";
  * Sem JS, ou em qualquer um desses casos, a imagem continua sendo o fundo — a
  * página nunca fica com um retângulo preto.
  */
-export default function HeroMedia() {
+export default function HeroMedia({
+  imagem,
+  video,
+}: {
+  imagem: string;
+  video?: string;
+}) {
   const [tocar, setTocar] = useState(false);
   const [pronto, setPronto] = useState(false);
 
@@ -29,7 +35,9 @@ export default function HeroMedia() {
       .connection;
 
     const avaliar = () =>
-      setTocar(!semMovimento.matches && telaGrande.matches && !conexao?.saveData);
+      setTocar(
+        Boolean(video) && !semMovimento.matches && telaGrande.matches && !conexao?.saveData,
+      );
 
     avaliar();
     semMovimento.addEventListener("change", avaliar);
@@ -38,22 +46,22 @@ export default function HeroMedia() {
       semMovimento.removeEventListener("change", avaliar);
       telaGrande.removeEventListener("change", avaliar);
     };
-  }, []);
+  }, [video]);
 
   return (
     <div className="absolute inset-0 -z-10" aria-hidden="true">
       <Image
-        src="/hero-bg.webp"
+        src={imagem}
         alt=""
         fill
         priority
         sizes="100vw"
         className="object-cover"
       />
-      {tocar && (
+      {tocar && video && (
         <video
-          src="/hero-bg.mp4"
-          poster="/hero-bg.webp"
+          src={video}
+          poster={imagem}
           autoPlay
           loop
           muted

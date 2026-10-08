@@ -17,7 +17,14 @@ type Video = { readonly src: string; readonly poster: string };
  *  - as setas desativam nas pontas, em vez de aceitar o clique e não fazer nada;
  *  - cada vídeo tem nome acessível.
  */
-export default function VideoCarousel({ videos }: { videos: readonly Video[] }) {
+export default function VideoCarousel({
+  videos,
+  rotulo,
+}: {
+  videos: readonly Video[];
+  /** Nome acessível do carrossel e base do nome de cada vídeo. */
+  rotulo: string;
+}) {
   const trilho = useRef<HTMLUListElement>(null);
   const players = useRef<(HTMLVideoElement | null)[]>([]);
   const [podeVoltar, setPodeVoltar] = useState(false);
@@ -56,7 +63,7 @@ export default function VideoCarousel({ videos }: { videos: readonly Video[] }) 
       className="relative mx-auto max-w-[1400px] px-6"
       role="region"
       aria-roledescription="carrossel"
-      aria-label="Vídeos de alunos tocando piano"
+      aria-label={rotulo}
     >
       <button
         type="button"
@@ -88,7 +95,7 @@ export default function VideoCarousel({ videos }: { videos: readonly Video[] }) 
               controls
               playsInline
               onPlay={() => pausarOutros(i)}
-              aria-label={`Aluno tocando piano no Estúdio Mara Passos, vídeo ${i + 1} de ${videos.length}`}
+              aria-label={`${rotulo}, vídeo ${i + 1} de ${videos.length}`}
               className="video-player absolute inset-0 h-full w-full object-cover"
             />
           </li>
