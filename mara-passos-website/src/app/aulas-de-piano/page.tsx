@@ -1,450 +1,614 @@
-"use client";
-
-import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
-import { CheckCircle, HelpCircle, Brain, Music, Sparkles, ChevronLeft, ChevronRight, CalendarDays, Smartphone, CreditCard, FileSignature, History } from "lucide-react";
-import { motion } from "framer-motion";
-import { useLenis } from "lenis/react";
+import Link from "next/link";
+import {
+  ArrowRight,
+  Brain,
+  CalendarDays,
+  ChevronDown,
+  CircleCheck,
+  Clock,
+  CreditCard,
+  FileSignature,
+  GraduationCap,
+  History,
+  MapPin,
+  MessageCircle,
+  Music,
+  Smartphone,
+  Sparkles,
+  UserRound,
+} from "lucide-react";
+import Navbar from "../../components/layout/Navbar";
+import Footer from "../../components/layout/Footer";
 import Contact from "../../components/sections/Contact";
 import SocialButtons from "../../components/layout/SocialButtons";
-import Navbar from "../../components/layout/Navbar";
+import HeroMedia from "./components/HeroMedia";
+import VideoCarousel from "./components/VideoCarousel";
+import YouTubeFacade from "./components/YouTubeFacade";
+import {
+  ENDERECO,
+  LINK_MAPA,
+  LINK_WHATSAPP,
+  PAGE_URL,
+  SITE_URL,
+  TELEFONE_EXIBIDO,
+  YOUTUBE_ID,
+  diferenciais,
+  galeria,
+  passos,
+  perguntas,
+  portalRecursos,
+  professores,
+  videosAlunos,
+} from "./data";
 
-const LazyVideo = ({ src }: { src: string }) => {
-    const videoRef = useRef<HTMLVideoElement>(null);
-    const [shouldLoad, setShouldLoad] = useState(false);
+/* ---------- Dados estruturados ---------- */
 
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setShouldLoad(true);
-                    observer.disconnect();
-                }
-            },
-            { rootMargin: '200px' }
-        );
-
-        if (videoRef.current) {
-            observer.observe(videoRef.current);
-        }
-
-        return () => observer.disconnect();
-    }, []);
-
-    return (
-        <video 
-            ref={videoRef}
-            src={shouldLoad ? src : undefined}
-            className="video-player absolute inset-0 w-full h-full object-cover"
-            controls
-            preload="metadata"
-            playsInline
-        />
-    );
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Course",
+      "@id": `${PAGE_URL}#curso`,
+      name: "Aulas de Piano",
+      description:
+        "Aulas individuais de piano, do erudito ao popular, para iniciantes e alunos avançados, de crianças a adultos, no Estúdio Musical Mara Passos, na Lapa, em São Paulo.",
+      url: PAGE_URL,
+      inLanguage: "pt-BR",
+      educationalLevel: "Iniciante ao avançado",
+      coursePrerequisites: "Nenhum. Não é preciso ter tocado antes.",
+      provider: {
+        "@type": "MusicSchool",
+        "@id": SITE_URL,
+        name: "Estúdio Musical Mara Passos",
+        url: SITE_URL,
+      },
+      hasCourseInstance: {
+        "@type": "CourseInstance",
+        courseMode: "Onsite",
+        instructor: professores.map((p) => ({ "@type": "Person", name: p.nome })),
+        location: {
+          "@type": "Place",
+          name: "Estúdio Musical Mara Passos",
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: "Rua Cuevas, 206",
+            addressLocality: "São Paulo",
+            addressRegion: "SP",
+            postalCode: "05076-050",
+            addressCountry: "BR",
+          },
+        },
+      },
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${PAGE_URL}#faq`,
+      mainEntity: perguntas.map((p) => ({
+        "@type": "Question",
+        name: p.pergunta,
+        acceptedAnswer: { "@type": "Answer", text: p.resposta },
+      })),
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${PAGE_URL}#breadcrumb`,
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Início", item: SITE_URL },
+        { "@type": "ListItem", position: 2, name: "Cursos", item: `${SITE_URL}/cursos` },
+        { "@type": "ListItem", position: 3, name: "Aulas de Piano", item: PAGE_URL },
+      ],
+    },
+  ],
 };
 
+/* ---------- Peças de layout ---------- */
+
+const cartao =
+  "rounded-2xl border border-white/10 bg-white/5 transition-colors hover:border-white/20";
+
+function Secao({
+  id,
+  rotulo,
+  titulo,
+  intro,
+  children,
+}: {
+  id: string;
+  rotulo?: string;
+  titulo: React.ReactNode;
+  intro?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section
+      id={id}
+      aria-labelledby={`${id}-titulo`}
+      className="mb-28 w-full scroll-mt-28 px-4 md:mb-36"
+    >
+      <div className="reveal mx-auto mb-12 max-w-3xl text-center">
+        {rotulo && (
+          <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-mara-orange">
+            {rotulo}
+          </p>
+        )}
+        <h2
+          id={`${id}-titulo`}
+          className="text-balance text-3xl font-bold leading-tight md:text-5xl"
+        >
+          {titulo}
+        </h2>
+        {intro && (
+          <p className="mt-5 text-lg leading-relaxed text-gray-300">{intro}</p>
+        )}
+      </div>
+      {children}
+    </section>
+  );
+}
+
+const fatos = [
+  { icone: MapPin, texto: "Presencial na Lapa" },
+  { icone: UserRound, texto: "Aulas individuais" },
+  { icone: Music, texto: "Do erudito ao popular" },
+  { icone: GraduationCap, texto: "Do iniciante ao avançado" },
+] as const;
+
+const beneficios = [
+  { icone: Brain, texto: "Estimula o foco" },
+  { icone: Music, texto: "Para todas as idades" },
+  { icone: CircleCheck, texto: "Bem-estar mental" },
+] as const;
+
+const iconesPortal = [CalendarDays, History, CreditCard, FileSignature] as const;
+
 export default function AulasDePiano() {
-    const carouselRef = useRef<HTMLDivElement>(null);
-    const lenis = useLenis();
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        // "<" escapado para que nenhum texto dos dados consiga fechar a tag.
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
 
-    // Os 80px são a altura do cabeçalho fixo. Quem anima é a Lenis, quando ela
-    // existe; sem ela — em prefers-reduced-motion — o salto é direto, que é o
-    // que essa preferência pede.
-    const scrollToForm = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        const element = document.getElementById('agendamento');
-        if (element) {
-            const y = element.getBoundingClientRect().top + window.scrollY - 80;
-            if (lenis) lenis.scrollTo(y, { duration: 1 });
-            else window.scrollTo({ top: y });
-        }
-    };
+      <Navbar />
 
-    const scrollCarousel = (direction: 'left' | 'right') => {
-        if (carouselRef.current) {
-            const scrollAmount = window.innerWidth > 768 ? 320 : 280;
-            carouselRef.current.scrollBy({ 
-                left: direction === 'left' ? -scrollAmount : scrollAmount, 
-                behavior: 'smooth' 
-            });
-        }
-    };
+      <main
+        id="main-content"
+        tabIndex={-1}
+        className="relative min-h-screen overflow-x-clip bg-[#0a0a0a] text-white outline-none"
+      >
+        {/* ---------- HERÓI ---------- */}
+        <section
+          aria-labelledby="hero-titulo"
+          className="relative isolate mb-16 flex min-h-[85svh] flex-col items-center justify-center overflow-hidden pb-20 pt-36 md:mb-24"
+        >
+          <HeroMedia />
 
-    return (
-        <main className="bg-[#0a0a0a] min-h-screen text-white pb-24 relative overflow-x-hidden">
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify({
-                    "@context": "https://schema.org",
-                    "@type": "Course",
-                    "name": "Aulas de Piano",
-                    "description": "Aprenda piano com uma metodologia que respeita seu tempo. Do iniciante ao avançado, no Estúdio Mara Passos você encontra o ambiente ideal para evoluir.",
-                    "provider": {
-                        "@type": "MusicSchool",
-                        "name": "Estúdio Musical Mara Passos",
-                        "sameAs": "https://estudiomusicalmarapassos.com.br"
-                    },
-                    "courseCode": "CURSO-PIANO",
-                    "hasCourseInstance": {
-                        "@type": "CourseInstance",
-                        "courseMode": "Onsite",
-                        "location": {
-                            "@type": "Place",
-                            "name": "Estúdio Musical Mara Passos",
-                            "address": "Rua Cuevas 206, Lapa, SP"
-                        }
-                    }
-                })}}
-            />
+          <div className="relative w-full px-4 text-center">
+            <nav aria-label="Você está em" className="mb-8 text-sm text-gray-300">
+              <ol className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
+                <li>
+                  <Link href="/" className="rounded px-1 py-1 hover:text-mara-orange focus-visible:outline focus-visible:outline-2 focus-visible:outline-mara-orange">
+                    Início
+                  </Link>
+                </li>
+                <li aria-hidden="true" className="text-gray-500">/</li>
+                <li>
+                  <Link href="/cursos" className="rounded px-1 py-1 hover:text-mara-orange focus-visible:outline focus-visible:outline-2 focus-visible:outline-mara-orange">
+                    Cursos
+                  </Link>
+                </li>
+                <li aria-hidden="true" className="text-gray-500">/</li>
+                <li aria-current="page" className="px-1 py-1 font-semibold text-white">
+                  Aulas de piano
+                </li>
+              </ol>
+            </nav>
 
-            {/* NAVEGAÇÃO SUPERIOR */}
-            <Navbar />
-
-            {/* HERO SECTION */}
-            <section className="relative w-full pt-40 pb-32 mb-24 flex flex-col items-center justify-center min-h-[85vh] overflow-hidden">
-                <video 
-                    src="/hero-bg.mp4" 
-                    autoPlay 
-                    loop 
-                    muted 
-                    playsInline 
-                    className="absolute inset-0 w-full h-full object-cover z-0"
-                />
-                <div className="absolute inset-0 bg-black/60 z-10"></div>
-                
-                <motion.header 
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.6 }}
-                    className="container mx-auto px-6 max-w-5xl text-center relative z-20"
-                >
-                    <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-mara-orange/10 text-mara-orange rounded-full text-sm font-semibold mb-6 border border-mara-orange/20">
-                        <span className="uppercase tracking-wider text-xs font-bold">Vagas Limitadas</span>
-                    </div>
-
-                    <h1 className="text-4xl md:text-7xl font-bold mb-6 leading-tight tracking-tight drop-shadow-lg">
-                        Aulas de Piano na <br />
-                        <span className="text-mara-orange">Lapa</span>
-                    </h1>
-
-                    <p className="text-lg md:text-xl text-gray-200 mb-10 max-w-2xl mx-auto leading-relaxed drop-shadow-md">
-                        Aprenda piano com uma metodologia que respeita seu tempo. Do iniciante ao avançado, no Estúdio Mara Passos você encontra o ambiente ideal para evoluir.
-                    </p>
-
-                    {/* BOTÃO REFATORADO AQUI */}
-                    <button
-                        onClick={scrollToForm}
-                        className="inline-block bg-mara-orange text-white px-10 py-5 rounded-full font-bold text-lg shadow-[0_0_30px_rgba(242,101,34,0.3)] hover:bg-orange-600 hover:-translate-y-1 transition-all duration-300"
-                    >
-                        Agendar Minha Aula Experimental
-                    </button>
-                </motion.header>
-            </section>
-
-            {/* CONTEÚDO TÉCNICO */}
-            <motion.section 
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.6 }}
-                className="container mx-auto px-6 max-w-6xl mb-32"
+            <h1
+              id="hero-titulo"
+              className="mb-6 text-balance text-4xl font-bold leading-tight tracking-tight drop-shadow-lg md:text-7xl"
             >
-                <div className="flex flex-col lg:flex-row gap-16 items-center">
-                    <div className="w-full lg:w-1/2 relative group">
-                        <div className="w-full aspect-video rounded-3xl overflow-hidden shadow-2xl relative bg-neutral-900 ring-1 ring-white/10">
-                            <iframe
-                                className="w-full h-full"
-                                src="https://www.youtube.com/embed/pv1RpR_RdbI"
-                                title="Aulas de Piano - Estúdio Mara Passos"
-                                allowFullScreen
-                            ></iframe>
-                        </div>
-                        <div className="absolute -inset-4 bg-mara-orange/10 blur-[60px] -z-10 opacity-50 transition-opacity duration-500 group-hover:opacity-70"></div>
-                    </div>
+              Aulas de Piano na <span className="text-mara-orange">Lapa</span>
+            </h1>
 
-                    <div className="w-full lg:w-1/2 space-y-8">
-                        <h2 className="text-3xl md:text-4xl font-bold">Diferenciais do nosso curso</h2>
+            <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-gray-200 drop-shadow-md md:text-xl">
+              Aprenda piano com uma metodologia que respeita seu tempo. Do iniciante ao avançado,
+              no Estúdio Mara Passos você encontra o ambiente ideal para evoluir.
+            </p>
 
-                        <div className="grid gap-6">
-                            {[
-                                { title: "Instrutores Qualificados", text: "Professores graduados e com vasta experiência no ensino de piano popular e erudito." },
-                                { title: "Currículo Estruturado", text: "Organização clara para você perceber sua evolução a cada aula, sem pular etapas essenciais." },
-                                { title: "Aulas Individuais", text: "Foco total na sua técnica, postura e repertório preferido. O professor adapta-se ao seu ritmo." }
-                            ].map((item, i) => (
-                                <div key={i} className="flex gap-4 p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-white/20 transition-all hover:-translate-y-1">
-                                    <CheckCircle className="text-mara-orange shrink-0 mt-1" size={24} />
-                                    <div>
-                                        <h3 className="text-lg font-bold mb-2 text-gray-100">{item.title}</h3>
-                                        <p className="text-gray-300 text-sm leading-relaxed">{item.text}</p>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </motion.section>
-
-            {/* SEÇÃO PORTAL DO ALUNO (TECNOLOGIA) */}
-            <motion.section 
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.6 }}
-                className="container mx-auto px-6 max-w-6xl mb-32"
-            >
-                <div className="bg-gradient-to-br from-neutral-900 to-[#140d0a] rounded-[2.5rem] p-8 md:p-14 border border-mara-orange/20 shadow-2xl overflow-hidden relative">
-                    
-                    {/* Elemento de background decorativo */}
-                    <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-mara-orange/10 blur-[100px] rounded-full pointer-events-none"></div>
-
-                    <div className="flex flex-col lg:flex-row gap-12 items-center relative z-10">
-                        
-                        {/* Texto e Benefícios */}
-                        <div className="w-full lg:w-1/2 space-y-8">
-                            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 text-gray-200 rounded-full text-sm font-semibold border border-white/10">
-                                <Smartphone size={16} className="text-mara-orange" />
-                                <span className="uppercase tracking-wider text-xs font-bold">Tecnologia Exclusiva</span>
-                            </div>
-
-                            <h2 className="text-3xl md:text-4xl font-bold leading-tight">
-                                Seu aprendizado na <span className="text-mara-orange">palma da mão</span>
-                            </h2>
-
-                            <p className="text-gray-300 text-lg leading-relaxed">
-                                Diga adeus às confusões de agenda pelo WhatsApp. Nossos alunos têm acesso a um <strong>Portal Exclusivo</strong> para gerenciar 100% da sua jornada musical com total autonomia e transparência.
-                            </p>
-
-                            <div className="grid sm:grid-cols-2 gap-5 pt-4">
-                                {[
-                                    { icon: CalendarDays, title: "Agenda Inteligente", desc: "Visualize suas aulas em lista ou calendário." },
-                                    { icon: History, title: "Reagendamentos", desc: "Cancele ou remarque com 24h de antecedência." },
-                                    { icon: CreditCard, title: "Pagamento Facilitado", desc: "Pague via Pix e consulte seu histórico na hora." },
-                                    { icon: FileSignature, title: "Contratos Digitais", desc: "Segurança jurídica gerada pelo próprio sistema." }
-                                ].map((feature, i) => (
-                                    <div key={i} className="flex gap-4 items-start">
-                                        <div className="bg-mara-orange/20 p-2 rounded-lg shrink-0">
-                                            <feature.icon className="text-mara-orange" size={20} />
-                                        </div>
-                                        <div>
-                                            <h4 className="font-bold text-gray-100 text-sm mb-1">{feature.title}</h4>
-                                            <p className="text-xs text-gray-400 leading-relaxed">{feature.desc}</p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Mockup do Sistema */}
-                        <div className="w-full lg:w-1/2 relative group">
-                            <div className="w-full rounded-2xl overflow-hidden shadow-2xl relative bg-neutral-950 ring-1 ring-white/10 transform transition-transform duration-700 group-hover:-translate-y-2 group-hover:shadow-[0_20px_40px_rgba(242,101,34,0.15)]">
-                                <div className="h-8 bg-neutral-900 border-b border-white/5 flex items-center px-4 gap-2">
-                                    <div className="w-2.5 h-2.5 rounded-full bg-red-500/80"></div>
-                                    <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></div>
-                                    <div className="w-2.5 h-2.5 rounded-full bg-green-500/80"></div>
-                                </div>
-                                <div className="relative w-full bg-[#0d0a09] flex justify-center items-center">
-                                <Image 
-                                    src="/images/portal.webp"
-                                    alt="Dashboard do Portal do Aluno Estúdio Mara Passos" 
-                                    width={1200}
-                                    height={800}
-                                    className="w-full h-auto object-contain"
-                                    priority
-                                />
-                            </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </motion.section>
-
-            {/* SEÇÃO SLOGAN & FILOSOFIA */}
-            <motion.section 
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.6 }}
-                className="bg-gradient-to-b from-transparent via-mara-orange/5 to-transparent py-24 mb-32"
-            >
-                <div className="container mx-auto px-6 max-w-4xl text-center">
-                    <Sparkles className="text-mara-orange mx-auto mb-6" size={36} />
-                    <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-8">
-                        "Descubra o Poder da Música"
-                    </h2>
-                    <p className="text-xl text-gray-200 max-w-3xl mx-auto leading-relaxed mb-10">
-                        A alma do Estúdio Mara Passos consiste em provar que <span className="text-mara-orange font-semibold">a música é para todas as idades</span>. Mais do que tocar um instrumento, aprender piano estimula conexões neurais profundas, melhora a concentração e contribui ativamente para o desenvolvimento cerebral.
-                    </p>
-                    <div className="flex flex-wrap justify-center gap-8 text-gray-300 text-base font-medium">
-                        <div className="flex items-center gap-2"><Brain className="text-mara-orange" size={22} /> Estimula o Foco</div>
-                        <div className="flex items-center gap-2"><Music className="text-mara-orange" size={22} /> Para Todas as Idades</div>
-                        <div className="flex items-center gap-2"><CheckCircle className="text-mara-orange" size={22} /> Bem-estar Mental</div>
-                    </div>
-                </div>
-            </motion.section>
-
-            {/* SEÇÃO DE PROVA SOCIAL - CARROSSEL ELEGANTE */}
-            <motion.section 
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.6 }}
-                className="w-full mb-32 relative"
-            >
-                <div className="container mx-auto px-6 text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4">A Evolução dos Nossos Alunos</h2>
-                    <p className="text-gray-300 max-w-2xl mx-auto text-lg">Veja na prática os resultados da nossa metodologia com alunos reais.</p>
-                </div>
-
-                <div className="relative max-w-[1400px] mx-auto px-6">
-                    {/* Botão Anterior */}
-                    <button 
-                        onClick={() => scrollCarousel('left')}
-                        className="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-mara-orange text-white w-12 h-12 rounded-full items-center justify-center backdrop-blur-md border border-white/10 transition-all"
-                        aria-label="Ver vídeo anterior"
-                    >
-                        <ChevronLeft size={24} />
-                    </button>
-
-                    {/* Container do Carrossel */}
-                    <div 
-                        ref={carouselRef}
-                        className="flex overflow-x-auto gap-4 md:gap-6 pb-8 pt-4 snap-x snap-mandatory scrollbar-hide items-center"
-                        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-                    >
-                        {[
-                            { src: "/piano-1.mp4#t=0.1" },
-                            { src: "/piano-2.mp4#t=0.1" },
-                            { src: "/piano-3.mp4#t=0.1" },
-                            { src: "/piano-4.mp4#t=0.1" },
-                            { src: "/piano-5.mp4#t=0.1" }
-                        ].map((video, i) => (
-                            <div 
-                                key={i} 
-                                className="relative w-[260px] sm:w-[280px] md:w-[320px] shrink-0 snap-center bg-neutral-900 rounded-3xl overflow-hidden border border-white/10 hover:border-mara-orange/50 transition-all group aspect-[9/16] shadow-xl"
-                            >
-                                <LazyVideo src={video.src} />
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Botão Seguinte */}
-                    <button 
-                        onClick={() => scrollCarousel('right')}
-                        className="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-black/50 hover:bg-mara-orange text-white w-12 h-12 rounded-full items-center justify-center backdrop-blur-md border border-white/10 transition-all"
-                        aria-label="Ver próximo vídeo"
-                    >
-                        <ChevronRight size={24} />
-                    </button>
-                </div>
-            </motion.section>
-
-            {/* IMAGENS DO ESTÚDIO */}
-            <motion.section 
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.6 }}
-                className="container mx-auto px-6 max-w-6xl mb-32"
-            >
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4">Conheça o Nosso Espaço na Lapa</h2>
-                    <p className="text-gray-300 max-w-2xl mx-auto text-lg">Um ambiente totalmente climatizado, acústico e equipado com os melhores instrumentos para o seu aprendizado.</p>
-                </div>
-
-                <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
-                    {[
-                        { name: "Estúdio Mara Passos", img: "/spaces/fachada.webp" },
-                        { name: "Recepção", img: "/spaces/entrada.webp" },
-                        { name: "Recepção (Detalhe 1)", img: "/spaces/entrada-1.webp" },
-                        { name: "Recepção (Detalhe 2)", img: "/spaces/entrada-2.webp" },
-                        { name: "Área Interna", img: "/spaces/interna.webp" },
-                        { name: "Área Interna (Detalhe)", img: "/spaces/interna-1.webp" },
-                        { name: "Sala de Piano (1)", img: "/spaces/piano.webp" },
-                        { name: "Sala de Piano (2)", img: "/spaces/piano-1.webp" },
-                        { name: "Sala de Piano (3)", img: "/spaces/piano-2.webp" },
-                        { name: "Sala de Musicalização", img: "/spaces/musicalizacao-1.webp" },
-                        { name: "Sala de Instrumentos", img: "/spaces/instrumentos.webp" },
-                        { name: "Sala de Jogos", img: "/spaces/sala-jogos.webp" },
-                        { name: "Escada", img: "/spaces/escada.webp" },
-                        { name: "Certificados", img: "/spaces/certificados.webp" },
-                        { name: "Relaxamento", img: "/spaces/relaxamento.webp" },
-                        { name: "PC", img: "/spaces/pc.webp" },
-                        { name: "Espaço Extra (1)", img: "/spaces/IMG_4326.webp" },
-                        { name: "Espaço Extra (2)", img: "/spaces/IMG_4337.webp" },
-                    ].map((space, i) => (
-                        <div key={i} className="relative w-full rounded-3xl overflow-hidden group shadow-lg break-inside-avoid">
-                            <Image 
-                                src={space.img}
-                                alt={space.name}
-                                width={0}
-                                height={0}
-                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                style={{ width: '100%', height: 'auto' }}
-                                className="group-hover:scale-105 transition-transform duration-700"
-                            />
-                        </div>
-                    ))}
-                </div>
-            </motion.section>
-
-            {/* SEÇÃO DE QUEBRA DE OBJEÇÕES (FAQ) */}
-            <motion.section 
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.6 }}
-                className="container mx-auto px-6 max-w-4xl mb-32"
-            >
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4">Dúvidas Frequentes</h2>
-                    <p className="text-gray-300 text-lg">Tudo o que precisa de saber para dar o primeiro passo sem receios.</p>
-                </div>
-
-                <div className="grid gap-6">
-                    {[
-                        { q: "Preciso ter um piano em casa para começar?", a: "Não! Nas primeiras fases do curso, pode praticar utilizando a infraestrutura do nosso estúdio ou até começar com um teclado eletrónico simples em casa. Nós damos-lhe todo o suporte e orientação para quando decidir adquirir o seu." },
-                        { q: "Sou adulto e nunca toquei. Ainda vou a tempo de aprender?", a: "Absolutamente. A maior parte dos nossos alunos começou do zero na idade adulta. A nossa metodologia é focada na prática e respeita o ritmo biológico de cada pessoa, provando que a música não tem idade." },
-                        { q: "Como funciona a aula experimental gratuita?", a: "É um encontro presencial de 30 a 45 minutos onde conhece o professor, visita as salas, faz o seu primeiro contacto prático com o piano e avaliamos os seus objetivos musicais. É 100% sem compromisso!" },
-                        { q: "As aulas são em grupo ou individuais?", a: "As nossas aulas são estritamente individuais. Dessa forma, o professor consegue focar-se a 100% na sua postura, técnica e no repertório musical que mais gosta (seja clássico ou popular)." }
-                    ].map((item, i) => (
-                        <div key={i} className="p-8 rounded-2xl bg-white/5 border border-white/10 flex gap-5 items-start hover:bg-white/10 transition-colors">
-                            <HelpCircle className="text-mara-orange shrink-0 mt-1" size={26} />
-                            <div>
-                                <h3 className="text-xl font-bold mb-3 text-white">{item.q}</h3>
-                                <p className="text-gray-300 text-base leading-relaxed">{item.a}</p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </motion.section>
-
-            {/* SEÇÃO DO FORMULÁRIO */}
-            <div id="agendamento" className="scroll-mt-32">
-                <Contact />
+            <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <a
+                href="#agendamentos"
+                className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-mara-orange px-9 py-4 text-lg font-bold text-white shadow-[0_0_30px_rgba(242,101,34,0.3)] transition-all duration-300 hover:bg-orange-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white motion-safe:hover:-translate-y-1"
+              >
+                Agendar aula experimental
+                <ArrowRight size={20} aria-hidden="true" />
+              </a>
+              <a
+                href="#espaco"
+                className="inline-flex min-h-14 items-center justify-center rounded-full border border-white/25 px-8 py-4 text-base font-semibold text-white transition-colors hover:border-mara-orange hover:text-mara-orange focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+              >
+                Conhecer o estúdio
+              </a>
             </div>
 
-            <SocialButtons />
+            <ul className="mx-auto mt-14 grid max-w-5xl grid-cols-2 gap-3 md:grid-cols-4">
+              {fatos.map(({ icone: Icone, texto }) => (
+                <li
+                  key={texto}
+                  className="flex flex-col items-center gap-2 rounded-2xl border border-white/10 bg-black/40 px-3 py-4 text-sm font-medium text-gray-100 backdrop-blur-sm"
+                >
+                  <Icone className="text-mara-orange" size={22} aria-hidden="true" />
+                  {texto}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
 
-            {/* Estilos Globais Extra */}
-            <style jsx global>{`
-                /* Esconder a barra de rolagem no carrossel e manter funcional */
-                .scrollbar-hide::-webkit-scrollbar {
-                    display: none;
-                }
-                
-                /* Forçar o comportamento cover no modo ecrã inteiro (Fullscreen API) */
-                .video-player:fullscreen {
-                    object-fit: cover !important;
-                    aspect-ratio: 9/16 !important;
-                }
-                
-                .video-player:-webkit-full-screen {
-                    object-fit: cover !important;
-                    aspect-ratio: 9/16 !important;
-                }
-            `}</style>
-        </main>
-    );
+        {/* ---------- DIFERENCIAIS ---------- */}
+        <Secao
+          id="diferenciais"
+          rotulo="Nosso curso"
+          titulo="Por que aprender piano no Estúdio Mara Passos"
+        >
+          <div className="reveal grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+            <div className="group relative">
+              <div className="relative aspect-video w-full overflow-hidden rounded-3xl bg-neutral-900 shadow-2xl ring-1 ring-white/10">
+                <YouTubeFacade
+                  id={YOUTUBE_ID}
+                  titulo="Aulas de piano no Estúdio Mara Passos"
+                />
+              </div>
+              <div
+                aria-hidden="true"
+                className="absolute -inset-4 -z-10 bg-mara-orange/10 opacity-50 blur-[60px] transition-opacity duration-500 group-hover:opacity-70"
+              />
+            </div>
+
+            <ul className="grid gap-5">
+              {diferenciais.map((item) => (
+                <li key={item.titulo} className={`flex gap-4 p-6 ${cartao}`}>
+                  <CircleCheck
+                    className="mt-1 shrink-0 text-mara-orange"
+                    size={24}
+                    aria-hidden="true"
+                  />
+                  <div>
+                    <h3 className="mb-2 text-lg font-bold text-gray-100">{item.titulo}</h3>
+                    <p className="text-base leading-relaxed text-gray-300">{item.texto}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Secao>
+
+        {/* ---------- COMO COMEÇAR ---------- */}
+        <Secao
+          id="como-comecar"
+          rotulo="Passo a passo"
+          titulo="Como começar suas aulas de piano"
+          intro="Do primeiro contato à primeira música, em três passos simples."
+        >
+          <ol className="grid gap-6 md:grid-cols-3">
+            {passos.map((passo, i) => (
+              <li
+                key={passo.titulo}
+                className={`reveal relative p-8 ${cartao}`}
+                style={{ "--i": i } as React.CSSProperties}
+              >
+                <span
+                  aria-hidden="true"
+                  className="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-mara-orange/15 text-xl font-bold text-mara-orange ring-1 ring-mara-orange/30"
+                >
+                  {i + 1}
+                </span>
+                <h3 className="mb-3 text-xl font-bold">{passo.titulo}</h3>
+                <p className="text-base leading-relaxed text-gray-300">{passo.texto}</p>
+              </li>
+            ))}
+          </ol>
+          <p className="reveal mt-10 text-center">
+            <a
+              href="#agendamentos"
+              className="inline-flex min-h-12 items-center gap-2 rounded-full border border-mara-orange/50 px-7 py-3 font-semibold text-mara-orange transition-colors hover:bg-mara-orange hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-mara-orange"
+            >
+              Quero agendar minha aula
+              <ArrowRight size={18} aria-hidden="true" />
+            </a>
+          </p>
+        </Secao>
+
+        {/* ---------- PROFESSORES ---------- */}
+        <Secao
+          id="professores-de-piano"
+          rotulo="Equipe"
+          titulo="Professores de piano"
+          intro="Aulas conduzidas por Mara e Amanda, com formação em piano e o cuidado de quem ensina com acolhimento."
+        >
+          <ul className="grid gap-6 xl:grid-cols-2">
+            {professores.map((prof, i) => (
+              <li
+                key={prof.nome}
+                className="reveal group flex overflow-hidden rounded-3xl border border-white/10 bg-white/5 transition-colors hover:border-mara-orange/40"
+                style={{ "--i": i } as React.CSSProperties}
+              >
+                <div className="relative aspect-[3/4] w-36 shrink-0 overflow-hidden sm:w-52 lg:w-64">
+                  <Image
+                    src={prof.foto}
+                    alt={`${prof.nome}, ${prof.papel.toLowerCase()} do Estúdio Mara Passos`}
+                    fill
+                    sizes="(max-width: 640px) 144px, (max-width: 1024px) 208px, 256px"
+                    className="object-cover object-top transition-transform duration-700 motion-safe:group-hover:scale-105"
+                  />
+                </div>
+                <div className="flex flex-col justify-center p-5 sm:p-8">
+                  <h3 className="text-xl font-bold leading-snug text-white sm:text-2xl">{prof.nome}</h3>
+                  <p className="mt-1 text-sm font-semibold text-mara-orange">{prof.papel}</p>
+                  <p className="mt-4 text-base leading-relaxed text-gray-300 sm:text-lg">{prof.bio}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <p className="reveal mt-10 text-center">
+            <Link
+              href="/professores"
+              className="inline-flex items-center gap-2 text-base font-semibold text-gray-200 underline decoration-mara-orange decoration-2 underline-offset-8 transition-colors hover:text-mara-orange focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-mara-orange"
+            >
+              Conheça toda a equipe
+              <ArrowRight size={16} aria-hidden="true" />
+            </Link>
+          </p>
+        </Secao>
+
+        {/* ---------- PORTAL DO ALUNO ---------- */}
+        <section
+          id="portal-do-aluno"
+          aria-labelledby="portal-titulo"
+          className="reveal mb-28 w-full scroll-mt-28 px-4 md:mb-36"
+        >
+          <div className="relative overflow-hidden rounded-[2.5rem] border border-mara-orange/20 bg-gradient-to-br from-neutral-900 to-[#140d0a] p-8 shadow-2xl md:p-14">
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute right-0 top-0 -mr-20 -mt-20 h-96 w-96 rounded-full bg-mara-orange/10 blur-[100px]"
+            />
+
+            <div className="relative z-10 flex flex-col items-center gap-12 lg:flex-row">
+              <div className="w-full space-y-8 lg:w-1/2">
+                <p className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-gray-200">
+                  <Smartphone size={16} className="text-mara-orange" aria-hidden="true" />
+                  Tecnologia exclusiva
+                </p>
+
+                <h2
+                  id="portal-titulo"
+                  className="text-balance text-3xl font-bold leading-tight md:text-4xl"
+                >
+                  Seu aprendizado na <span className="text-mara-orange">palma da mão</span>
+                </h2>
+
+                <p className="text-lg leading-relaxed text-gray-300">
+                  Diga adeus às confusões de agenda pelo WhatsApp. Nossos alunos têm acesso a um{" "}
+                  <strong className="text-white">Portal exclusivo</strong> para gerenciar 100% da
+                  jornada musical com autonomia e transparência.
+                </p>
+
+                <ul className="grid gap-5 pt-2 sm:grid-cols-2">
+                  {portalRecursos.map((item, i) => {
+                    const Icone = iconesPortal[i];
+                    return (
+                      <li key={item.titulo} className="flex items-start gap-4">
+                        <span className="shrink-0 rounded-lg bg-mara-orange/20 p-2">
+                          <Icone className="text-mara-orange" size={20} aria-hidden="true" />
+                        </span>
+                        <div>
+                          <h3 className="mb-1 text-sm font-bold text-gray-100">{item.titulo}</h3>
+                          <p className="text-sm leading-relaxed text-gray-300">{item.texto}</p>
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+
+              <div className="group w-full lg:w-1/2">
+                <div className="overflow-hidden rounded-2xl bg-neutral-950 shadow-2xl ring-1 ring-white/10 transition-transform duration-700 motion-safe:group-hover:-translate-y-2">
+                  <div
+                    aria-hidden="true"
+                    className="flex h-8 items-center gap-2 border-b border-white/5 bg-neutral-900 px-4"
+                  >
+                    <span className="h-2.5 w-2.5 rounded-full bg-red-500/80" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-yellow-500/80" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-green-500/80" />
+                  </div>
+                  {/* Abaixo da dobra: sem priority, o LCP é o herói. Proporção
+                      3:2 reservada pelo width/height evita deslocamento. */}
+                  <Image
+                    src="/images/portal.webp"
+                    alt="Painel do Portal do Aluno do Estúdio Mara Passos, com agenda de aulas e pagamentos"
+                    width={1200}
+                    height={800}
+                    sizes="(max-width: 1024px) 100vw, 560px"
+                    className="h-auto w-full"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ---------- FILOSOFIA ---------- */}
+        <section
+          aria-labelledby="filosofia-titulo"
+          className="reveal mb-28 bg-gradient-to-b from-transparent via-mara-orange/5 to-transparent py-20 md:mb-36 md:py-24"
+        >
+          <div className="w-full px-4 text-center">
+            <Sparkles className="mx-auto mb-6 text-mara-orange" size={36} aria-hidden="true" />
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-mara-orange">
+              Descubra o poder da música
+            </p>
+            <h2
+              id="filosofia-titulo"
+              className="mb-8 text-balance text-3xl font-extrabold tracking-tight md:text-5xl"
+            >
+              Piano para todas as idades
+            </h2>
+            <p className="mx-auto mb-10 max-w-3xl text-xl leading-relaxed text-gray-200">
+              A alma do Estúdio Mara Passos é provar que{" "}
+              <span className="font-semibold text-mara-orange">a música é para todas as idades</span>.
+              Mais do que tocar um instrumento, aprender piano estimula conexões neurais profundas,
+              melhora a concentração e contribui para o desenvolvimento cerebral.
+            </p>
+            <ul className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-base font-medium text-gray-200">
+              {beneficios.map(({ icone: Icone, texto }) => (
+                <li key={texto} className="flex items-center gap-2">
+                  <Icone className="text-mara-orange" size={22} aria-hidden="true" />
+                  {texto}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        {/* ---------- VÍDEOS DOS ALUNOS ---------- */}
+        <section
+          id="alunos"
+          aria-labelledby="alunos-titulo"
+          className="reveal relative mb-28 w-full scroll-mt-28 md:mb-36"
+        >
+          <div className="mb-12 w-full px-4 text-center">
+            <h2 id="alunos-titulo" className="mb-4 text-balance text-3xl font-bold md:text-5xl">
+              A evolução dos nossos alunos
+            </h2>
+            <p className="text-lg leading-relaxed text-gray-300">
+              Veja na prática os resultados da nossa metodologia com alunos reais.
+            </p>
+          </div>
+          <VideoCarousel videos={videosAlunos} />
+        </section>
+
+        {/* ---------- O ESTÚDIO ---------- */}
+        <Secao
+          id="espaco"
+          rotulo="O espaço"
+          titulo="Conheça nosso estúdio na Lapa"
+          intro="Ambiente climatizado, acústico e equipado com bons instrumentos para o seu aprendizado."
+        >
+          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+            {galeria.map((foto, i) => (
+              <li
+                key={foto.src}
+                className="reveal group relative aspect-[4/3] overflow-hidden rounded-3xl bg-neutral-900 shadow-lg"
+                style={{ "--i": i % 3 } as React.CSSProperties}
+              >
+                <Image
+                  src={foto.src}
+                  alt={foto.alt}
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  className="object-cover transition-transform duration-700 motion-safe:group-hover:scale-105"
+                />
+              </li>
+            ))}
+          </ul>
+        </Secao>
+
+        {/* ---------- FAQ ---------- */}
+        <Secao
+          id="faq"
+          rotulo="Dúvidas"
+          titulo="Perguntas frequentes sobre aulas de piano"
+          intro="Tudo o que você precisa saber para dar o primeiro passo sem receios."
+        >
+          <div className="grid gap-4">
+            {perguntas.map((item, i) => (
+              <details
+                key={item.pergunta}
+                className={`reveal group ${cartao} open:border-mara-orange/30 open:bg-white/[0.07]`}
+                style={{ "--i": i % 4 } as React.CSSProperties}
+              >
+                <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 rounded-2xl p-5 text-left text-lg font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mara-orange md:px-7 [&::-webkit-details-marker]:hidden">
+                  <h3 className="text-lg font-semibold">{item.pergunta}</h3>
+                  <ChevronDown
+                    className="shrink-0 text-mara-orange transition-transform duration-300 group-open:rotate-180"
+                    size={24}
+                    aria-hidden="true"
+                  />
+                </summary>
+                <p className="px-5 pb-6 text-base leading-relaxed text-gray-300 md:px-7">
+                  {item.resposta}
+                </p>
+              </details>
+            ))}
+          </div>
+        </Secao>
+
+        {/* ---------- ONDE FICA ---------- */}
+        <Secao
+          id="como-chegar"
+          rotulo="Localização"
+          titulo="Aulas de piano na Lapa, em São Paulo"
+          intro="Venha conhecer as salas, o piano e os professores antes de decidir."
+        >
+          <div className="reveal grid gap-4 sm:grid-cols-3">
+            <address className={`flex flex-col items-start gap-3 p-6 not-italic ${cartao}`}>
+              <MapPin className="text-mara-orange" size={24} aria-hidden="true" />
+              <span className="text-sm font-bold uppercase tracking-wider text-gray-400">Endereço</span>
+              <span className="text-base leading-relaxed text-gray-100">{ENDERECO}</span>
+              <a
+                href={LINK_MAPA}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-auto inline-flex min-h-11 items-center gap-1 font-semibold text-mara-orange underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-mara-orange"
+              >
+                Como chegar<span className="sr-only"> (abre o Google Maps em nova aba)</span>
+                <ArrowRight size={16} aria-hidden="true" />
+              </a>
+            </address>
+
+            <div className={`flex flex-col items-start gap-3 p-6 ${cartao}`}>
+              <MessageCircle className="text-mara-orange" size={24} aria-hidden="true" />
+              <span className="text-sm font-bold uppercase tracking-wider text-gray-400">WhatsApp</span>
+              <span className="text-base text-gray-100">{TELEFONE_EXIBIDO}</span>
+              <a
+                href={LINK_WHATSAPP}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-auto inline-flex min-h-11 items-center gap-1 font-semibold text-mara-orange underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-mara-orange"
+              >
+                Chamar agora<span className="sr-only"> (abre o WhatsApp em nova aba)</span>
+                <ArrowRight size={16} aria-hidden="true" />
+              </a>
+            </div>
+
+            <div className={`flex flex-col items-start gap-3 p-6 ${cartao}`}>
+              <Clock className="text-mara-orange" size={24} aria-hidden="true" />
+              <span className="text-sm font-bold uppercase tracking-wider text-gray-400">Aula experimental</span>
+              <span className="text-base leading-relaxed text-gray-100">
+                Gratuita, com 30 a 45 minutos e sem compromisso.
+              </span>
+              <a
+                href="#agendamentos"
+                className="mt-auto inline-flex min-h-11 items-center gap-1 font-semibold text-mara-orange underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-mara-orange"
+              >
+                Agendar<ArrowRight size={16} aria-hidden="true" />
+              </a>
+            </div>
+          </div>
+        </Secao>
+
+        {/* ---------- FORMULÁRIO ---------- */}
+        <Contact defaultInstrument="Piano" />
+
+        <SocialButtons />
+      </main>
+
+      <Footer />
+    </>
+  );
 }

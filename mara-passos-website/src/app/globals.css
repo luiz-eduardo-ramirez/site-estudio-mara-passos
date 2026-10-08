@@ -431,3 +431,49 @@ html:has(.lt-page) body {
     transform: translateX(9px) rotate(7deg);
   }
 }
+
+/* ==========================================================================
+   Revelação na rolagem (.reveal)
+   Substitui o whileInView do Framer Motion nas páginas de conteúdo: sai do
+   bundle do cliente e funciona com a página já renderizada no servidor.
+   ========================================================================== */
+
+/*
+ * Quem pediu menos movimento nunca recebe o opacity:0 inicial — a regra inteira
+ * vive dentro do media query. O atraso escalonado vem da custom property --i,
+ * definida inline em cada item.
+ *
+ * O atalho `animation` é o plano B: onde view() não existe, roda pelo tempo e
+ * pelo índice, e o conteúdo aparece de qualquer jeito. Onde existe, a timeline
+ * de rolagem substitui o relógio — e um elemento que já nasce na tela cai
+ * direto no quadro final, sem piscar.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    animation: lt-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: calc(var(--i, 0) * 70ms);
+  }
+
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation-timeline: view();
+      animation-range: entry 4% entry 50%;
+      animation-delay: 0s;
+    }
+  }
+}
+
+/*
+ * Vídeos em tela cheia (carrossel de alunos): sem isto, um vídeo vertical
+ * ganharia tarjas laterais num celular deitado.
+ */
+.video-player:fullscreen {
+  object-fit: cover;
+  aspect-ratio: 9 / 16;
+}
+
+.video-player:-webkit-full-screen {
+  object-fit: cover;
+  aspect-ratio: 9 / 16;
+}

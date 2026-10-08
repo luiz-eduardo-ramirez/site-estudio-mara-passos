@@ -46,11 +46,11 @@ export default function Footer() {
           <div>
             <h3 className="text-mara-orange font-bold text-xl mb-6">Links Úteis</h3>
             <ul className="space-y-3">
-              <li><Link href="#inicio" className="text-gray-400 hover:text-white text-sm transition-colors"> Início</Link></li>
-              <li><Link href="#sobre" className="text-gray-400 hover:text-white text-sm transition-colors"> Sobre</Link></li>
-              <li><Link href="#espacos" className="text-gray-400 hover:text-white text-sm transition-colors"> Espaços</Link></li>
-              <li><Link href="#depoimentos" className="text-gray-400 hover:text-white text-sm transition-colors"> Depoimentos</Link></li>
-              <li><Link href="#agendamentos" className="text-gray-400 hover:text-white text-sm transition-colors"> Agendamentos</Link></li>
+              <li><Link href="/#inicio" className="text-gray-400 hover:text-white text-sm transition-colors"> Início</Link></li>
+              <li><Link href="/#sobre" className="text-gray-400 hover:text-white text-sm transition-colors"> Sobre</Link></li>
+              <li><Link href="/#espacos" className="text-gray-400 hover:text-white text-sm transition-colors"> Espaços</Link></li>
+              <li><Link href="/#depoimentos" className="text-gray-400 hover:text-white text-sm transition-colors"> Depoimentos</Link></li>
+              <li><Link href="/#agendamentos" className="text-gray-400 hover:text-white text-sm transition-colors"> Agendamentos</Link></li>
               <li><Link href="/privacidade" className="text-gray-400 hover:text-white text-sm transition-colors"> Política de Privacidade</Link></li>
             </ul>
           </div>

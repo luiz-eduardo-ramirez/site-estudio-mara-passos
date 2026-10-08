@@ -180,7 +180,7 @@ export default function Navbar() {
           <div data-lenis-prevent className="flex-1 overflow-y-auto">
             {/* Seção 1: Navegação Principal */}
             <div className="mb-8">
-              <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Navegação</h3>
+              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Navegação</p>
               <div className="grid grid-cols-2 gap-y-5 gap-x-2">
                 <Link href="/#inicio" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Início</Link>
                 <Link href="/#instrumentos" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Cursos</Link>
@@ -191,7 +191,7 @@ export default function Navbar() {
 
             {/* Seção 2: Institucional */}
             <div className="mb-8">
-              <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">O Estúdio</h3>
+              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">O Estúdio</p>
               <div className="grid grid-cols-2 gap-y-5 gap-x-2">
                 <Link href="/#sobre" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Sobre</Link>
                 <Link href="/#espacos" onClick={() => setIsMobileOpen(false)} className="text-base font-semibold text-white hover:text-mara-orange transition-colors">Espaços</Link>

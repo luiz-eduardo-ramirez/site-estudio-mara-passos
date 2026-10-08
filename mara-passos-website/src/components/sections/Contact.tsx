@@ -4,7 +4,7 @@ import { useState, useRef } from "react";
 import { CheckCircle2 } from 'lucide-react';
 import Image from 'next/image';
 
-export default function Contact() {
+export default function Contact({ defaultInstrument = "" }: { defaultInstrument?: string }) {
   const form = useRef<HTMLFormElement>(null);
   const [status, setStatus] = useState<'idle' | 'sucesso'>('idle');
   const [aceitouTermos, setAceitouTermos] = useState(false);
@@ -121,7 +121,7 @@ export default function Contact() {
                 name="instrumento"
                 required
                 aria-required="true"
-                defaultValue=""
+                defaultValue={defaultInstrument}
                 className="w-full bg-white text-black rounded-full px-5 py-3 focus:outline-none focus:ring-2 focus:ring-mara-orange transition-shadow appearance-none cursor-pointer"
               >
                 <option value="" disabled>Selecione o instrumento/curso...</option>
