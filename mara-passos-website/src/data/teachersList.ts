@@ -7,7 +7,7 @@ export const teachersList = [
   {
     id: 1,
     nome: "Mara Alexandre Ferreira Lugli",
-    especialidades: ["Piano", "Musicalização - Infantil", "Flauta Doce"],
+    especialidades: ["Piano", "Bateria", "Musicalização - Infantil", "Flauta Doce"],
     bio: "Sócia Fundadora e Diretora do Estúdio Musical e Cultural Mara Passos. Formada em Curso Superior de Piano Erudito pelo Conservatório Dramático e Musical de São Paulo. Possui cursos complementares em Musicalização Infantil e é Pós-Graduada em Musicoterapia na Faculdade Paulista de Artes. Também é formada pelo Curso Sopro Novo de Flautas Doce da Yamaha.",
     foto: "/teachers/mara.webp" 
   },

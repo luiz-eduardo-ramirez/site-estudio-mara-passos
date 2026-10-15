@@ -19,7 +19,7 @@ export const bateria: CourseConfig = {
   seo: {
     titulo: "Aulas de Bateria na Lapa (SP) | Estúdio Mara Passos",
     descricao:
-      "Aulas de bateria na Lapa, São Paulo, com os professores Reinaldo e Rafael: coordenação, independência e leitura rítmica. Agende sua aula experimental gratuita.",
+      "Aulas de bateria na Lapa, São Paulo, com os professores Reinaldo e Mara: coordenação, independência e leitura rítmica. Agende sua aula experimental gratuita.",
     keywords: [
       "aulas de bateria na Lapa",
       "aula de bateria São Paulo",
@@ -43,7 +43,7 @@ export const bateria: CourseConfig = {
   hero: {
     h1: "Aulas de Bateria na",
     texto:
-      "Libere sua energia e desenvolva coordenação, independência dos membros e leitura rítmica. Aulas individuais com os professores Reinaldo e Rafael, no Estúdio Mara Passos.",
+      "Libere sua energia e desenvolva coordenação, independência dos membros e leitura rítmica. Aulas individuais com os professores Reinaldo e Mara, no Estúdio Mara Passos.",
     imagem: "/spaces/instrumentos.webp",
     fatos: [
       { icone: MapPin, texto: "Presencial na Lapa" },
@@ -65,7 +65,7 @@ export const bateria: CourseConfig = {
       {
         titulo: "Professores com formação sólida",
         texto:
-          "Reinaldo estudou na Escola Drum Tech, em Londres. Rafael é licenciado em Música pela UNESP e estudou bateria em escolas de samba.",
+          "Reinaldo estudou na Escola Drum Tech, em Londres. Mara, diretora do estúdio, é pós-graduada em Musicoterapia.",
       },
       {
         titulo: "Independência, coordenação e leitura",
@@ -102,10 +102,10 @@ export const bateria: CourseConfig = {
   equipe: {
     titulo: "Professores de bateria",
     intro:
-      "Aulas conduzidas por Reinaldo e Rafael, com formação sólida e o cuidado de quem ensina com acolhimento.",
+      "Aulas conduzidas por Reinaldo e Mara, com formação sólida e o cuidado de quem ensina com acolhimento.",
     professores: [
       { id: 6, papel: "Professor de bateria" },
-      { id: 3, papel: "Professor de bateria e percussão" },
+      { id: 1, papel: "Diretora e fundadora" },
     ],
   },
 

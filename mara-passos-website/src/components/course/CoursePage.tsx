@@ -157,6 +157,9 @@ export default function CoursePage({ curso: c }: { curso: CourseConfig }) {
     return t ? [{ nome: t.nome, papel, bio: t.bio, foto: t.foto.trim() }] : [];
   });
 
+  /* Número ímpar em duas colunas: o último card fica centralizado, não encostado. */
+  const ultimoSozinho = professores.length > 1 && professores.length % 2 === 1;
+
   const jsonLd = montarJsonLd(c, professores);
   const whatsapp = linkWhatsApp(c.instrumento);
 
@@ -345,7 +348,11 @@ export default function CoursePage({ curso: c }: { curso: CourseConfig }) {
             {professores.map((prof, i) => (
               <li
                 key={prof.nome}
-                className="reveal group flex overflow-hidden rounded-3xl border border-white/10 bg-white/5 transition-colors hover:border-mara-orange/40"
+                className={`reveal group flex overflow-hidden rounded-3xl border border-white/10 bg-white/5 transition-colors hover:border-mara-orange/40 ${
+                  ultimoSozinho && i === professores.length - 1
+                    ? "xl:col-span-2 xl:mx-auto xl:w-[calc(50%-0.75rem)]"
+                    : ""
+                }`}
                 style={{ "--i": i } as React.CSSProperties}
               >
                 <div className="relative aspect-[3/4] w-36 shrink-0 overflow-hidden sm:w-52 lg:w-64">

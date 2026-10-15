@@ -99,10 +99,13 @@ export const piano: CourseConfig = {
   equipe: {
     titulo: "Professores de piano",
     intro:
-      "Aulas conduzidas por Mara e Amanda, com formação em piano e o cuidado de quem ensina com acolhimento.",
+      "Cinco professores com formação em piano, do conservatório à universidade, e o cuidado de quem ensina com acolhimento.",
     professores: [
       { id: 1, papel: "Diretora e fundadora" },
       { id: 2, papel: "Professora e sócia" },
+      { id: 7, papel: "Professora de piano e flauta" },
+      { id: 3, papel: "Professor de piano, violão e percussão" },
+      { id: 6, papel: "Professor de piano, teclado e bateria" },
     ],
   },
 

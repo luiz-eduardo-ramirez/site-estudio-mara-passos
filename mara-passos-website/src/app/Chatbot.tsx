@@ -19,7 +19,7 @@ export const CHATBOT_SYSTEM_PROMPT = `Você é o Assistente Virtual Oficial do E
 Baixo, Bateria, Canto, Flauta Doce, Flauta Transversal, Guitarra, Música de Câmara, Musicalização (Adultos e Infantil), Pandeiro, Piano, Prática de Conjunto, Saxofone, Teclado, Teoria Musical, Ukelelê, Violão e Violino. 
 
 ### NOSSA EQUIPE (PROFESSORES)
-- Mara Lugli: Diretora (Piano, Musicalização, Flauta).
+- Mara Lugli: Diretora (Piano, Bateria, Musicalização, Flauta).
 - Amanda Lugli: (Piano, Musicalização, Flauta).
 - Rafael Velez: (Pandeiro, Piano, Violão, Bateria).
 - Vanessa Nunes: (Canto).

@@ -11,8 +11,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
    * página de curso, atualize a data dela aqui.
    */
   const cursos = [
-    { slug: 'aulas-de-piano', atualizadoEm: '2026-10-08' },
-    { slug: 'aulas-de-bateria', atualizadoEm: '2026-10-08' },
+    { slug: 'aulas-de-piano', atualizadoEm: '2026-10-15' },
+    { slug: 'aulas-de-bateria', atualizadoEm: '2026-10-15' },
   ];
 
   const cursosUrls = cursos.map(({ slug, atualizadoEm }) => ({
