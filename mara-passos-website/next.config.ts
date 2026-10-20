@@ -25,7 +25,29 @@ const nextConfig: NextConfig = {
       {
         source: '/politica-de-privacidade',
         destination: '/',
-        permanent: true, 
+        permanent: true,
+      },
+      // 4. Não existe listagem de notícias; elas ficam na seção da home
+      {
+        source: '/noticias',
+        destination: '/#noticias',
+        permanent: true,
+      },
+      // 5. URLs removidas do site que ainda aparecem como 404 no Search Console
+      {
+        source: '/campanha-instagram',
+        destination: '/cursos',
+        permanent: true,
+      },
+      {
+        source: '/ebook-estudio-mara-passos.pdf',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/links/r/:slug',
+        destination: '/links',
+        permanent: true,
       },
     ];
   },

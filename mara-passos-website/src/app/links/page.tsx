@@ -14,6 +14,8 @@ export const metadata: Metadata = {
   title: "Links | Estúdio Musical e Cultural Mara Passos",
   description: DESCRIPTION,
   alternates: { canonical: "/links" },
+  // Página de "link na bio": canal de campanha, sem texto para disputar busca.
+  robots: { index: false, follow: true },
   openGraph: {
     type: "website",
     locale: "pt_BR",

@@ -27,14 +27,12 @@ const paginas = [
   { rota: '/cursos', atualizadoEm: '2026-10-20', changeFrequency: 'monthly' as const, priority: 0.8 },
   { rota: '/professores', atualizadoEm: '2026-10-20', changeFrequency: 'monthly' as const, priority: 0.8 },
   { rota: '/sobre-nos', atualizadoEm: '2026-10-20', changeFrequency: 'monthly' as const, priority: 0.8 },
-  // Portal do Aluno (subdomínio próprio), no lugar do /links.
-  { rota: 'https://portal.estudiomusicalmarapassos.com.br/login', atualizadoEm: '2026-10-20', changeFrequency: 'monthly' as const, priority: 0.5 },
   { rota: '/privacidade', atualizadoEm: '2026-10-07', changeFrequency: 'yearly' as const, priority: 0.2 },
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const paginasUrls = paginas.map(({ rota, atualizadoEm, changeFrequency, priority }) => ({
-    url: rota.startsWith('http') ? rota : `${baseUrl}${rota}`,
+    url: `${baseUrl}${rota}`,
     lastModified: new Date(atualizadoEm),
     changeFrequency,
     priority,
