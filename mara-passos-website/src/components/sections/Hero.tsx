@@ -8,28 +8,31 @@ export default function Hero() {
   const [tocar, setTocar] = useState(false);
 
   useEffect(() => {
-    // O vídeo (16 MB) só entra em tela de tablet para cima, sem pedido de menos
-    // movimento e sem economia de dados. Nos demais casos fica o quadro estático.
+    // O vídeo (16 MB) toca em computadores, iPhones e iPads e em Androids atuais.
+    // Fica só o quadro estático em Android de entrada/antigo (pouca memória ou
+    // poucos núcleos), em quem pediu menos movimento e em quem ligou economia de dados.
     const semMovimento = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const telaGrande = window.matchMedia("(min-width: 768px)");
-    const conexao = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+    const nav = navigator as Navigator & {
+      connection?: { saveData?: boolean };
+      deviceMemory?: number;
+    };
+
+    const androidFraco =
+      /Android/i.test(nav.userAgent) &&
+      ((nav.deviceMemory ?? 8) <= 4 || (nav.hardwareConcurrency ?? 8) <= 4);
 
     const avaliar = () =>
-      setTocar(!semMovimento.matches && telaGrande.matches && !conexao?.saveData);
+      setTocar(!semMovimento.matches && !androidFraco && !nav.connection?.saveData);
 
     avaliar();
     semMovimento.addEventListener("change", avaliar);
-    telaGrande.addEventListener("change", avaliar);
-    return () => {
-      semMovimento.removeEventListener("change", avaliar);
-      telaGrande.removeEventListener("change", avaliar);
-    };
+    return () => semMovimento.removeEventListener("change", avaliar);
   }, []);
 
   return (
     <section id="inicio" className="relative w-full h-screen flex items-center justify-center overflow-hidden">
 
-      {/* Quadro do próprio vídeo: é o LCP e o pôster, sem salto visual quando o vídeo entra */}
+      {/* Quadro do próprio vídeo (0:00): é o LCP e o pôster, sem salto visual quando o vídeo entra */}
       <Image
         src="/hero-poster.webp"
         alt="Menino tocando piano de cauda, com notas musicais luminosas no ar"
