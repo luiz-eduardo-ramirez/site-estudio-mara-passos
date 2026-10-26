@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
+  Award,
   CalendarDays,
   ChevronDown,
   CircleCheck,
@@ -154,11 +155,10 @@ export default function CoursePage({ curso: c }: { curso: CourseConfig }) {
   /* Nome, foto e biografia vêm da fonte única da equipe (a mesma da home). */
   const professores = c.equipe.professores.flatMap(({ id, papel }) => {
     const t = teachersList.find((p) => p.id === id);
-    return t ? [{ nome: t.nome, papel, bio: t.bio, foto: t.foto.trim() }] : [];
+    return t
+      ? [{ nome: t.nome, papel, bio: t.bio, foto: t.foto.trim(), especialidades: t.especialidades }]
+      : [];
   });
-
-  /* Número ímpar em duas colunas: o último card fica centralizado, não encostado. */
-  const ultimoSozinho = professores.length > 1 && professores.length % 2 === 1;
 
   const jsonLd = montarJsonLd(c, professores);
   const whatsapp = linkWhatsApp(c.instrumento);
@@ -185,7 +185,7 @@ export default function CoursePage({ curso: c }: { curso: CourseConfig }) {
           aria-labelledby="hero-titulo"
           className="relative isolate mb-16 flex min-h-[85svh] flex-col items-center justify-center overflow-hidden pb-20 pt-36 md:mb-24"
         >
-          <HeroMedia imagem={c.hero.imagem} video={c.hero.video} />
+          <HeroMedia imagem={c.hero.imagem} video={c.hero.video} posicao={c.hero.posicao} />
 
           <div className="relative w-full px-4 text-center">
             <nav aria-label="Você está em" className="mb-8 text-sm text-gray-300">
@@ -337,37 +337,45 @@ export default function CoursePage({ curso: c }: { curso: CourseConfig }) {
           titulo={c.equipe.titulo}
           intro={c.equipe.intro}
         >
-          {/* Um professor só: o card não estica pela tela inteira. */}
+          {/* Mesmo card da home: foto em retrato no topo, texto embaixo. */}
           <ul
-            className={
-              professores.length > 1
-                ? "grid gap-6 xl:grid-cols-2"
-                : "mx-auto grid max-w-5xl gap-6"
-            }
+            className={`mx-auto grid gap-8 ${
+              professores.length > 1 ? "max-w-4xl md:grid-cols-2" : "max-w-md"
+            }`}
           >
             {professores.map((prof, i) => (
               <li
                 key={prof.nome}
-                className={`reveal group flex overflow-hidden rounded-3xl border border-white/10 bg-white/5 transition-colors hover:border-mara-orange/40 ${
-                  ultimoSozinho && i === professores.length - 1
-                    ? "xl:col-span-2 xl:mx-auto xl:w-[calc(50%-0.75rem)]"
-                    : ""
-                }`}
+                className="reveal group flex flex-col overflow-hidden rounded-3xl border border-white/5 bg-[#111] shadow-xl transition-all duration-500 hover:border-mara-orange/20 hover:bg-[#1a1a1a]"
                 style={{ "--i": i } as React.CSSProperties}
               >
-                <div className="relative aspect-[3/4] w-36 shrink-0 overflow-hidden sm:w-52 lg:w-64">
+                <div className="relative aspect-[4/5] shrink-0 overflow-hidden md:aspect-[3/4]">
                   <Image
                     src={prof.foto}
                     alt={`${prof.nome}, ${prof.papel.toLowerCase()} do Estúdio Mara Passos`}
                     fill
-                    sizes="(max-width: 640px) 144px, (max-width: 1024px) 208px, 256px"
-                    className="object-cover object-top transition-transform duration-700 motion-safe:group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, 448px"
+                    className="object-cover object-top transition-transform duration-700 ease-out motion-safe:group-hover:scale-105"
                   />
+                  <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#111] via-transparent to-transparent opacity-70" />
                 </div>
-                <div className="flex flex-col justify-center p-5 sm:p-8">
-                  <h3 className="text-xl font-bold leading-snug text-white sm:text-2xl">{prof.nome}</h3>
-                  <p className="mt-1 text-sm font-semibold text-mara-orange">{prof.papel}</p>
-                  <p className="mt-4 text-base leading-relaxed text-gray-300 sm:text-lg">{prof.bio}</p>
+                <div className="z-20 flex flex-grow flex-col p-8 text-left md:p-10">
+                  <div className="mb-2 flex items-center gap-3">
+                    <Award className="shrink-0 text-mara-orange" size={24} aria-hidden="true" />
+                    <h3 className="text-2xl font-extrabold leading-tight text-white md:text-3xl">{prof.nome}</h3>
+                  </div>
+                  <p className="mb-6 text-sm font-semibold text-mara-orange">{prof.papel}</p>
+                  <ul className="mb-8 flex flex-wrap gap-2">
+                    {prof.especialidades.map((esp) => (
+                      <li
+                        key={esp}
+                        className="rounded-full border border-mara-orange/20 bg-mara-orange/10 px-4 py-1.5 text-xs font-semibold text-mara-orange"
+                      >
+                        {esp}
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="text-sm leading-relaxed text-gray-300 md:text-base">&quot;{prof.bio}&quot;</p>
                 </div>
               </li>
             ))}

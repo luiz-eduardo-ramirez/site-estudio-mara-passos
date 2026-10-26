@@ -44,8 +44,7 @@ export const bateria: CourseConfig = {
     h1: "Aulas de Bateria na",
     texto:
       "Libere sua energia e desenvolva coordenação, independência dos membros e leitura rítmica. Aulas individuais com os professores Reinaldo e Mara, no Estúdio Mara Passos.",
-    imagem: "/hero-bg.webp",
-    video: "/hero-bg.mp4",
+    imagem: "/spaces/instrumentos.webp",
     fatos: [
       { icone: MapPin, texto: "Presencial na Lapa" },
       { icone: UserRound, texto: "Aulas individuais" },

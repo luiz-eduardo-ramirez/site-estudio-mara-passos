@@ -44,8 +44,8 @@ export const violino: CourseConfig = {
     h1: "Aulas de Violino na",
     texto:
       "A arte e a elegância das cordas friccionadas, com metodologia paciente e atenciosa. Aulas individuais com o professor Vitor, no Estúdio Mara Passos.",
-    imagem: "/hero-bg.webp",
-    video: "/hero-bg.mp4",
+    imagem: "/images/violino.webp",
+    posicao: "75% 65%",
     fatos: [
       { icone: MapPin, texto: "Presencial na Lapa" },
       { icone: UserRound, texto: "Aulas individuais" },
@@ -58,9 +58,9 @@ export const violino: CourseConfig = {
     titulo: "Por que aprender violino no Estúdio Mara Passos",
     midia: {
       tipo: "imagem",
-      src: "/images/violino.webp",
-      alt: "Aluna tocando violino, com partitura no estande, em uma sala de aula do estúdio",
-      posicao: "center 62%",
+      src: "/spaces/entrada.webp",
+      alt: "Recepção do estúdio com balcão e um piano vertical ao lado da escada",
+      posicao: "center",
     },
     itens: [
       {

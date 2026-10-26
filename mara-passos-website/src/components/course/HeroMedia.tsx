@@ -21,9 +21,11 @@ import Image from "next/image";
 export default function HeroMedia({
   imagem,
   video,
+  posicao = "center",
 }: {
   imagem: string;
   video?: string;
+  posicao?: string;
 }) {
   const [tocar, setTocar] = useState(false);
   const [pronto, setPronto] = useState(false);
@@ -57,6 +59,7 @@ export default function HeroMedia({
         priority
         sizes="100vw"
         className="object-cover"
+        style={{ objectPosition: posicao }}
       />
       {tocar && video && (
         <video
