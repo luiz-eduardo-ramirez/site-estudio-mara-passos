@@ -65,9 +65,6 @@ export default function Hero() {
         {/* Título com Efeito de Digitação */}
         <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-6 leading-tight min-h-[120px] md:min-h-0">
           Aulas de{' '}
-          {/* A palavra mais longa, invisível, reserva a largura: o título não muda de tamanho enquanto digita (evita CLS) */}
-          <span className="inline-grid">
-          <span aria-hidden="true" className="invisible col-start-1 row-start-1 select-none">Musicalização</span>
           <TypeAnimation
             sequence={[
               'Bateria', 2000,          // Digita Bateria, espera 2s
@@ -83,10 +80,9 @@ export default function Hero() {
             speed={50} // Velocidade da digitação
             deletionSpeed={50} // Velocidade apagando
             repeat={Infinity} // Fica em loop para sempre
-            className="text-mara-orange col-start-1 row-start-1"
+            className="text-mara-orange"
             cursor={true} // Mantém o cursor piscando idêntico ao WP
           />
-          </span>
           <br className="hidden md:block" />
           {' '}no Estúdio Mara Passos
         </h1>
