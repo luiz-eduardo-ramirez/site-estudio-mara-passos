@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLenis } from "lenis/react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
@@ -14,6 +14,38 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/free-mode';
 
+// Imagem com esqueleto em shimmer enquanto carrega e fade + desfoque ao concluir.
+function LoadingImage({ className = "", ...props }: React.ComponentProps<typeof Image>) {
+  const [loaded, setLoaded] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    // Imagem já em cache pode carregar antes da hidratação, sem disparar onLoad.
+    if (imgRef.current?.complete) setLoaded(true);
+  }, []);
+
+  return (
+    <>
+      <div
+        aria-hidden
+        className={`absolute inset-0 overflow-hidden bg-neutral-800/60 pointer-events-none transition-opacity duration-700 ${loaded ? "opacity-0" : "opacity-100"}`}
+      >
+        <m.div
+          className="absolute inset-y-0 w-1/2 bg-gradient-to-r from-transparent via-white/10 to-transparent"
+          initial={{ x: "-100%" }}
+          animate={{ x: "300%" }}
+          transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+        />
+      </div>
+      <Image
+        {...props}
+        ref={imgRef}
+        onLoad={() => setLoaded(true)}
+        className={`${className} transition-[opacity,filter] duration-700 ease-out ${loaded ? "opacity-100 blur-0" : "opacity-0 blur-md"}`}
+      />
+    </>
+  );
+}
 
 export default function Spaces() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -114,7 +146,7 @@ export default function Spaces() {
                   onClick={() => setSelectedImage(space.img)}
                 >
                   {/* Imagem de Fundo (Next.js Image) */}
-                  <Image
+                  <LoadingImage
                     src={space.img}
                     alt={space.name}
                     fill
@@ -179,7 +211,7 @@ export default function Spaces() {
                 className="relative w-full max-w-5xl h-full max-h-[85vh]"
                 onClick={(e) => e.stopPropagation()}
               >
-                <Image
+                <LoadingImage
                   src={selectedImage}
                   alt="Espaço ampliado"
                   fill
