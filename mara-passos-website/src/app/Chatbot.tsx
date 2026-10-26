@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { X, Send } from "lucide-react";
 import Image from "next/image";
 
@@ -148,7 +148,7 @@ export default function ChatbotLocal() {
 
             <AnimatePresence>
                 {isOpen && (
-                    <motion.div
+                    <m.div
                         initial={{ opacity: 0, y: 20, scale: 0.9 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 20, scale: 0.9 }}
@@ -177,7 +177,7 @@ export default function ChatbotLocal() {
                             do histórico de mensagens. */}
                         <div ref={messagesBoxRef} data-lenis-prevent className="h-80 p-4 overflow-y-auto bg-transparent flex flex-col gap-3">
                             {messages.map((msg, idx) => (
-                                <motion.div
+                                <m.div
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     key={idx}
@@ -187,19 +187,19 @@ export default function ChatbotLocal() {
                                         }`}
                                 >
                                     {msg.text}
-                                </motion.div>
+                                </m.div>
                             ))}
 
                             {/* Indicador de Digitação */}
                             {isTyping && (
-                                <motion.div
+                                <m.div
                                     initial={{ opacity: 0 }} animate={{ opacity: 1 }}
                                     className="bg-orange-500 text-zinc-950 self-start rounded-2xl rounded-tl-sm p-3 max-w-[50%] flex gap-1 shadow-md"
                                 >
                                     <span className="animate-bounce">.</span>
                                     <span className="animate-bounce delay-75">.</span>
                                     <span className="animate-bounce delay-150">.</span>
-                                </motion.div>
+                                </m.div>
                             )}
                         </div>
 
@@ -221,7 +221,7 @@ export default function ChatbotLocal() {
                                 <Send size={18} className="ml-0.5" />
                             </button>
                         </div>
-                    </motion.div>
+                    </m.div>
                 )}
             </AnimatePresence>
         </div>

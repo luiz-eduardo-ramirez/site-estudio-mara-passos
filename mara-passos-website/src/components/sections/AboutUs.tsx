@@ -3,7 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { Heart, Scale, Music } from 'lucide-react';
-import { motion, Variants } from 'framer-motion';
+import { m, Variants } from 'framer-motion';
 
 const staggerContainer: Variants = {
   hidden: { opacity: 0 },
@@ -33,7 +33,7 @@ export default function AboutUs() {
       <div className="container mx-auto px-6 max-w-7xl">
         
         {/* Cabeçalho da Seção Animado */}
-        <motion.div 
+        <m.div 
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
@@ -46,10 +46,10 @@ export default function AboutUs() {
           <p className="text-gray-400 max-w-2xl mx-auto text-lg">
             Uma vida dedicada ao ensino musical, um sonho transformado em lar para sua paixão.
           </p>
-        </motion.div>
+        </m.div>
 
         {/* Container Principal: Sem altura fixa, adaptável ao conteúdo */}
-        <motion.div 
+        <m.div 
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -62,7 +62,7 @@ export default function AboutUs() {
             {/* Máscara de gradiente para suavizar a borda no desktop */}
             <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-[#111111]/90 via-transparent to-transparent z-10 pointer-events-none"></div>
             
-            <motion.div 
+            <m.div 
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.7, ease: "easeOut" }}
               className="absolute inset-0 w-full h-full"
@@ -73,13 +73,12 @@ export default function AboutUs() {
                 fill
                 className="object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"
                 sizes="(max-width: 1024px) 100vw, 40vw"
-                priority
               />
-            </motion.div>
+            </m.div>
           </div>
 
           {/* Lado Direito: Textos (Sem Scrollbar, com muito padding) */}
-          <motion.div 
+          <m.div 
             variants={staggerContainer}
             initial="hidden"
             whileInView="show"
@@ -87,30 +86,30 @@ export default function AboutUs() {
             className="w-full lg:w-7/12 p-10 lg:p-16 flex flex-col justify-center relative z-20 text-left"
           >
             
-            <motion.div variants={fadeUpItem} className="flex items-center gap-4 mb-10">
+            <m.div variants={fadeUpItem} className="flex items-center gap-4 mb-10">
                 <div className="w-12 h-12 rounded-full bg-mara-orange/10 flex items-center justify-center shrink-0">
                   <Heart className="text-mara-orange" size={24} />
                 </div>
                 <h3 className="text-3xl lg:text-4xl font-bold text-white leading-tight">
                   O Sonho da Mara:<br/> Um Encontro com a Música
                 </h3>
-            </motion.div>
+            </m.div>
             
             <div className="text-gray-300 text-lg lg:text-xl leading-relaxed space-y-6 font-light">
-              <motion.p variants={fadeUpItem}>
+              <m.p variants={fadeUpItem}>
                 <span className="flex items-center gap-2 mb-4 text-mara-orange font-medium text-base tracking-wider uppercase">
                     <Scale size={18}/>
                     Metodologia Acolhedora
                 </span>
                 &quot;{historiaExemplo}&quot;
-              </motion.p>
+              </m.p>
 
-              <motion.p variants={fadeUpItem}>
+              <m.p variants={fadeUpItem}>
                 Hoje, somos mais que uma escola; somos uma família musical que celebra cada nota conquistada e cada aluno que descobre a sua própria voz.
-              </motion.p>
+              </m.p>
             </div>
             
-            <motion.div variants={fadeUpItem} className="mt-12 pt-8 border-t border-white/5">
+            <m.div variants={fadeUpItem} className="mt-12 pt-8 border-t border-white/5">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <p className="text-gray-400 font-medium">
                       Descubra como nossa paixão pode guiar a sua.
@@ -125,10 +124,10 @@ export default function AboutUs() {
                       Venha nos conhecer
                   </a>
                 </div>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
 
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

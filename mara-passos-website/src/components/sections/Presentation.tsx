@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { PlayCircle } from "lucide-react";
 
 export default function Presentation() {
@@ -11,7 +11,7 @@ export default function Presentation() {
       <div className="container mx-auto px-6 max-w-7xl">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
 
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-100px" }}
@@ -23,6 +23,7 @@ export default function Presentation() {
               <iframe
                 className="w-full h-full object-cover"
                 src="https://www.youtube.com/embed/DW4umfFhkt0"
+                loading="lazy"
                 title="Veja como foi a apresentação do Estúdio"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
@@ -31,9 +32,9 @@ export default function Presentation() {
 
             {/* Decorative background glow */}
             <div className="absolute -inset-4 bg-mara-orange/20 blur-[50px] -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-[3rem]"></div>
-          </motion.div>
+          </m.div>
 
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-100px" }}
@@ -63,7 +64,7 @@ export default function Presentation() {
             >
               Prepare-se para o Próximo!
             </a>
-          </motion.div>
+          </m.div>
 
         </div>
       </div>

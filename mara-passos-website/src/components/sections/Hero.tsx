@@ -2,33 +2,54 @@
 
 import { TypeAnimation } from 'react-type-animation';
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 export default function Hero() {
-  const [isMounted, setIsMounted] = useState(false);
+  const [tocar, setTocar] = useState(false);
 
   useEffect(() => {
-    // Atrasa o carregamento do vídeo para não bloquear a renderização inicial
-    const timer = setTimeout(() => setIsMounted(true), 100);
-    return () => clearTimeout(timer);
+    // O vídeo (16 MB) só entra em tela de tablet para cima, sem pedido de menos
+    // movimento e sem economia de dados. Nos demais casos fica o quadro estático.
+    const semMovimento = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const telaGrande = window.matchMedia("(min-width: 768px)");
+    const conexao = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+
+    const avaliar = () =>
+      setTocar(!semMovimento.matches && telaGrande.matches && !conexao?.saveData);
+
+    avaliar();
+    semMovimento.addEventListener("change", avaliar);
+    telaGrande.addEventListener("change", avaliar);
+    return () => {
+      semMovimento.removeEventListener("change", avaliar);
+      telaGrande.removeEventListener("change", avaliar);
+    };
   }, []);
 
   return (
     <section id="inicio" className="relative w-full h-screen flex items-center justify-center overflow-hidden">
 
-      {/* Imagem de Fundo Estática (First Contentful Paint Rápido) */}
-      <img src="/hero-bg.webp" alt="Alunos sorrindo no Estúdio Mara Passos" fetchPriority="high" className="absolute inset-0 w-full h-full object-cover" />
+      {/* Quadro do próprio vídeo: é o LCP e o pôster, sem salto visual quando o vídeo entra */}
+      <Image
+        src="/hero-poster.webp"
+        alt="Menino tocando piano de cauda, com notas musicais luminosas no ar"
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover"
+      />
 
-      {/* Vídeo de Fundo (Deferred Loading) */}
-      {isMounted && (
+      {tocar && (
         <video
           autoPlay
           loop
           muted
           playsInline
+          preload="none"
+          poster="/hero-poster.webp"
           className="absolute inset-0 w-full h-full object-cover"
         >
           <source src="/hero-bg.mp4" type="video/mp4" />
-          Seu navegador não suporta a reprodução de vídeos.
         </video>
       )}
 
@@ -41,6 +62,9 @@ export default function Hero() {
         {/* Título com Efeito de Digitação */}
         <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-6 leading-tight min-h-[120px] md:min-h-0">
           Aulas de{' '}
+          {/* A palavra mais longa, invisível, reserva a largura: o título não muda de tamanho enquanto digita (evita CLS) */}
+          <span className="inline-grid">
+          <span aria-hidden="true" className="invisible col-start-1 row-start-1 select-none">Musicalização</span>
           <TypeAnimation
             sequence={[
               'Bateria', 2000,          // Digita Bateria, espera 2s
@@ -51,13 +75,15 @@ export default function Hero() {
               'Musicalização', 2000,
               'Saxofone', 2000,
             ]}
+            preRenderFirstString // "Bateria" já vai no HTML do servidor: o título pinta sem esperar a hidratação
             wrapper="span"
             speed={50} // Velocidade da digitação
             deletionSpeed={50} // Velocidade apagando
             repeat={Infinity} // Fica em loop para sempre
-            className="text-mara-orange"
+            className="text-mara-orange col-start-1 row-start-1"
             cursor={true} // Mantém o cursor piscando idêntico ao WP
           />
+          </span>
           <br className="hidden md:block" />
           {' '}no Estúdio Mara Passos
         </h1>

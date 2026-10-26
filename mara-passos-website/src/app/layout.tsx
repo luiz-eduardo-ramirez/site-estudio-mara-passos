@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import CookieConsent from "../components/layout/CookieConsent";
 import SmoothScroll from "../components/layout/SmoothScroll";
 import ConsentGate from "../components/layout/ConsentGate";
+import MotionProvider from "../components/layout/MotionProvider";
 // @ts-ignore: CSS imports may not have type declarations in this setup
 import "./globals.css";
 
@@ -63,7 +64,9 @@ export default function RootLayout({
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-[9999] focus:p-4 focus:bg-[#f26522] focus:text-white focus:top-0 focus:left-0 font-bold">
           Pular para o conteúdo principal
         </a>
-        <SmoothScroll>{children}</SmoothScroll>
+        <MotionProvider>
+          <SmoothScroll>{children}</SmoothScroll>
+        </MotionProvider>
         <CookieConsent />
         {/* Analytics e Pixel entram só depois do aceite — ver ConsentGate */}
         <ConsentGate />

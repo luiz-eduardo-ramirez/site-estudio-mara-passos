@@ -7,7 +7,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link'; // Importação do Link adicionada
 import Image from 'next/image';
 import { X } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 
 import { instrumentsList } from '../../data/instrumentsList';
 
@@ -97,7 +97,7 @@ function InstrumentsContent() {
               className={`relative px-6 py-2.5 rounded-full text-sm font-medium transition-colors duration-300 ${isActive ? 'text-white' : 'text-gray-400 hover:text-white'}`}
             >
               {isActive && (
-                <motion.div
+                <m.div
                   layoutId="activeFilterBg"
                   className="absolute inset-0 bg-mara-orange rounded-full -z-10 shadow-[0_0_20px_rgba(249,115,22,0.4)]"
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -109,10 +109,10 @@ function InstrumentsContent() {
         })}
       </div>
 
-      <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 relative z-10">
+      <m.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 relative z-10">
         <AnimatePresence mode="popLayout">
           {(isExpanded || filtro !== "Todos" ? instrumentsList.filter(inst => filtro === "Todos" || inst.categoria === filtro) : []).map((inst) => (
-            <motion.div
+            <m.div
               layout
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -172,10 +172,10 @@ function InstrumentsContent() {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </m.div>
           ))}
         </AnimatePresence>
-      </motion.div>
+      </m.div>
 
       {/* Indicador para expandir/recolher */}
       {filtro === "Todos" && (
@@ -203,7 +203,7 @@ function InstrumentsContent() {
       {mounted && createPortal(
         <AnimatePresence>
           {isModalOpen && selectedInst && (
-            <motion.div
+            <m.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -211,7 +211,7 @@ function InstrumentsContent() {
             >
               <div className="absolute inset-0" onClick={closeModal}></div>
 
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, scale: 0.95, y: 30 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 30 }}
@@ -272,8 +272,8 @@ function InstrumentsContent() {
                     )}
                   </div>
                 </div>
-              </motion.div>
-            </motion.div>
+              </m.div>
+            </m.div>
           )}
         </AnimatePresence>,
         document.body

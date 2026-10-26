@@ -1,12 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { CalendarDays, Smartphone, CreditCard, FileSignature, History } from "lucide-react";
 
 export default function StudentPortal() {
     return (
-        <motion.section 
+        <m.section 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
@@ -73,7 +73,6 @@ export default function StudentPortal() {
                                     width={1200}
                                     height={800}
                                     className="w-full h-auto object-contain"
-                                    priority
                                 />
                             </div>
                         </div>
@@ -81,6 +80,6 @@ export default function StudentPortal() {
 
                 </div>
             </div>
-        </motion.section>
+        </m.section>
     );
 }  

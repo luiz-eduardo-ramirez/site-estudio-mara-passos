@@ -5,7 +5,7 @@ import { useLenis } from "lenis/react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { X, ZoomIn } from "lucide-react";
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, FreeMode, Pagination, Autoplay } from 'swiper/modules';
 
@@ -153,7 +153,7 @@ export default function Spaces() {
       {mounted && createPortal(
         <AnimatePresence>
           {selectedImage && (
-            <motion.div
+            <m.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -171,7 +171,7 @@ export default function Spaces() {
                 <X size={28} />
               </button>
 
-              <motion.div
+              <m.div
                 initial={{ scale: 0.9, opacity: 0, y: 20 }}
                 animate={{ scale: 1, opacity: 1, y: 0 }}
                 exit={{ scale: 0.9, opacity: 0, y: 20 }}
@@ -187,8 +187,8 @@ export default function Spaces() {
                   sizes="100vw"
                   quality={100}
                 />
-              </motion.div>
-            </motion.div>
+              </m.div>
+            </m.div>
           )}
         </AnimatePresence>,
         document.body

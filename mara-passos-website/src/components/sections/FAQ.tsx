@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence, Variants } from 'framer-motion';
+import { m, AnimatePresence, Variants } from 'framer-motion';
 import { faqData } from './faqData';
 
 // Variantes de animação para a entrada em cascata (Stagger)
@@ -30,7 +30,7 @@ export default function FAQ() {
   return (
     <section id="faq" className="py-24 bg-[#0a0a0a]">
       <div className="container mx-auto px-6 max-w-4xl">
-        <motion.h2 
+        <m.h2 
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
@@ -38,9 +38,9 @@ export default function FAQ() {
           className="text-3xl md:text-5xl font-bold text-white mb-12 text-center"
         >
           Perguntas <span className="text-mara-orange">Frequentes</span>
-        </motion.h2>
+        </m.h2>
         
-        <motion.div 
+        <m.div 
           className="space-y-4"
           variants={containerVariants}
           initial="hidden"
@@ -51,7 +51,7 @@ export default function FAQ() {
             const isOpen = openIndex === index;
 
             return (
-              <motion.div 
+              <m.div 
                 key={index} 
                 variants={itemVariants}
                 className="bg-neutral-900 border border-white/10 rounded-lg overflow-hidden"
@@ -64,7 +64,7 @@ export default function FAQ() {
                   className="w-full flex items-center justify-between p-6 cursor-pointer text-left text-lg font-semibold text-white hover:text-mara-orange transition-colors focus:outline-none"
                 >
                   {item.question}
-                  <motion.span 
+                  <m.span 
                     animate={{ rotate: isOpen ? 180 : 0 }}
                     transition={{ duration: 0.3, ease: "easeInOut" }}
                     className="text-mara-orange flex-shrink-0 ml-4"
@@ -72,12 +72,12 @@ export default function FAQ() {
                     <svg fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
                       <path d="M6 9l6 6 6-6"></path>
                     </svg>
-                  </motion.span>
+                  </m.span>
                 </button>
 
                 <AnimatePresence initial={false}>
                   {isOpen && (
-                    <motion.div
+                    <m.div
                       id={`faq-content-${index}`}
                       role="region"
                       aria-labelledby={`faq-btn-${index}`}
@@ -89,13 +89,13 @@ export default function FAQ() {
                       <div className="px-6 pb-6 text-gray-400 leading-relaxed border-t border-white/5 pt-4">
                         <p>{item.answer}</p>
                       </div>
-                    </motion.div>
+                    </m.div>
                   )}
                 </AnimatePresence>
-              </motion.div>
+              </m.div>
             );
           })}
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );
