@@ -49,6 +49,12 @@ const nextConfig: NextConfig = {
         destination: '/links',
         permanent: true,
       },
+      // 6. Notícias encerradas: quem chega por link antigo cai na seção de novidades
+      {
+        source: '/noticias/:slug(dia-das-criancas-no-estudio|semana-da-fantasia-no-estudio)',
+        destination: '/#noticias',
+        permanent: true,
+      },
     ];
   },
 };

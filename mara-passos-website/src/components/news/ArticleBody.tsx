@@ -39,7 +39,7 @@ export default function ArticleBody({ paragraphs, quote }: ArticleBodyProps) {
               {paragraph}
             </p>
           ) : (
-            <p className="mt-6 text-base sm:text-lg text-gray-300 leading-[1.8] text-pretty">
+            <p className="mt-6 text-base sm:text-lg text-gray-300 leading-[1.8] text-pretty whitespace-pre-line">
               {paragraph}
             </p>
           )}
