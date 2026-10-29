@@ -79,89 +79,52 @@ body {
   user-select: none;
 }
 
-/* Estilos customizados para a paginação do Swiper (Bolinhas laranjas) */
-.custom-pagination-bullet {
-    background-color: var(--color-mara-orange) !important;
-    opacity: 0.5;
-    width: 12px;
-    height: 12px;
-    display: inline-block;
-    border-radius: 50%;
-    margin: 0 5px;
+/* Controles do carrossel de notícias — ficam abaixo dos cards, fora da arte */
+.news-nav-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 9999px;
+    border: 1px solid rgba(242, 101, 34, 0.4);
+    color: var(--color-mara-orange);
+    cursor: pointer;
+    transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+.news-nav-btn:hover {
+    background: var(--color-mara-orange);
+    border-color: var(--color-mara-orange);
+    color: #fff;
+}
+.news-nav-btn:focus-visible,
+.news-dot:focus-visible {
+    outline: 2px solid var(--color-mara-orange);
+    outline-offset: 2px;
 }
 
-.custom-pagination-bullet-active {
-    opacity: 1 !important;
-    background-color: var(--color-mara-orange) !important;
+/* Área de toque de 28px; o ponto visível é menor */
+.news-dot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 9999px;
+    cursor: pointer;
 }
-
-/* Esconder setas de navegação do Swiper no mobile */
-.news-swiper .swiper-button-next,
-.news-swiper .swiper-button-prev {
-    display: none !important;
+.news-dot span {
+    display: block;
+    width: 10px;
+    height: 10px;
+    border-radius: 9999px;
+    background: var(--color-mara-orange);
+    opacity: 0.35;
+    transition: width 0.3s ease, opacity 0.3s ease;
 }
-
-@media (min-width: 640px) {
-    .news-swiper .swiper-button-next,
-    .news-swiper .swiper-button-prev {
-        display: flex !important;
-        align-items: center;
-        justify-content: center;
-        width: 44px;
-        height: 44px;
-        background: rgba(0, 0, 0, 0.45);
-        border: 1px solid rgba(242, 101, 34, 0.4);
-        border-radius: 9999px;
-        backdrop-filter: blur(6px);
-        color: var(--color-mara-orange) !important;
-        --swiper-navigation-size: 18px;
-        transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
-    }
-    .news-swiper .swiper-button-prev {
-        left: 16px !important;
-    }
-    .news-swiper .swiper-button-next {
-        right: 16px !important;
-    }
-    .news-swiper .swiper-button-next:hover,
-    .news-swiper .swiper-button-prev:hover {
-        background: var(--color-mara-orange);
-        border-color: var(--color-mara-orange);
-        color: #fff !important;
-    }
-}
-
-@media (min-width: 768px) {
-    .news-swiper .swiper-button-next,
-    .news-swiper .swiper-button-prev {
-        width: 52px;
-        height: 52px;
-        --swiper-navigation-size: 20px;
-    }
-    .news-swiper .swiper-button-prev {
-        left: 24px !important;
-    }
-    .news-swiper .swiper-button-next {
-        right: 24px !important;
-    }
-}
-
-/* Paginação no canto superior direito, longe do texto editorial no rodapé da imagem */
-.news-swiper .swiper-pagination {
-    top: 20px !important;
-    bottom: auto !important;
-    right: 20px !important;
-    left: auto !important;
-    width: auto !important;
-    display: flex !important;
-    gap: 4px;
-}
-
-@media (min-width: 768px) {
-    .news-swiper .swiper-pagination {
-        top: 28px !important;
-        right: 28px !important;
-    }
+.news-dot[aria-current='true'] span {
+    width: 28px;
+    opacity: 1;
 }
 
 /* Garantir que o Swiper não ultrapasse a tela */
