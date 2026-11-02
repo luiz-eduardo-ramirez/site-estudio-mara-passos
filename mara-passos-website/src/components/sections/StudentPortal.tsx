@@ -1,16 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { m } from "framer-motion";
+import Reveal from "../layout/Reveal";
 import { CalendarDays, Smartphone, CreditCard, FileSignature, History } from "lucide-react";
 
 export default function StudentPortal() {
     return (
-        <m.section 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6 }}
+        <Reveal
+            as="section"
+            y={30}
             className="container mx-auto px-6 max-w-6xl my-32"
         >
             <div className="bg-gradient-to-br from-neutral-900 to-[#140d0a] rounded-[2.5rem] p-8 md:p-14 border border-mara-orange/20 shadow-2xl overflow-hidden relative">
@@ -80,6 +78,6 @@ export default function StudentPortal() {
 
                 </div>
             </div>
-        </m.section>
+        </Reveal>
     );
-}  
+}

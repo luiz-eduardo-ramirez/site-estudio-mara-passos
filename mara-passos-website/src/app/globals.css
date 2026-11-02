@@ -75,8 +75,29 @@ body {
   bottom: -100px; /* Começa exatamente 100px abaixo da tela */
   color: #f26522; /* Laranja Mara Passos hardcoded para garantir */
   animation: floatUp linear infinite;
-  pointer-events: none; 
+  pointer-events: none;
   user-select: none;
+}
+
+/* Brilho em loop do esqueleto de carregamento das imagens dos espaços.
+   Antes era um loop do Framer Motion; agora é CSS puro. O bloco
+   prefers-reduced-motion mais abaixo zera a duração desta animação. */
+@keyframes shimmer {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(300%); }
+}
+.shimmer {
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+/* Entrada das mensagens do chat — uma vez, na montagem de cada balão.
+   Antes era initial/animate do Framer Motion. Reduced-motion zera a duração. */
+@keyframes chat-msg-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.chat-msg-in {
+  animation: chat-msg-in 0.3s ease-out both;
 }
 
 /* Controles do carrossel de notícias — ficam abaixo dos cards, fora da arte */

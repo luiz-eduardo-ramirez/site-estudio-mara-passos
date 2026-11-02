@@ -1,13 +1,15 @@
 "use client";
 
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, useRef, Suspense } from 'react';
 import { useLenis } from 'lenis/react';
 import { createPortal } from 'react-dom';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link'; // Importação do Link adicionada
 import Image from 'next/image';
 import { X } from 'lucide-react';
-import { m, AnimatePresence } from 'framer-motion';
+import { gsap, useGSAP } from '../../lib/gsap';
+import { useGsapPresence } from '../../lib/useGsapPresence';
+import { DUR, EASE } from '../../lib/motion';
 
 import { instrumentsList } from '../../data/instrumentsList';
 
@@ -21,12 +23,108 @@ function InstrumentsContent() {
   const [filtro, setFiltro] = useState("Todos");
   const [isExpanded, setIsExpanded] = useState(false);
   const lenis = useLenis();
-  
+
   const categorias = ["Todos", "Teclas", "Cordas", "Sopro", "Percussão", "Voz", "Prática em Grupo", "Teoria e Inicialização"];
+
+  const tabsRef = useRef<HTMLDivElement>(null);
+  const pilulaRef = useRef<HTMLSpanElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  const cursosVisiveis =
+    isExpanded || filtro !== "Todos"
+      ? instrumentsList.filter((inst) => filtro === "Todos" || inst.categoria === filtro)
+      : [];
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Pílula do filtro: um só elemento que desliza para o botão ativo (via
+  // transform x/y + tamanho). Substitui o layoutId do Framer Motion. Na primeira
+  // vez posiciona sem animar; depois anima a troca.
+  useGSAP(
+    () => {
+      const tabs = tabsRef.current;
+      const pilula = pilulaRef.current;
+      if (!tabs || !pilula) return;
+      const idx = categorias.indexOf(filtro);
+      const botao = tabs.querySelector<HTMLElement>(`[data-cat-idx="${idx}"]`);
+      if (!botao) return;
+      const jaPronto = pilula.dataset.pronto === "1";
+      gsap.to(pilula, {
+        x: botao.offsetLeft,
+        y: botao.offsetTop,
+        width: botao.offsetWidth,
+        height: botao.offsetHeight,
+        duration: jaPronto ? 0.4 : 0,
+        ease: EASE.inOut,
+        overwrite: true,
+      });
+      pilula.dataset.pronto = "1";
+    },
+    { dependencies: [filtro], scope: tabsRef },
+  );
+
+  // Quebra de linha dos botões (resize) muda as posições: recoloca sem animar.
+  useEffect(() => {
+    const reposicionar = () => {
+      const tabs = tabsRef.current;
+      const pilula = pilulaRef.current;
+      if (!tabs || !pilula) return;
+      const idx = categorias.indexOf(filtro);
+      const botao = tabs.querySelector<HTMLElement>(`[data-cat-idx="${idx}"]`);
+      if (!botao) return;
+      gsap.set(pilula, {
+        x: botao.offsetLeft,
+        y: botao.offsetTop,
+        width: botao.offsetWidth,
+        height: botao.offsetHeight,
+      });
+    };
+    window.addEventListener("resize", reposicionar);
+    return () => window.removeEventListener("resize", reposicionar);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filtro]);
+
+  // Grade de cursos: a cada troca de filtro (ou expandir), os cards entram
+  // escalonados. Substitui o layout/popLayout do Framer Motion.
+  useGSAP(
+    () => {
+      const grid = gridRef.current;
+      if (!grid || grid.children.length === 0) return;
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.from(grid.children, {
+          opacity: 0,
+          scale: 0.9,
+          y: 16,
+          duration: DUR.base,
+          ease: EASE.out,
+          stagger: 0.05,
+          overwrite: true,
+        });
+      });
+    },
+    { dependencies: [filtro, isExpanded], scope: gridRef },
+  );
+
+  // Modal do curso com presença animada (GSAP).
+  const { montado: modalMontado, ref: modalRef } = useGsapPresence<HTMLDivElement>(isModalOpen, {
+    entrar: (el) => {
+      const painel = el.querySelector<HTMLElement>("[data-painel]");
+      gsap
+        .timeline()
+        .from(el, { opacity: 0, duration: DUR.fast, ease: EASE.out })
+        .from(painel, { opacity: 0, scale: 0.95, y: 30, duration: DUR.base, ease: EASE.out }, "<");
+    },
+    sair: (el, pronto) => {
+      const painel = el.querySelector<HTMLElement>("[data-painel]");
+      gsap
+        .timeline({ onComplete: pronto })
+        .to(painel, { opacity: 0, scale: 0.95, y: 30, duration: DUR.exit, ease: "power2.in" }, 0)
+        .to(el, { opacity: 0, duration: DUR.exit }, 0);
+    },
+  });
 
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
@@ -87,37 +185,31 @@ function InstrumentsContent() {
       </div>
 
       {/* Renderização das Abas de Categoria */}
-      <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-16 relative z-10">
-        {categorias.map(cat => {
+      <div ref={tabsRef} className="flex flex-wrap justify-center gap-2 md:gap-4 mb-16 relative z-10">
+        {/* Pílula que desliza para baixo do botão ativo */}
+        <span
+          ref={pilulaRef}
+          aria-hidden
+          className="absolute left-0 top-0 bg-mara-orange rounded-full -z-10 shadow-[0_0_20px_rgba(249,115,22,0.4)] pointer-events-none"
+        />
+        {categorias.map((cat, i) => {
           const isActive = filtro === cat;
           return (
-            <button 
+            <button
               key={cat}
+              data-cat-idx={i}
               onClick={() => { setFiltro(cat); setIsExpanded(true); }}
               className={`relative px-6 py-2.5 rounded-full text-sm font-medium transition-colors duration-300 ${isActive ? 'text-white' : 'text-gray-400 hover:text-white'}`}
             >
-              {isActive && (
-                <m.div
-                  layoutId="activeFilterBg"
-                  className="absolute inset-0 bg-mara-orange rounded-full -z-10 shadow-[0_0_20px_rgba(249,115,22,0.4)]"
-                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                />
-              )}
               <span className="relative z-10">{cat}</span>
             </button>
           );
         })}
       </div>
 
-      <m.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 relative z-10">
-        <AnimatePresence mode="popLayout">
-          {(isExpanded || filtro !== "Todos" ? instrumentsList.filter(inst => filtro === "Todos" || inst.categoria === filtro) : []).map((inst) => (
-            <m.div
-              layout
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.4, type: "spring", bounce: 0.2 }}
+      <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 relative z-10">
+          {cursosVisiveis.map((inst) => (
+            <div
               key={inst.nome}
               onClick={() => {
                 setSelectedInst(inst);
@@ -172,10 +264,9 @@ function InstrumentsContent() {
                   </div>
                 </div>
               </div>
-            </m.div>
+            </div>
           ))}
-        </AnimatePresence>
-      </m.div>
+      </div>
 
       {/* Indicador para expandir/recolher */}
       {filtro === "Todos" && (
@@ -200,22 +291,15 @@ function InstrumentsContent() {
       )}
 
       {/* Modal Editorial */}
-      {mounted && createPortal(
-        <AnimatePresence>
-          {isModalOpen && selectedInst && (
-            <m.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+      {mounted && modalMontado && selectedInst && createPortal(
+            <div
+              ref={modalRef}
               className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 md:p-12 bg-black/70 backdrop-blur-xl"
             >
               <div className="absolute inset-0" onClick={closeModal}></div>
 
-              <m.div
-                initial={{ opacity: 0, scale: 0.95, y: 30 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: 30 }}
-                transition={{ type: "spring", duration: 0.6, bounce: 0.15 }}
+              <div
+                data-painel
                 className="bg-[#0a0a0a]/90 backdrop-blur-2xl border border-white/10 w-full max-w-6xl h-full max-h-[85vh] rounded-[2rem] overflow-hidden shadow-2xl flex flex-col md:flex-row relative z-10"
               >
                 <button
@@ -272,10 +356,8 @@ function InstrumentsContent() {
                     )}
                   </div>
                 </div>
-              </m.div>
-            </m.div>
-          )}
-        </AnimatePresence>,
+              </div>
+            </div>,
         document.body
       )}
     </>

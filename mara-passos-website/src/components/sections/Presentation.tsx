@@ -1,6 +1,6 @@
 "use client";
 
-import { m } from "framer-motion";
+import Reveal from "../layout/Reveal";
 import { PlayCircle } from "lucide-react";
 
 export default function Presentation() {
@@ -11,11 +11,9 @@ export default function Presentation() {
       <div className="container mx-auto px-6 max-w-7xl">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
 
-          <m.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7 }}
+          <Reveal
+            x={-50}
+            y={0}
             className="w-full lg:w-1/2 relative group"
           >
             {/* Aspect ratio container for 16:9 video */}
@@ -32,13 +30,11 @@ export default function Presentation() {
 
             {/* Decorative background glow */}
             <div className="absolute -inset-4 bg-mara-orange/20 blur-[50px] -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-[3rem]"></div>
-          </m.div>
+          </Reveal>
 
-          <m.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7, delay: 0.2 }}
+          <Reveal
+            x={50}
+            y={0}
             className="w-full lg:w-1/2 flex flex-col items-start"
           >
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-mara-orange/10 text-mara-orange rounded-full text-sm font-semibold mb-6 border border-mara-orange/20">
@@ -64,7 +60,7 @@ export default function Presentation() {
             >
               Prepare-se para o Próximo!
             </a>
-          </m.div>
+          </Reveal>
 
         </div>
       </div>

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Award } from 'lucide-react';
 import Link from 'next/link';
-import { m } from 'framer-motion';
+import Reveal from '../layout/Reveal';
 import Image from 'next/image';
 import { teachersList } from '../../data/teachersList';
 
@@ -81,11 +81,8 @@ export default function Teachers() {
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
       <div className="container mx-auto px-6 max-w-7xl">
         
-        <m.div 
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6 }}
+        <Reveal
+          y={-20}
           className="text-center mb-20"
         >
           <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-4">
@@ -95,13 +92,13 @@ export default function Teachers() {
             Uma equipe de profissionais apaixonados por música, prontos para guiar você em cada nota da sua jornada.
             Nossos professores trazem anos de experiência e dedicação para ajudar você a atingir seus objetivos musicais.
           </p>
-        </m.div>
+        </Reveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 xl:gap-10">
+        <Reveal stagger className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 xl:gap-10">
           {teachersList.map((teacher) => (
             <TeacherCard key={teacher.id} teacher={teacher} />
           ))}
-        </div>
+        </Reveal>
       </div>
     </section>
   );

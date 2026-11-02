@@ -1,12 +1,37 @@
 "use client";
 
 import { useState } from "react";
-import { Instagram, MessageCircle, X, Share2 } from "lucide-react";
-import { m, AnimatePresence } from "framer-motion";
+import { Instagram, MessageCircle, X } from "lucide-react";
 import Image from "next/image";
+import { gsap, useGsapPresence } from "../../lib/useGsapPresence";
+import { DUR, EASE } from "../../lib/motion";
 
 export default function SocialButtons() {
     const [isOpen, setIsOpen] = useState(false);
+
+    // Pilha de botões: entra escalonada de baixo para cima; sai rápido, na ordem
+    // inversa (o de cima some primeiro), e só então desmonta.
+    const { montado, ref } = useGsapPresence<HTMLDivElement>(isOpen, {
+        entrar: (el) =>
+            gsap.from(el.children, {
+                opacity: 0,
+                y: 20,
+                scale: 0.8,
+                duration: DUR.fast,
+                ease: EASE.out,
+                stagger: 0.06,
+            }),
+        sair: (el, pronto) =>
+            gsap.to(el.children, {
+                opacity: 0,
+                y: 20,
+                scale: 0.8,
+                duration: DUR.exit,
+                ease: "power2.in",
+                stagger: { each: 0.05, from: "end" },
+                onComplete: pronto,
+            }),
+    });
 
     const numeroWhatsApp = "5511972405722";
     const mensagemPadrao = "Olá! Gostaria de saber mais informações sobre as aulas e agendar uma visita.";
@@ -28,30 +53,22 @@ export default function SocialButtons() {
                 className="w-12 h-12 md:w-14 md:h-14 bg-mara-orange text-white rounded-full shadow-lg flex items-center justify-center hover:bg-orange-600 transition-colors hover:scale-105 active:scale-95 z-50"
                 aria-label="Opções de Contato"
             >
-                <m.div
-                    initial={false}
-                    animate={{ rotate: isOpen ? 180 : 0 }}
-                    transition={{ duration: 0.3 }}
+                <span
+                    className="inline-flex transition-transform duration-300"
+                    style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0deg)" }}
                 >
                     {isOpen ? <X size={24} strokeWidth={2.5} /> : <MessageCircle size={24} strokeWidth={2.5} />}
-                </m.div>
+                </span>
             </button>
 
             {/* Botões Secundários Empilhados */}
-            <AnimatePresence>
-                {isOpen && (
-                    <m.div
-                        initial={{ opacity: 0, y: 20, scale: 0.8 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 20, scale: 0.8 }}
-                        transition={{ duration: 0.2, staggerChildren: 0.1 }}
+            {montado && (
+                    <div
+                        ref={ref}
                         className="flex flex-col-reverse items-center gap-3 mb-2"
                     >
                         {/* Botão do WhatsApp (Secundário Menor) */}
-                        <m.a
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: 10 }}
+                        <a
                             href={linkWhatsApp}
                             target="_blank"
                             rel="noopener noreferrer"
@@ -69,13 +86,10 @@ export default function SocialButtons() {
                             >
                                 <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c-.003 1.396.366 2.76 1.061 3.961L0 16l4.234-1.112a7.85 7.85 0 0 0 3.756.953h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z" />
                             </svg>
-                        </m.a>
+                        </a>
 
                         {/* Botão do Instagram (Secundário Menor) */}
-                        <m.a
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: 10 }}
+                        <a
                             href={linkInstagram}
                             target="_blank"
                             rel="noopener noreferrer"
@@ -84,12 +98,9 @@ export default function SocialButtons() {
                             className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-500 text-white rounded-full shadow-md flex items-center justify-center hover:opacity-90 transition-opacity hover:scale-105 active:scale-95"
                         >
                             <Instagram size={20} strokeWidth={2.5} />
-                        </m.a>
+                        </a>
                         {/* Botão do Chatbot (Secundário Menor) */}
-                        <m.button
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: 10 }}
+                        <button
                             onClick={() => {
                                 window.dispatchEvent(new Event("openChatbot"));
                                 setIsOpen(false);
@@ -99,10 +110,9 @@ export default function SocialButtons() {
                             className="w-10 h-10 md:w-12 md:h-12 bg-blue-500 text-white rounded-full shadow-md flex items-center justify-center hover:bg-blue-600 transition-colors hover:scale-105 active:scale-95"
                         >
                             <Image src="/chat.svg" alt="Chat" width={20} height={20} className="brightness-0 invert" />
-                        </m.button>
-                    </m.div>
+                        </button>
+                    </div>
                 )}
-            </AnimatePresence>
         </div>
     );
 }

@@ -68,9 +68,9 @@ export default function Home() {
 
         <Teachers />
 
-        <ScrollReveal><FAQ /></ScrollReveal>
+        <FAQ />
 
-        <ScrollReveal><AboutUs /></ScrollReveal>
+        <AboutUs />
         <Presentation />
         <ScrollReveal><About /></ScrollReveal>
         

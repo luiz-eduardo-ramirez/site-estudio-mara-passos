@@ -3,6 +3,8 @@
 import { ReactLenis, useLenis } from "lenis/react";
 import { useEffect, useState } from "react";
 
+import { gsap, ScrollTrigger } from "../../lib/gsap";
+
 /*
  * Folha de estilo da própria biblioteca. Ela libera a altura do documento,
  * trava a rolagem enquanto a instância estiver parada — é o que segura a
@@ -28,9 +30,9 @@ import "lenis/dist/lenis.css";
  * scrollTop da página, quadro a quadro. Isso importa porque tudo o que já
  * existe aqui depende da posição real de rolagem e continua funcionando sem
  * mudança nenhuma: o cabeçalho que encolhe (window.scrollY), a barra de
- * progresso das notícias, o whileInView do Framer Motion, o position: sticky
- * da coluna lateral do artigo e o pentagrama da /links, que é animado por
- * scroll timeline do CSS.
+ * progresso das notícias, o ScrollTrigger do GSAP (que é avançado pelo mesmo
+ * ticker — ver PonteLenisGsap), o position: sticky da coluna lateral do artigo
+ * e o pentagrama da /links, que é animado por scroll timeline do CSS.
  *
  * Duas decisões que valem o registro:
  *
@@ -70,12 +72,56 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
         lerp: 0.1,
         smoothWheel: true,
         syncTouch: false,
+        // A Lenis não roda o próprio requestAnimationFrame: quem a avança é o
+        // ticker do GSAP (ver PonteLenisGsap). Um só laço de quadro para a
+        // rolagem e para as animações.
+        autoRaf: false,
       }}
     >
       <AncorasSuaves />
+      <PonteLenisGsap />
       {children}
     </ReactLenis>
   );
+}
+
+/**
+ * Liga a Lenis ao ScrollTrigger do GSAP.
+ *
+ * Fica dentro do ReactLenis para ter acesso à instância pelo useLenis. Faz três
+ * coisas, na receita oficial Lenis + GSAP:
+ *
+ * 1. A cada rolagem da Lenis, pede ao ScrollTrigger para se atualizar — assim os
+ *    gatilhos leem a posição interpolada (suave), e não um valor defasado.
+ * 2. Avança a Lenis a partir do ticker do GSAP (um só requestAnimationFrame no
+ *    site). Por isso o autoRaf fica desligado nas opções acima: sem isso, a
+ *    rolagem andaria em dois laços concorrentes.
+ * 3. Desliga o lagSmoothing do GSAP: deixa a rolagem fiel à Lenis mesmo após um
+ *    engasgo de quadro.
+ *
+ * Sob prefers-reduced-motion este componente nem é montado — a Lenis não existe
+ * e o ScrollTrigger usa a rolagem nativa do navegador.
+ */
+function PonteLenisGsap() {
+  const lenis = useLenis();
+
+  useEffect(() => {
+    if (!lenis) return;
+
+    const aoRolar = () => ScrollTrigger.update();
+    const avancar = (tempo: number) => lenis.raf(tempo * 1000);
+
+    lenis.on("scroll", aoRolar);
+    gsap.ticker.add(avancar);
+    gsap.ticker.lagSmoothing(0);
+
+    return () => {
+      lenis.off("scroll", aoRolar);
+      gsap.ticker.remove(avancar);
+    };
+  }, [lenis]);
+
+  return null;
 }
 
 /**

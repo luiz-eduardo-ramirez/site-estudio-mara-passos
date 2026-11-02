@@ -5,7 +5,8 @@ import { useLenis } from "lenis/react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { X, ZoomIn } from "lucide-react";
-import { m, AnimatePresence } from 'framer-motion';
+import { gsap, useGsapPresence } from "../../lib/useGsapPresence";
+import { DUR, EASE } from "../../lib/motion";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, FreeMode, Pagination, Autoplay } from 'swiper/modules';
 
@@ -30,12 +31,9 @@ function LoadingImage({ className = "", ...props }: React.ComponentProps<typeof 
         aria-hidden
         className={`absolute inset-0 overflow-hidden bg-neutral-800/60 pointer-events-none transition-opacity duration-700 ${loaded ? "opacity-0" : "opacity-100"}`}
       >
-        <m.div
-          className="absolute inset-y-0 w-1/2 bg-gradient-to-r from-transparent via-white/10 to-transparent"
-          initial={{ x: "-100%" }}
-          animate={{ x: "300%" }}
-          transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
-        />
+        {/* Brilho em loop (shimmer) via CSS — ver @keyframes shimmer em globals.css.
+            Sob prefers-reduced-motion o bloco global zera a animação. */}
+        <div className="shimmer absolute inset-y-0 w-1/2 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
       </div>
       <Image
         {...props}
@@ -55,6 +53,31 @@ export default function Spaces() {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Lightbox com presença animada (GSAP). O estado selectedImage é a intenção;
+  // durante a saída ele volta a null, então guardo a última imagem num ref para
+  // o <Image> continuar mostrando algo enquanto o modal some.
+  const aberto = selectedImage !== null;
+  const ultimaImagem = useRef<string | null>(null);
+  if (selectedImage) ultimaImagem.current = selectedImage;
+  const imagemMostrada = selectedImage ?? ultimaImagem.current;
+
+  const { montado: modalMontado, ref: modalRef } = useGsapPresence<HTMLDivElement>(aberto, {
+    entrar: (el) => {
+      const painel = el.querySelector<HTMLElement>("[data-painel]");
+      gsap
+        .timeline()
+        .from(el, { opacity: 0, duration: DUR.fast, ease: EASE.out })
+        .from(painel, { opacity: 0, scale: 0.9, y: 20, duration: DUR.base, ease: EASE.out }, "<");
+    },
+    sair: (el, pronto) => {
+      const painel = el.querySelector<HTMLElement>("[data-painel]");
+      gsap
+        .timeline({ onComplete: pronto })
+        .to(painel, { opacity: 0, scale: 0.9, y: 20, duration: DUR.exit, ease: "power2.in" }, 0)
+        .to(el, { opacity: 0, duration: DUR.exit }, 0);
+    },
+  });
 
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
@@ -181,48 +204,38 @@ export default function Spaces() {
 
       </div>
 
-      {/* ---------------- MODAL LIGHTBOX COM FRAMER MOTION ---------------- */}
-      {mounted && createPortal(
-        <AnimatePresence>
-          {selectedImage && (
-            <m.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/95 backdrop-blur-xl p-4 md:p-8"
-              onClick={() => setSelectedImage(null)}
-            >
-              <button
-                className="absolute top-6 right-6 md:top-10 md:right-10 text-white/50 hover:text-mara-orange transition-colors bg-white/5 hover:bg-white/10 rounded-full p-3 z-50"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setSelectedImage(null);
-                }}
-              >
-                <X size={28} />
-              </button>
+      {/* ---------------- MODAL LIGHTBOX (GSAP) ---------------- */}
+      {mounted && modalMontado && imagemMostrada && createPortal(
+        <div
+          ref={modalRef}
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/95 backdrop-blur-xl p-4 md:p-8"
+          onClick={() => setSelectedImage(null)}
+        >
+          <button
+            className="absolute top-6 right-6 md:top-10 md:right-10 text-white/50 hover:text-mara-orange transition-colors bg-white/5 hover:bg-white/10 rounded-full p-3 z-50"
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedImage(null);
+            }}
+          >
+            <X size={28} />
+          </button>
 
-              <m.div
-                initial={{ scale: 0.9, opacity: 0, y: 20 }}
-                animate={{ scale: 1, opacity: 1, y: 0 }}
-                exit={{ scale: 0.9, opacity: 0, y: 20 }}
-                transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                className="relative w-full max-w-5xl h-full max-h-[85vh]"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <LoadingImage
-                  src={selectedImage}
-                  alt="Espaço ampliado"
-                  fill
-                  className="object-contain drop-shadow-[0_0_30px_rgba(249,115,22,0.15)]"
-                  sizes="100vw"
-                  quality={100}
-                />
-              </m.div>
-            </m.div>
-          )}
-        </AnimatePresence>,
+          <div
+            data-painel
+            className="relative w-full max-w-5xl h-full max-h-[85vh]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <LoadingImage
+              src={imagemMostrada}
+              alt="Espaço ampliado"
+              fill
+              className="object-contain drop-shadow-[0_0_30px_rgba(249,115,22,0.15)]"
+              sizes="100vw"
+              quality={100}
+            />
+          </div>
+        </div>,
         document.body
       )}
     </section>

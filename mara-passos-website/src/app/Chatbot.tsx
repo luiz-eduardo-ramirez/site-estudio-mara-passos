@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { m, AnimatePresence } from "framer-motion";
+import { gsap, useGsapPresence } from "../lib/useGsapPresence";
+import { DUR, EASE } from "../lib/motion";
 import { X, Send } from "lucide-react";
 import Image from "next/image";
 
@@ -113,6 +114,15 @@ export default function ChatbotLocal() {
 
     const messagesBoxRef = useRef<HTMLDivElement>(null);
 
+    // Painel do chat com presença animada (GSAP). Entra de baixo, à esquerda
+    // (origin-bottom-left); sai mais rápido antes de desmontar.
+    const { montado: painelMontado, ref: painelRef } = useGsapPresence<HTMLDivElement>(isOpen, {
+        entrar: (el) =>
+            gsap.from(el, { opacity: 0, y: 20, scale: 0.9, duration: DUR.base, ease: EASE.out }),
+        sair: (el, pronto) =>
+            gsap.to(el, { opacity: 0, y: 20, scale: 0.9, duration: DUR.exit, ease: "power2.in", onComplete: pronto }),
+    });
+
     // Rola a própria caixa, e não um marcador dentro dela com scrollIntoView:
     // o scrollIntoView rola todos os ancestrais roláveis até a janela, e com a
     // rolagem suave ativa isso arrastaria a página atrás do chat junto.
@@ -146,12 +156,9 @@ export default function ChatbotLocal() {
     return (
         <div className="fixed bottom-24 left-6 z-[999] flex flex-col items-start pointer-events-none">
 
-            <AnimatePresence>
-                {isOpen && (
-                    <m.div
-                        initial={{ opacity: 0, y: 20, scale: 0.9 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 20, scale: 0.9 }}
+            {painelMontado && (
+                    <div
+                        ref={painelRef}
                         className="mb-4 w-80 sm:w-96 rounded-2xl bg-zinc-950 shadow-2xl flex flex-col overflow-hidden border border-orange-500 origin-bottom-left pointer-events-auto"
                     >
                         {/* Header */}
@@ -177,29 +184,26 @@ export default function ChatbotLocal() {
                             do histórico de mensagens. */}
                         <div ref={messagesBoxRef} data-lenis-prevent className="h-80 p-4 overflow-y-auto bg-transparent flex flex-col gap-3">
                             {messages.map((msg, idx) => (
-                                <m.div
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
+                                <div
                                     key={idx}
-                                    className={`whitespace-pre-wrap max-w-[85%] rounded-2xl p-3 text-sm font-medium shadow-md ${msg.role === "user"
+                                    className={`chat-msg-in whitespace-pre-wrap max-w-[85%] rounded-2xl p-3 text-sm font-medium shadow-md ${msg.role === "user"
                                         ? "bg-orange-600 text-white self-end rounded-tr-sm"
                                         : "bg-orange-500 text-zinc-950 self-start rounded-tl-sm"
                                         }`}
                                 >
                                     {msg.text}
-                                </m.div>
+                                </div>
                             ))}
 
                             {/* Indicador de Digitação */}
                             {isTyping && (
-                                <m.div
-                                    initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                                    className="bg-orange-500 text-zinc-950 self-start rounded-2xl rounded-tl-sm p-3 max-w-[50%] flex gap-1 shadow-md"
+                                <div
+                                    className="chat-msg-in bg-orange-500 text-zinc-950 self-start rounded-2xl rounded-tl-sm p-3 max-w-[50%] flex gap-1 shadow-md"
                                 >
                                     <span className="animate-bounce">.</span>
                                     <span className="animate-bounce delay-75">.</span>
                                     <span className="animate-bounce delay-150">.</span>
-                                </m.div>
+                                </div>
                             )}
                         </div>
 
@@ -221,9 +225,8 @@ export default function ChatbotLocal() {
                                 <Send size={18} className="ml-0.5" />
                             </button>
                         </div>
-                    </m.div>
+                    </div>
                 )}
-            </AnimatePresence>
         </div>
     );
 }
