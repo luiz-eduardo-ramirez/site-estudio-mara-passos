@@ -93,7 +93,7 @@ export default function StudentPortal() {
   );
 
   return (
-    <section className="container mx-auto my-32 max-w-5xl px-6">
+    <section className="mx-auto my-28 max-w-2xl px-6">
       {/* Intro */}
       <Reveal y={30} className="mb-12 text-center">
         <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-1.5 text-sm font-semibold text-gray-200">
@@ -116,28 +116,28 @@ export default function StudentPortal() {
             key={r.title}
             data-painel
             style={{ top: `${TOPO_BASE + i * DEGRAU}px`, zIndex: i + 1 }}
-            className={`sticky flex min-h-[9rem] items-center gap-5 overflow-hidden rounded-[1.75rem] border p-6 shadow-2xl will-change-transform md:gap-7 md:p-8 ${
+            className={`sticky flex min-h-[7rem] items-center gap-4 overflow-hidden rounded-2xl border p-5 shadow-2xl will-change-transform md:gap-5 md:p-6 ${
               r.destaque
                 ? "border-orange-300/30 bg-gradient-to-br from-mara-orange to-orange-600 text-white"
                 : "border-white/10 bg-gradient-to-br from-neutral-800 to-[#15110e] text-white"
             }`}
           >
             {/* Número grande ao fundo */}
-            <span className="pointer-events-none absolute -right-2 -top-4 text-8xl font-black tabular-nums text-white/10">
+            <span className="pointer-events-none absolute -right-2 -top-3 text-6xl font-black tabular-nums text-white/10">
               {String(i + 1).padStart(2, "0")}
             </span>
 
             <span
-              className={`inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl ${
+              className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${
                 r.destaque ? "bg-white/20 text-white" : "bg-mara-orange/15 text-mara-orange"
               }`}
             >
-              <r.icon size={26} />
+              <r.icon size={20} />
             </span>
 
             <div className="relative">
-              <h3 className="text-lg font-bold md:text-xl">{r.title}</h3>
-              <p className={`mt-1 text-sm leading-relaxed md:text-base ${r.destaque ? "text-white/85" : "text-gray-400"}`}>
+              <h3 className="text-base font-bold md:text-lg">{r.title}</h3>
+              <p className={`mt-1 text-sm leading-relaxed ${r.destaque ? "text-white/85" : "text-gray-400"}`}>
                 {r.desc}
               </p>
             </div>
@@ -148,7 +148,7 @@ export default function StudentPortal() {
         <div
           data-painel
           style={{ top: `${TOPO_BASE + recursos.length * DEGRAU}px`, zIndex: recursos.length + 1 }}
-          className="sticky overflow-hidden rounded-[1.75rem] border border-mara-orange/25 bg-neutral-950 shadow-2xl will-change-transform"
+          className="sticky overflow-hidden rounded-2xl border border-mara-orange/25 bg-neutral-950 shadow-2xl will-change-transform"
         >
           <div className="flex h-9 items-center gap-2 border-b border-white/5 bg-neutral-900 px-4">
             <span className="h-2.5 w-2.5 rounded-full bg-red-500/80" />

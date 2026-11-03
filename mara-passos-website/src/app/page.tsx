@@ -62,11 +62,12 @@ export default function Home() {
         <ScrollReveal><News /></ScrollReveal>
 
         <ScrollReveal><Instruments /></ScrollReveal>
-        <StudentPortal />
 
         <Spaces />
 
         <Teachers />
+
+        <StudentPortal />
 
         <FAQ />
 
