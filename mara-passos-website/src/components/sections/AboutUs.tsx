@@ -3,23 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { Heart, Scale, Music } from 'lucide-react';
-import { m, Variants } from 'framer-motion';
-
-const staggerContainer: Variants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2,
-      delayChildren: 0.2,
-    },
-  },
-};
-
-const fadeUpItem: Variants = {
-  hidden: { opacity: 0, y: 30 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
-};
+import Reveal from '../layout/Reveal';
 
 export default function AboutUs() {
   const historiaExemplo = `O Estúdio Musical e Cultural Mara Passos nasceu de um sonho acalentado por mais de 30 anos: o de criar um espaço onde o ensino de música não fosse apenas sobre notas e partituras, mas sobre amor, acolhimento e transformação. Sob a liderança inspiradora de Mara Ferreira Lugli, nossa missão é extrair o melhor de cada aluno, transformando a paixão pela música em uma habilidade para a vida toda. Acreditamos no ensino musical curativo e acolhedor, onde o ritmo de cada um é respeitado e o aprendizado é uma jornada lúdica e cheia de significado.`;
@@ -33,11 +17,9 @@ export default function AboutUs() {
       <div className="container mx-auto px-6 max-w-7xl">
         
         {/* Cabeçalho da Seção Animado */}
-        <m.div 
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.7 }}
+        <Reveal
+          y={-20}
+          blur
           className="text-center mb-16 md:mb-24"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
@@ -46,14 +28,11 @@ export default function AboutUs() {
           <p className="text-gray-400 max-w-2xl mx-auto text-lg">
             Uma vida dedicada ao ensino musical, um sonho transformado em lar para sua paixão.
           </p>
-        </m.div>
+        </Reveal>
 
         {/* Container Principal: Sem altura fixa, adaptável ao conteúdo */}
-        <m.div 
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+        <Reveal
+          y={40}
           className="bg-[#111111]/80 backdrop-blur-xl border border-white/5 rounded-[2rem] w-full max-w-6xl mx-auto overflow-hidden flex flex-col lg:flex-row shadow-2xl relative"
         >
           
@@ -62,54 +41,47 @@ export default function AboutUs() {
             {/* Máscara de gradiente para suavizar a borda no desktop */}
             <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-[#111111]/90 via-transparent to-transparent z-10 pointer-events-none"></div>
             
-            <m.div 
-              whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.7, ease: "easeOut" }}
-              className="absolute inset-0 w-full h-full"
-            >
-              <Image 
+            <div className="absolute inset-0 w-full h-full transition-transform duration-700 ease-out group-hover:scale-105">
+              <Image
                 src="/mara-passos-tocando.webp"
-                alt="Mara Passos tocando piano" 
+                alt="Mara Passos tocando piano"
                 fill
                 className="object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"
                 sizes="(max-width: 1024px) 100vw, 40vw"
               />
-            </m.div>
+            </div>
           </div>
 
           {/* Lado Direito: Textos (Sem Scrollbar, com muito padding) */}
-          <m.div 
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.3 }}
+          <Reveal
+            stagger
             className="w-full lg:w-7/12 p-10 lg:p-16 flex flex-col justify-center relative z-20 text-left"
           >
-            
-            <m.div variants={fadeUpItem} className="flex items-center gap-4 mb-10">
+
+            <div className="flex items-center gap-4 mb-10">
                 <div className="w-12 h-12 rounded-full bg-mara-orange/10 flex items-center justify-center shrink-0">
                   <Heart className="text-mara-orange" size={24} />
                 </div>
                 <h3 className="text-3xl lg:text-4xl font-bold text-white leading-tight">
                   O Sonho da Mara:<br/> Um Encontro com a Música
                 </h3>
-            </m.div>
-            
+            </div>
+
             <div className="text-gray-300 text-lg lg:text-xl leading-relaxed space-y-6 font-light">
-              <m.p variants={fadeUpItem}>
+              <p>
                 <span className="flex items-center gap-2 mb-4 text-mara-orange font-medium text-base tracking-wider uppercase">
                     <Scale size={18}/>
                     Metodologia Acolhedora
                 </span>
                 &quot;{historiaExemplo}&quot;
-              </m.p>
+              </p>
 
-              <m.p variants={fadeUpItem}>
+              <p>
                 Hoje, somos mais que uma escola; somos uma família musical que celebra cada nota conquistada e cada aluno que descobre a sua própria voz.
-              </m.p>
+              </p>
             </div>
-            
-            <m.div variants={fadeUpItem} className="mt-12 pt-8 border-t border-white/5">
+
+            <div className="mt-12 pt-8 border-t border-white/5">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <p className="text-gray-400 font-medium">
                       Descubra como nossa paixão pode guiar a sua.
@@ -124,10 +96,10 @@ export default function AboutUs() {
                       Venha nos conhecer
                   </a>
                 </div>
-            </m.div>
-          </m.div>
+            </div>
+          </Reveal>
 
-        </m.div>
+        </Reveal>
       </div>
     </section>
   );

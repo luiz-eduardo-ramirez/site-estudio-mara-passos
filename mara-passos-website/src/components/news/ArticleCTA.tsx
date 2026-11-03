@@ -25,7 +25,7 @@ export default function ArticleCTA({ newsTitle }: ArticleCTAProps) {
   };
 
   return (
-    <section className="mt-16 md:mt-24 rounded-2xl md:rounded-3xl border border-mara-orange/25 bg-gradient-to-br from-mara-orange/12 to-transparent p-8 md:p-12">
+    <section className="reveal mt-16 md:mt-24 rounded-2xl md:rounded-3xl border border-mara-orange/25 bg-gradient-to-br from-mara-orange/12 to-transparent p-8 md:p-12">
       <h2 className={`${playfair.className} text-2xl md:text-3xl font-bold italic text-white text-balance`}>
         Quer fazer parte do próximo capítulo?
       </h2>

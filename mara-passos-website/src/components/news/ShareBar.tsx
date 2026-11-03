@@ -80,7 +80,7 @@ export default function ShareBar({ title, description, instagramUrl }: ShareBarP
     copia === 'copiado' ? 'Link copiado' : copia === 'erro' ? 'Copie da barra de endereço' : 'Copiar link';
 
   return (
-    <div className="mt-12 md:mt-16 pt-8 border-t border-white/10 flex flex-wrap items-center gap-3">
+    <div className="reveal mt-12 md:mt-16 pt-8 border-t border-white/10 flex flex-wrap items-center gap-3">
       <span className="text-sm font-semibold uppercase tracking-[0.2em] text-gray-500 mr-1">
         Compartilhar
       </span>

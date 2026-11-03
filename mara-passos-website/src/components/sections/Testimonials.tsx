@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { useState, useRef } from 'react';
+import { gsap, useGSAP } from '../../lib/gsap';
+import { EASE } from '../../lib/motion';
 import { Star, Quote, ArrowLeft, ArrowRight } from 'lucide-react';
 
 const GOOGLE_REVIEW_URL = 'https://g.page/r/CXtPj2O5LkDBEAI/review';
@@ -64,7 +65,8 @@ function iniciais(nome: string) {
   return (p[0][0] + (p.length > 1 ? p[p.length - 1][0] : '')).toUpperCase();
 }
 
-function RevealText({ texto, destaque, reduce }: { texto: string; destaque: string; reduce: boolean }) {
+function RevealText({ texto, destaque }: { texto: string; destaque: string }) {
+  const ref = useRef<HTMLParagraphElement>(null);
   const inicio = texto.indexOf(destaque);
   const fim = inicio + destaque.length;
 
@@ -76,18 +78,35 @@ function RevealText({ texto, destaque, reduce }: { texto: string; destaque: stri
     return { palavra, destacada: inicio >= 0 && pos >= inicio && pos < fim };
   });
 
+  // Palavra a palavra, com leve desfoque — re-dispara a cada troca de depoimento
+  // (dependência em `texto`). Sob prefers-reduced-motion não anima: o matchMedia
+  // não entra, e as palavras já nascem no estado final.
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add('(prefers-reduced-motion: no-preference)', () => {
+        const alvos = ref.current?.querySelectorAll('[data-palavra]');
+        if (!alvos) return;
+        gsap.from(alvos, {
+          opacity: 0.12,
+          y: 10,
+          filter: 'blur(6px)',
+          duration: 0.45,
+          ease: EASE.out,
+          stagger: 0.05,
+        });
+      });
+    },
+    { scope: ref, dependencies: [texto] },
+  );
+
   return (
-    <p className="text-2xl sm:text-3xl md:text-4xl font-bold leading-snug md:leading-tight text-white">
+    <p ref={ref} className="text-2xl sm:text-3xl md:text-4xl font-bold leading-snug md:leading-tight text-white">
       {palavras.map(({ palavra, destacada }, i) => (
         <span key={i}>
-          <motion.span
-            initial={reduce ? false : { opacity: 0.12, y: 10, filter: 'blur(6px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            transition={{ duration: 0.45, delay: reduce ? 0 : i * 0.05, ease: 'easeOut' }}
-            className={`inline-block ${destacada ? 'text-mara-orange' : ''}`}
-          >
+          <span data-palavra className={`inline-block ${destacada ? 'text-mara-orange' : ''}`}>
             {palavra}
-          </motion.span>{' '}
+          </span>{' '}
         </span>
       ))}
     </p>
@@ -96,7 +115,6 @@ function RevealText({ texto, destaque, reduce }: { texto: string; destaque: stri
 
 export default function Testimonials() {
   const [atual, setAtual] = useState(0);
-  const reduce = useReducedMotion() ?? false;
   const dep = depoimentos[atual];
   const total = depoimentos.length;
 
@@ -127,15 +145,11 @@ export default function Testimonials() {
           />
 
           <div className="relative min-h-[260px] md:min-h-[300px]" aria-live="polite">
-            <AnimatePresence mode="wait">
-              <motion.blockquote
-                key={atual}
-                exit={{ opacity: 0, transition: { duration: 0.15 } }}
-                className="max-w-4xl"
-              >
-                <RevealText texto={dep.texto} destaque={dep.destaque} reduce={reduce} />
-              </motion.blockquote>
-            </AnimatePresence>
+            {/* key={atual} remonta o bloco a cada troca, então o RevealText
+                re-anima as palavras do novo depoimento. */}
+            <blockquote key={atual} className="max-w-4xl">
+              <RevealText texto={dep.texto} destaque={dep.destaque} />
+            </blockquote>
           </div>
 
           <div className="relative mt-8 pt-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-6">

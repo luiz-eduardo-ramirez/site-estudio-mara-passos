@@ -1,85 +1,169 @@
 "use client";
 
+import { useRef } from "react";
 import Image from "next/image";
-import { m } from "framer-motion";
-import { CalendarDays, Smartphone, CreditCard, FileSignature, History } from "lucide-react";
+import Reveal from "../layout/Reveal";
+import { gsap, useGSAP } from "../../lib/gsap";
+import {
+  CalendarDays,
+  Smartphone,
+  CreditCard,
+  FileSignature,
+  History,
+  ClipboardCheck,
+  Mail,
+  BookOpen,
+  type LucideIcon,
+} from "lucide-react";
 
+type Recurso = {
+  icon: LucideIcon;
+  title: string;
+  desc: string;
+  destaque?: boolean;
+};
+
+const recursos: Recurso[] = [
+  { icon: CalendarDays, title: "Agenda Inteligente", desc: "Visualize suas aulas em lista ou calendário, sempre à mão.", destaque: true },
+  { icon: History, title: "Reagendamentos", desc: "Cancele ou remarque com 24h de antecedência, sem depender da secretaria." },
+  { icon: CreditCard, title: "Pagamento Facilitado", desc: "Pague via Pix e consulte todo o seu histórico financeiro na hora." },
+  { icon: ClipboardCheck, title: "Controle de Frequência", desc: "Acompanhe presenças e faltas de cada aula em tempo real.", destaque: true },
+  { icon: Mail, title: "Mensageria por E-mail", desc: "Lembretes, avisos e confirmações direto na sua caixa de entrada." },
+  { icon: BookOpen, title: "Materiais Didáticos", desc: "Partituras, exercícios e apostilas para baixar quando quiser.", destaque: true },
+  { icon: FileSignature, title: "Contratos Digitais", desc: "Segurança jurídica gerada pelo próprio sistema, sem papelada." },
+];
+
+const TOPO_BASE = 110; // folga do cabeçalho fixo
+const DEGRAU = 16; // quanto cada painel repousa mais abaixo (deixa a borda do anterior à mostra)
+
+/*
+ * Portal do aluno — painéis que se empilham com o scroll.
+ *
+ * Cada recurso é um painel "sticky" que, ao rolar, fixa no topo; o próximo sobe
+ * e o cobre, de modo que os painéis se acumulam como um baralho. Cada um repousa
+ * um degrau mais abaixo (DEGRAU), então a borda colorida do anterior fica à
+ * mostra — a sobreposição em camadas da referência.
+ *
+ * O GSAP dá o acabamento: conforme um painel é coberto pelo seguinte, ele encolhe
+ * e escurece um pouco (profundidade). O progresso vem da posição real do próximo
+ * painel na tela (lida no scroll; a Lenis move o scrollTop real, então o mesmo
+ * listener serve com ou sem rolagem suave). Em prefers-reduced-motion não há
+ * encolhimento — os painéis só se empilham.
+ */
 export default function StudentPortal() {
-    return (
-        <m.section 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6 }}
-            className="container mx-auto px-6 max-w-6xl my-32"
-        >
-            <div className="bg-gradient-to-br from-neutral-900 to-[#140d0a] rounded-[2.5rem] p-8 md:p-14 border border-mara-orange/20 shadow-2xl overflow-hidden relative">
-                
-                {/* Elemento de background decorativo */}
-                <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-mara-orange/10 blur-[100px] rounded-full pointer-events-none"></div>
+  const pilhaRef = useRef<HTMLDivElement>(null);
 
-                <div className="flex flex-col lg:flex-row gap-12 items-center relative z-10">
-                    
-                    {/* Texto e Benefícios */}
-                    <div className="w-full lg:w-1/2 space-y-8">
-                        <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 text-gray-200 rounded-full text-sm font-semibold border border-white/10">
-                            <Smartphone size={16} className="text-mara-orange" />
-                            <span className="uppercase tracking-wider text-xs font-bold">Tecnologia Exclusiva</span>
-                        </div>
+  useGSAP(
+    () => {
+      const pilha = pilhaRef.current;
+      if (!pilha) return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-                        <h2 className="text-3xl md:text-4xl font-bold leading-tight text-white">
-                            Seu aprendizado na <span className="text-mara-orange">palma da mão</span>
-                        </h2>
+      const paineis = Array.from(pilha.querySelectorAll<HTMLElement>("[data-painel]"));
 
-                        <p className="text-gray-300 text-lg leading-relaxed">
-                            Diga adeus às confusões de agenda pelo WhatsApp. Nossos alunos têm acesso a um <strong>Portal Exclusivo</strong> para gerenciar 100% da sua jornada musical com total autonomia e transparência.
-                        </p>
+      const atualizar = () => {
+        for (let i = 0; i < paineis.length; i++) {
+          const proximo = paineis[i + 1];
+          if (!proximo) {
+            gsap.set(paineis[i], { scale: 1, filter: "brightness(1)" });
+            continue;
+          }
+          const repousoProximo = TOPO_BASE + (i + 1) * DEGRAU;
+          const topoProximo = proximo.getBoundingClientRect().top;
+          const alcance = window.innerHeight - repousoProximo;
+          const prog =
+            alcance > 0 ? gsap.utils.clamp(0, 1, (window.innerHeight - topoProximo) / alcance) : 0;
+          gsap.set(paineis[i], {
+            scale: 1 - prog * 0.07,
+            filter: `brightness(${1 - prog * 0.35})`,
+            transformOrigin: "50% 0%",
+          });
+        }
+      };
 
-                        <div className="grid sm:grid-cols-2 gap-5 pt-4">
-                            {[
-                                { icon: CalendarDays, title: "Agenda Inteligente", desc: "Visualize suas aulas em lista ou calendário." },
-                                { icon: History, title: "Reagendamentos", desc: "Cancele ou remarque com 24h de antecedência." },
-                                { icon: CreditCard, title: "Pagamento Facilitado", desc: "Pague via Pix e consulte seu histórico na hora." },
-                                { icon: FileSignature, title: "Contratos Digitais", desc: "Segurança jurídica gerada pelo próprio sistema." }
-                            ].map((feature, i) => (
-                                <div key={i} className="flex gap-4 items-start">
-                                    <div className="bg-mara-orange/20 p-2 rounded-lg shrink-0">
-                                        <feature.icon className="text-mara-orange" size={20} />
-                                    </div>
-                                    <div>
-                                        <h4 className="font-bold text-gray-100 text-sm mb-1">{feature.title}</h4>
-                                        <p className="text-xs text-gray-400 leading-relaxed">{feature.desc}</p>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
+      atualizar();
+      window.addEventListener("scroll", atualizar, { passive: true });
+      window.addEventListener("resize", atualizar);
+      return () => {
+        window.removeEventListener("scroll", atualizar);
+        window.removeEventListener("resize", atualizar);
+      };
+    },
+    { scope: pilhaRef },
+  );
 
-                    {/* Mockup do Sistema */}
-                    <div className="w-full lg:w-1/2 relative group">
-                        <div className="w-full rounded-2xl overflow-hidden shadow-2xl relative bg-neutral-950 ring-1 ring-white/10 transform transition-transform duration-700 group-hover:-translate-y-2 group-hover:shadow-[0_20px_40px_rgba(242,101,34,0.15)]">
-                            {/* Barra estilo navegador da Apple */}
-                            <div className="h-8 bg-neutral-900 border-b border-white/5 flex items-center px-4 gap-2">
-                                <div className="w-2.5 h-2.5 rounded-full bg-red-500/80"></div>
-                                <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></div>
-                                <div className="w-2.5 h-2.5 rounded-full bg-green-500/80"></div>
-                            </div>
-                            
-                            {/* CORREÇÃO AQUI: Fundo escuro e imagem sem cortes */}
-                            <div className="relative w-full bg-[#0d0a09] flex justify-center items-center">
-                                <Image 
-                                    src="/images/portal.webp" // Substitua pelo caminho correto da sua nova imagem
-                                    alt="Dashboard do Portal do Aluno Estúdio Mara Passos" 
-                                    width={1200}
-                                    height={800}
-                                    className="w-full h-auto object-contain"
-                                />
-                            </div>
-                        </div>
-                    </div>
+  return (
+    <section className="container mx-auto my-32 max-w-5xl px-6">
+      {/* Intro */}
+      <Reveal y={30} className="mb-12 text-center">
+        <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-1.5 text-sm font-semibold text-gray-200">
+          <Smartphone size={16} className="text-mara-orange" />
+          <span className="text-xs font-bold uppercase tracking-wider">Tecnologia Exclusiva</span>
+        </div>
+        <h2 className="mx-auto max-w-2xl text-3xl font-bold leading-tight text-white md:text-4xl">
+          Seu aprendizado na <span className="text-mara-orange">palma da mão</span>
+        </h2>
+        <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-gray-300">
+          Nossos alunos têm um <strong>Portal Exclusivo</strong> para gerenciar 100% da jornada
+          musical. Role e veja tudo o que ele faz por você.
+        </p>
+      </Reveal>
 
-                </div>
+      {/* Pilha de painéis */}
+      <div ref={pilhaRef} className="relative flex flex-col gap-5 pb-[12vh]">
+        {recursos.map((r, i) => (
+          <div
+            key={r.title}
+            data-painel
+            style={{ top: `${TOPO_BASE + i * DEGRAU}px`, zIndex: i + 1 }}
+            className={`sticky flex min-h-[9rem] items-center gap-5 overflow-hidden rounded-[1.75rem] border p-6 shadow-2xl will-change-transform md:gap-7 md:p-8 ${
+              r.destaque
+                ? "border-orange-300/30 bg-gradient-to-br from-mara-orange to-orange-600 text-white"
+                : "border-white/10 bg-gradient-to-br from-neutral-800 to-[#15110e] text-white"
+            }`}
+          >
+            {/* Número grande ao fundo */}
+            <span className="pointer-events-none absolute -right-2 -top-4 text-8xl font-black tabular-nums text-white/10">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+
+            <span
+              className={`inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl ${
+                r.destaque ? "bg-white/20 text-white" : "bg-mara-orange/15 text-mara-orange"
+              }`}
+            >
+              <r.icon size={26} />
+            </span>
+
+            <div className="relative">
+              <h3 className="text-lg font-bold md:text-xl">{r.title}</h3>
+              <p className={`mt-1 text-sm leading-relaxed md:text-base ${r.destaque ? "text-white/85" : "text-gray-400"}`}>
+                {r.desc}
+              </p>
             </div>
-        </m.section>
-    );
-}  
+          </div>
+        ))}
+
+        {/* Painel final: o mockup do sistema fecha a pilha */}
+        <div
+          data-painel
+          style={{ top: `${TOPO_BASE + recursos.length * DEGRAU}px`, zIndex: recursos.length + 1 }}
+          className="sticky overflow-hidden rounded-[1.75rem] border border-mara-orange/25 bg-neutral-950 shadow-2xl will-change-transform"
+        >
+          <div className="flex h-9 items-center gap-2 border-b border-white/5 bg-neutral-900 px-4">
+            <span className="h-2.5 w-2.5 rounded-full bg-red-500/80" />
+            <span className="h-2.5 w-2.5 rounded-full bg-yellow-500/80" />
+            <span className="h-2.5 w-2.5 rounded-full bg-green-500/80" />
+          </div>
+          <Image
+            src="/images/portal.webp"
+            alt="Dashboard do Portal do Aluno Estúdio Mara Passos"
+            width={1200}
+            height={800}
+            className="h-auto w-full object-contain"
+          />
+        </div>
+      </div>
+    </section>
+  );
+}

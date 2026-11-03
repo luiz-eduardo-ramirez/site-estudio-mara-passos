@@ -48,7 +48,10 @@ export default function Contact({ defaultInstrument = "" }: { defaultInstrument?
     <section className="py-32 bg-mara-gray relative">
       {/* Divisor superior */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
-      <div className="container mx-auto px-6 max-w-6xl flex flex-col lg:flex-row items-center gap-12">
+      {/* Sem a classe `container` (que neste Tailwind v4 vira max-width:100% e
+          anula o max-w-6xl): aqui o max-w-6xl cuida da largura, centralizado.
+          Sem isso, em telas largas a seção esticava e a imagem ia para a borda. */}
+      <div className="mx-auto px-6 max-w-6xl flex flex-col lg:flex-row items-center gap-12">
 
         {/*
           Formulário (Lado Esquerdo) — e o destino de #agendamentos.
@@ -186,15 +189,15 @@ export default function Contact({ defaultInstrument = "" }: { defaultInstrument?
           </form>
         </div>
 
-        {/* Imagem (Lado Direito) */}
-        <div className="w-full lg:w-1/2 flex justify-center lg:justify-end">
+        {/* Imagem (Lado Direito) — centralizada na metade, não colada na borda. */}
+        <div className="w-full lg:w-1/2 flex justify-center">
           <div className="relative w-full max-w-md aspect-square rounded-lg overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-4 border-white transform hover:scale-105 transition-transform duration-500">
             <Image
               src="/contact-image.webp"
               alt="Hora de escolher sua música"
               fill
               className="object-cover"
-              sizes="(max-width: 768px) 100vw, 50vw"
+              sizes="(max-width: 768px) 100vw, 448px"
             />
           </div>
         </div>

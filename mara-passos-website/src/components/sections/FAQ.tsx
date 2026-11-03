@@ -1,22 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { m, AnimatePresence, Variants } from 'framer-motion';
+import Reveal from '../layout/Reveal';
 import { faqData } from './faqData';
-
-// Variantes de animação para a entrada em cascata (Stagger)
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 }
-  }
-};
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
-};
 
 export default function FAQ() {
   // Estado para controlar qual pergunta está aberta
@@ -30,30 +16,22 @@ export default function FAQ() {
   return (
     <section id="faq" className="py-24 bg-[#0a0a0a]">
       <div className="container mx-auto px-6 max-w-4xl">
-        <m.h2 
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6 }}
+        <Reveal
+          as="h2"
+          y={-20}
+          blur
           className="text-3xl md:text-5xl font-bold text-white mb-12 text-center"
         >
           Perguntas <span className="text-mara-orange">Frequentes</span>
-        </m.h2>
-        
-        <m.div 
-          className="space-y-4"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
-        >
+        </Reveal>
+
+        <Reveal stagger className="space-y-4">
           {faqData.map((item, index) => {
             const isOpen = openIndex === index;
 
             return (
-              <m.div 
-                key={index} 
-                variants={itemVariants}
+              <div
+                key={index}
                 className="bg-neutral-900 border border-white/10 rounded-lg overflow-hidden"
               >
                 <button
@@ -64,38 +42,38 @@ export default function FAQ() {
                   className="w-full flex items-center justify-between p-6 cursor-pointer text-left text-lg font-semibold text-white hover:text-mara-orange transition-colors focus:outline-none"
                 >
                   {item.question}
-                  <m.span 
-                    animate={{ rotate: isOpen ? 180 : 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                    className="text-mara-orange flex-shrink-0 ml-4"
+                  <span
+                    className="text-mara-orange flex-shrink-0 ml-4 inline-flex transition-transform duration-300 ease-in-out"
+                    style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
                   >
                     <svg fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
                       <path d="M6 9l6 6 6-6"></path>
                     </svg>
-                  </m.span>
+                  </span>
                 </button>
 
-                <AnimatePresence initial={false}>
-                  {isOpen && (
-                    <m.div
-                      id={`faq-content-${index}`}
-                      role="region"
-                      aria-labelledby={`faq-btn-${index}`}
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: "easeInOut" }}
-                    >
-                      <div className="px-6 pb-6 text-gray-400 leading-relaxed border-t border-white/5 pt-4">
-                        <p>{item.answer}</p>
-                      </div>
-                    </m.div>
-                  )}
-                </AnimatePresence>
-              </m.div>
+                {/*
+                  Acordeão pela técnica de grid-rows (0fr → 1fr): anima a altura
+                  sem precisar medir "height: auto" nem de JS, e mantém a resposta
+                  sempre no DOM (bom para busca/leitor de tela). O bloco
+                  prefers-reduced-motion em globals.css zera a transição.
+                */}
+                <div
+                  id={`faq-content-${index}`}
+                  role="region"
+                  aria-labelledby={`faq-btn-${index}`}
+                  className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
+                >
+                  <div className="overflow-hidden">
+                    <div className="px-6 pb-6 text-gray-400 leading-relaxed border-t border-white/5 pt-4">
+                      <p>{item.answer}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             );
           })}
-        </m.div>
+        </Reveal>
       </div>
     </section>
   );

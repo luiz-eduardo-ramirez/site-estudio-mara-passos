@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import CookieConsent from "../components/layout/CookieConsent";
 import SmoothScroll from "../components/layout/SmoothScroll";
 import ConsentGate from "../components/layout/ConsentGate";
-import MotionProvider from "../components/layout/MotionProvider";
+import Abertura from "../components/layout/Abertura";
 // @ts-ignore: CSS imports may not have type declarations in this setup
 import "./globals.css";
 
@@ -59,14 +59,25 @@ export default function RootLayout({
             })
           }}
         />
+        {/*
+          Marca o <html> antes da primeira pintura, para a abertura animada (a
+          mesma do Portal do Aluno) já aparecer sem lampejo de conteúdo:
+          .com-abertura a mostra; .abertura-animada liga a entrada (fora do
+          prefers-reduced-motion). O componente Abertura cuida do resto.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){try{var h=document.documentElement;h.classList.add('com-abertura');if(!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)){h.classList.add('abertura-animada');}}catch(e){}})();",
+          }}
+        />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <Abertura />
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-[9999] focus:p-4 focus:bg-[#f26522] focus:text-white focus:top-0 focus:left-0 font-bold">
           Pular para o conteúdo principal
         </a>
-        <MotionProvider>
-          <SmoothScroll>{children}</SmoothScroll>
-        </MotionProvider>
+        <SmoothScroll>{children}</SmoothScroll>
         <CookieConsent />
         {/* Analytics e Pixel entram só depois do aceite — ver ConsentGate */}
         <ConsentGate />

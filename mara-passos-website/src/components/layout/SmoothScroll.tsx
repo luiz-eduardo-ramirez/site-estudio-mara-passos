@@ -28,9 +28,9 @@ import "lenis/dist/lenis.css";
  * scrollTop da página, quadro a quadro. Isso importa porque tudo o que já
  * existe aqui depende da posição real de rolagem e continua funcionando sem
  * mudança nenhuma: o cabeçalho que encolhe (window.scrollY), a barra de
- * progresso das notícias, o whileInView do Framer Motion, o position: sticky
- * da coluna lateral do artigo e o pentagrama da /links, que é animado por
- * scroll timeline do CSS.
+ * progresso das notícias, as reveals (que observam a interseção real das seções
+ * com a viewport), o position: sticky da coluna lateral do artigo e o pentagrama
+ * da /links, que é animado por scroll timeline do CSS.
  *
  * Duas decisões que valem o registro:
  *
