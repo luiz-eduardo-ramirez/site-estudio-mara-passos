@@ -1,6 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  images: {
+    // Next 16 só honra os valores de `quality` listados aqui (padrão: [75]).
+    // Sem isto, quality={90}/{100} caíam silenciosamente para 75.
+    qualities: [75, 90, 100],
+  },
   async redirects() {
     return [
       // 1. Regra existente: Força o domínio sem 'www'

@@ -1,8 +1,9 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { ChevronDown } from "lucide-react";
 import { gsap, useGSAP } from "../../lib/gsap";
 import { teachersList } from "../../data/teachersList";
 
@@ -27,6 +28,17 @@ export default function Teachers() {
   const secaoRef = useRef<HTMLElement>(null);
   const trilhoRef = useRef<HTMLDivElement>(null);
   const progressoRef = useRef<HTMLDivElement>(null);
+
+  // Bios expandidas (por id). O texto fica em absolute bottom-0, então abrir não
+  // muda a altura do card nem o scrollWidth do trilho — a cena GSAP não re-mede.
+  const [abertos, setAbertos] = useState<Set<number>>(new Set());
+  const alternar = (id: number) =>
+    setAbertos((s) => {
+      const n = new Set(s);
+      if (n.has(id)) n.delete(id);
+      else n.add(id);
+      return n;
+    });
 
   useGSAP(
     () => {
@@ -104,7 +116,9 @@ export default function Teachers() {
           ref={trilhoRef}
           className="flex gap-5 overflow-x-auto px-6 pb-4 will-change-transform [scrollbar-width:none] md:gap-6 md:overflow-visible md:px-[8vw] md:pb-0 [&::-webkit-scrollbar]:hidden"
         >
-          {teachersList.map((teacher, i) => (
+          {teachersList.map((teacher) => {
+            const aberto = abertos.has(teacher.id);
+            return (
             <article
               key={teacher.id}
               className="group relative h-[23rem] w-[78vw] shrink-0 origin-center overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#111] shadow-2xl will-change-transform sm:w-[21rem] md:h-[27rem]"
@@ -113,24 +127,41 @@ export default function Teachers() {
                 src={teacher.foto}
                 alt={teacher.nome}
                 fill
+                quality={90}
                 sizes="(max-width: 640px) 78vw, 336px"
-                className="object-cover object-top opacity-70 transition-transform duration-700 group-hover:scale-105"
+                className="object-cover object-top opacity-80 transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black from-40% via-black/80 to-transparent" />
-
-              {/* Número grande, como na referência */}
-              <span className="pointer-events-none absolute right-5 top-2 text-7xl font-black tabular-nums text-white/10 md:text-8xl">
-                {String(i + 1).padStart(2, "0")}
-              </span>
 
               <div className="absolute inset-x-0 bottom-0 p-6 md:p-7">
                 <h3 className="text-lg font-extrabold leading-tight text-white md:text-xl">
                   {teacher.nome}
                 </h3>
                 {/* Formação de cada professor */}
-                <p className="mt-2 text-xs leading-relaxed text-gray-300 line-clamp-4 md:text-[0.8rem]">
+                <p
+                  // data-lenis-prevent: ao expandir, o scroll interno da bio é
+                  // nativo e não aciona a rolagem suave (que moveria o trilho).
+                  data-lenis-prevent={aberto ? "" : undefined}
+                  className={`mt-2 text-xs leading-relaxed text-gray-300 md:text-[0.8rem] ${
+                    aberto
+                      ? "max-h-28 overflow-y-auto overscroll-contain pr-1 [scrollbar-width:thin]"
+                      : "line-clamp-4"
+                  }`}
+                >
                   {teacher.bio}
                 </p>
+                <button
+                  type="button"
+                  onClick={() => alternar(teacher.id)}
+                  aria-expanded={aberto}
+                  className="mt-2 inline-flex items-center gap-1 text-[0.7rem] font-semibold text-mara-orange transition-colors hover:text-orange-400"
+                >
+                  {aberto ? "Ver menos" : "Ver mais"}
+                  <ChevronDown
+                    size={13}
+                    className={`transition-transform duration-300 ${aberto ? "rotate-180" : ""}`}
+                  />
+                </button>
                 <ul className="mt-3 flex flex-wrap gap-1.5">
                   {teacher.especialidades.slice(0, 3).map((esp) => (
                     <li key={esp}>
@@ -145,7 +176,8 @@ export default function Teachers() {
                 </ul>
               </div>
             </article>
-          ))}
+            );
+          })}
         </div>
 
         {/* Barra de progresso (desktop) */}
