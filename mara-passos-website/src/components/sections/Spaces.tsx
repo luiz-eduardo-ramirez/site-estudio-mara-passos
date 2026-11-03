@@ -7,6 +7,7 @@ import Image from "next/image";
 import { X, ZoomIn } from "lucide-react";
 import { gsap, useGsapPresence } from "../../lib/useGsapPresence";
 import { DUR, EASE } from "../../lib/motion";
+import Reveal from "../layout/Reveal";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, FreeMode, Pagination, Autoplay } from 'swiper/modules';
 
@@ -128,14 +129,14 @@ export default function Spaces() {
     <section id="espacos" className="py-24 bg-mara-gray relative overflow-hidden">
       <div className="container mx-auto px-6 max-w-7xl">
 
-        <div className="text-center mb-16">
+        <Reveal y={-20} blur className="text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
             Conheça nossos <span className="text-mara-orange">espaços</span>
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto">
             Ambientes climatizados, equipados e preparados com muito carinho para o seu desenvolvimento.
           </p>
-        </div>
+        </Reveal>
 
         {/* --- CARROSSEL DE IMAGENS PREMIUM --- */}
         <div className="relative w-full">

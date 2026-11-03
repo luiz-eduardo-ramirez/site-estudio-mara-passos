@@ -19,6 +19,7 @@ export default function AboutUs() {
         {/* Cabeçalho da Seção Animado */}
         <Reveal
           y={-20}
+          blur
           className="text-center mb-16 md:mb-24"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
@@ -54,7 +55,6 @@ export default function AboutUs() {
           {/* Lado Direito: Textos (Sem Scrollbar, com muito padding) */}
           <Reveal
             stagger
-            start="top 70%"
             className="w-full lg:w-7/12 p-10 lg:p-16 flex flex-col justify-center relative z-20 text-left"
           >
 

@@ -19,6 +19,7 @@ export default function FAQ() {
         <Reveal
           as="h2"
           y={-20}
+          blur
           className="text-3xl md:text-5xl font-bold text-white mb-12 text-center"
         >
           Perguntas <span className="text-mara-orange">Frequentes</span>

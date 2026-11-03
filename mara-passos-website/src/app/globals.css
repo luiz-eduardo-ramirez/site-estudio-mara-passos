@@ -100,6 +100,124 @@ body {
   animation: chat-msg-in 0.3s ease-out both;
 }
 
+/* ==========================================================================
+   Abertura animada — a mesma do Portal do Aluno (porta fiel do #abertura do
+   index.html do portal): fundo preto, a logo de teclas se monta (brancas sobem,
+   pretas descem, fios laranja se desenham), o nome aparece, a barra laranja faz
+   vaivém e a saída sobe como a tampa de um piano. Os nomes das classes e os
+   tempos são cópia exata do original. O <html> ganha .com-abertura (mostra) e
+   .abertura-animada (anima) pelo script no <head>; o componente Abertura
+   acrescenta .abertura-rodando (solta a entrada) e .saindo (saída).
+   ========================================================================== */
+#abertura { display: none; }
+.com-abertura #abertura {
+  display: block;
+  position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
+  z-index: 2147483647;
+  background: #000;
+  transition: transform 0.55s cubic-bezier(0.65, 0, 0.35, 1) 0.22s;
+  will-change: transform;
+}
+.ab-cena {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  transition: opacity 0.3s ease-in, transform 0.3s ease-in;
+  will-change: transform, opacity;
+}
+.ab-marca {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 150px;
+  height: 150px;
+  width: min(40vw, 40vh, 200px);
+  height: min(40vw, 40vh, 200px);
+  transform: translate(-50%, -50%);
+}
+.ab-marca i, .ab-nome, .ab-barra { position: absolute; display: block; }
+.ab-branca, .ab-preta, .ab-fio::after, .ab-nome, .ab-barra, .ab-barra::after { will-change: transform, opacity; }
+.ab-branca { top: 0; height: 100%; width: 33.4%; background: #fff; transform-origin: 50% 100%; }
+.ab-b1 { left: 0; }
+.ab-b2 { left: 33.3%; }
+.ab-b3 { left: 66.6%; }
+.ab-fio { top: 0; height: 33.34%; width: 1px; margin-left: -0.5px; background: #000; }
+.ab-fio::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: #f26522;
+  opacity: 0;
+  transform-origin: 50% 0;
+}
+.ab-f1 { left: 33.333%; }
+.ab-f2 { left: 66.667%; }
+.ab-preta { top: 33.333%; height: 66.667%; width: 16.667%; background: #000; }
+.ab-p1 { left: 25%; }
+.ab-p2 { left: 58.333%; }
+.ab-nome { left: 0; top: 106.9%; width: 100%; height: auto; }
+.ab-barra { left: 32%; top: 134%; width: 36%; height: 2px; background: #262626; overflow: hidden; }
+.ab-barra::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 40%;
+  height: 100%;
+  background: #f26522;
+  transform: translateX(-100%);
+  animation: ab-carregando 1.3s ease-in-out infinite;
+}
+
+/* Entrada */
+.abertura-animada .ab-branca { animation: ab-subir 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.abertura-animada .ab-b2 { animation-delay: 0.09s; }
+.abertura-animada .ab-b3 { animation-delay: 0.18s; }
+.abertura-animada .ab-preta { animation: ab-descer 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) 0.5s both; }
+.abertura-animada .ab-p2 { animation-delay: 0.62s; }
+.abertura-animada .ab-fio::after { animation: ab-fio 1s ease-out 0.7s both; }
+.abertura-animada .ab-nome { animation: ab-nome 0.6s ease-out 0.95s both; }
+.abertura-animada .ab-barra { animation: ab-aparecer 0.3s ease-out 1.5s both; }
+.abertura-animada .ab-barra::after { animation-delay: 1.5s; }
+.abertura-animada:not(.abertura-rodando) #abertura *,
+.abertura-animada:not(.abertura-rodando) #abertura *::after { animation-play-state: paused; }
+@keyframes ab-subir { from { transform: scaleY(0.001); } to { transform: scaleY(1); } }
+@keyframes ab-descer { from { opacity: 0; transform: translateY(-30%); } to { opacity: 1; transform: translateY(0); } }
+@keyframes ab-fio {
+  0% { opacity: 1; transform: scaleY(0.001); }
+  35% { opacity: 1; transform: scaleY(1); }
+  65% { opacity: 1; transform: scaleY(1); }
+  100% { opacity: 0; transform: scaleY(1); }
+}
+@keyframes ab-nome { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes ab-aparecer { from { opacity: 0; } to { opacity: 1; } }
+@keyframes ab-carregando { from { transform: translateX(-100%); } to { transform: translateX(250%); } }
+
+/* Saída: a cena sobe e some; o fundo sobe como uma tampa, com a borda laranja */
+.com-abertura #abertura.saindo {
+  transform: translateY(-100%);
+  pointer-events: none;
+}
+#abertura.saindo .ab-cena { opacity: 0; transform: translateY(-16px); }
+#abertura::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 3px;
+  background: #f26522;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transition: opacity 0.15s ease 0.2s;
+  will-change: opacity;
+}
+#abertura.saindo::after { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .com-abertura #abertura { transition: opacity 0.2s ease-out; }
+  .com-abertura #abertura.saindo { transform: none; opacity: 0; }
+  #abertura::after, .ab-barra { display: none; }
+}
+
 /* Controles do carrossel de notícias — ficam abaixo dos cards, fora da arte */
 .news-nav-btn {
     display: inline-flex;

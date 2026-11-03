@@ -11,20 +11,22 @@
  * - stagger curto, para listas não ficarem arrastadas.
  */
 export const EASE = {
-  out: "power2.out",
+  /** Saída elegante, com desaceleração longa — o ease padrão das reveals. */
+  out: "power3.out",
   inOut: "power2.inOut",
   expo: "expo.out",
+  expoInOut: "expo.inOut",
 } as const;
 
 export const DUR = {
   fast: 0.3,
-  base: 0.55,
-  slow: 0.7,
+  base: 0.7,
+  slow: 0.9,
   exit: 0.3,
 } as const;
 
 export const REVEAL = {
-  y: 24,
-  stagger: 0.08,
+  y: 32,
+  stagger: 0.09,
   start: "top 85%",
 } as const;

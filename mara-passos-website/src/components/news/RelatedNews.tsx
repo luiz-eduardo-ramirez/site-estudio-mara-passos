@@ -15,7 +15,7 @@ export default function RelatedNews({ items }: RelatedNewsProps) {
 
   return (
     <section aria-labelledby="leia-tambem" className="mt-16 md:mt-24">
-      <div className="flex items-center gap-4 mb-8">
+      <div className="reveal flex items-center gap-4 mb-8">
         <h2
           id="leia-tambem"
           className="text-xs sm:text-sm font-semibold uppercase tracking-[0.3em] text-mara-orange whitespace-nowrap"
@@ -26,11 +26,12 @@ export default function RelatedNews({ items }: RelatedNewsProps) {
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2">
-        {items.map((item) => (
+        {items.map((item, i) => (
           <Link
             key={item.id}
             href={`/noticias/${item.slug}`}
-            className="group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-mara-gray hover:border-mara-orange/50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mara-orange"
+            style={{ "--i": i } as React.CSSProperties}
+            className="reveal group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-mara-gray hover:border-mara-orange/50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mara-orange"
           >
             <div className="relative aspect-[16/9] overflow-hidden bg-black">
               <Image
