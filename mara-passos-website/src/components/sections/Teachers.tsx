@@ -189,13 +189,14 @@ function CartaoProfessor({ teacher }: { teacher: Professor }) {
       gsap.to(foto, { scale: 1.06, duration: d + 0.3, ease: EASE.out });
       gsap.to(veu, { opacity: 1, duration: d, ease: EASE.out });
     } else {
+      // A bio volta ao topo junto com o fechamento (não de uma vez no fim).
+      if (bioRef.current) gsap.to(bioRef.current, { scrollTop: 0, duration: d * 0.6, ease: EASE.inOut });
       gsap.to(painel, {
         height: alturaFechado.current,
         duration: d * 0.75,
         ease: EASE.inOut,
         onComplete: () => {
           gsap.set(painel, { clearProps: "height" });
-          if (bioRef.current) bioRef.current.scrollTop = 0;
           setDesdobrado(false);
         },
       });
@@ -245,15 +246,16 @@ function CartaoProfessor({ teacher }: { teacher: Professor }) {
           // data-lenis-prevent: com a gaveta aberta, o scroll da bio é nativo e
           // não aciona a rolagem suave (que moveria o trilho).
           data-lenis-prevent={desdobrado ? "" : undefined}
+          // Fechado: janela fixa de 2 linhas com fade embaixo (em vez de line-clamp,
+          // que trocaria o texto de repente no fim da animação). Aberto: ocupa o
+          // espaço que a gaveta libera e rola.
           className={`mt-1.5 ${
-            desdobrado ? "min-h-0 flex-1 overflow-y-auto overscroll-contain pr-1 [scrollbar-width:thin]" : ""
-          }`}
+            desdobrado
+              ? "min-h-0 flex-1 overflow-y-auto overscroll-contain pr-1 [scrollbar-width:thin]"
+              : "h-[2.7rem] shrink-0 overflow-hidden"
+          } ${aberto ? "" : "[mask-image:linear-gradient(to_bottom,#000_55%,transparent)]"}`}
         >
-          <p
-            className={`text-xs leading-relaxed text-gray-300 md:text-[0.8rem] ${
-              desdobrado ? "" : "line-clamp-2"
-            }`}
-          >
+          <p className="text-xs leading-relaxed text-gray-300 md:text-[0.8rem]">
             {teacher.bio}
           </p>
         </div>
