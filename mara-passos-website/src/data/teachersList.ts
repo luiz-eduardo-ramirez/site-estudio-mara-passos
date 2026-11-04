@@ -30,7 +30,10 @@ export const teachersList = [
     nome: "Vanessa Nunes da Silva",
     especialidades: ["Canto"],
     bio: "Formada em Canto Lírico pela FMU/FAAM, com especialização em Educação Musical, Psicopedagogia e Arteterapia. Atuou como cantora do Coral Paulistano do Teatro Municipal. Atualmente é licenciada do método “Full-Voice”, unindo conhecimentos da ciência da voz com uma visão técnico-musical e musicoterápica.",
-    foto: "/teachers/vanessa.webp" // Ajuste o nome do arquivo se necessário
+    foto: "/teachers/vanessa.webp", // Ajuste o nome do arquivo se necessário
+    // Rosto no meio da foto: este enquadramento mostra do cabelo até as mãos
+    // com o microfone, em vez de só a cabeça.
+    focoFoto: "60% 35%"
   },
   {
     id: 5,

@@ -30,6 +30,7 @@ export default function RelatedNews({ items }: RelatedNewsProps) {
           <Link
             key={item.id}
             href={`/noticias/${item.slug}`}
+            data-transicao
             style={{ "--i": i } as React.CSSProperties}
             className="reveal group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-mara-gray hover:border-mara-orange/50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mara-orange"
           >

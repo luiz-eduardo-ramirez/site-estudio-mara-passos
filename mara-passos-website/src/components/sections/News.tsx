@@ -263,6 +263,7 @@ export default function News() {
                 </p>
                 <Link
                   href={`/noticias/${news.slug}`}
+                  data-transicao
                   className="group/cta mt-1 inline-flex w-fit items-center gap-2 border-b-2 border-mara-orange py-2 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:text-mara-orange sm:text-base"
                 >
                   Ler a matéria completa

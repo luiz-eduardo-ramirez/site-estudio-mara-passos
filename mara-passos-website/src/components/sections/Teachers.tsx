@@ -1,10 +1,11 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import { gsap, useGSAP } from "../../lib/gsap";
+import { EASE } from "../../lib/motion";
 import { teachersList } from "../../data/teachersList";
 
 /*
@@ -28,17 +29,6 @@ export default function Teachers() {
   const secaoRef = useRef<HTMLElement>(null);
   const trilhoRef = useRef<HTMLDivElement>(null);
   const progressoRef = useRef<HTMLDivElement>(null);
-
-  // Bios expandidas (por id). O texto fica em absolute bottom-0, então abrir não
-  // muda a altura do card nem o scrollWidth do trilho — a cena GSAP não re-mede.
-  const [abertos, setAbertos] = useState<Set<number>>(new Set());
-  const alternar = (id: number) =>
-    setAbertos((s) => {
-      const n = new Set(s);
-      if (n.has(id)) n.delete(id);
-      else n.add(id);
-      return n;
-    });
 
   useGSAP(
     () => {
@@ -114,70 +104,11 @@ export default function Teachers() {
         {/* Trilho de cards */}
         <div
           ref={trilhoRef}
-          className="flex gap-5 overflow-x-auto px-6 pb-4 will-change-transform [scrollbar-width:none] md:gap-6 md:overflow-visible md:px-[8vw] md:pb-0 [&::-webkit-scrollbar]:hidden"
+          className="flex items-start gap-5 overflow-x-auto px-6 pb-4 will-change-transform [scrollbar-width:none] md:gap-6 md:overflow-visible md:px-[8vw] md:pb-0 [&::-webkit-scrollbar]:hidden"
         >
-          {teachersList.map((teacher) => {
-            const aberto = abertos.has(teacher.id);
-            return (
-            <article
-              key={teacher.id}
-              className="group relative h-[23rem] w-[78vw] shrink-0 origin-center overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#111] shadow-2xl will-change-transform sm:w-[21rem] md:h-[27rem]"
-            >
-              <Image
-                src={teacher.foto}
-                alt={teacher.nome}
-                fill
-                quality={90}
-                sizes="(max-width: 640px) 78vw, 336px"
-                className="object-cover object-top opacity-80 transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black from-40% via-black/80 to-transparent" />
-
-              <div className="absolute inset-x-0 bottom-0 p-6 md:p-7">
-                <h3 className="text-lg font-extrabold leading-tight text-white md:text-xl">
-                  {teacher.nome}
-                </h3>
-                {/* Formação de cada professor */}
-                <p
-                  // data-lenis-prevent: ao expandir, o scroll interno da bio é
-                  // nativo e não aciona a rolagem suave (que moveria o trilho).
-                  data-lenis-prevent={aberto ? "" : undefined}
-                  className={`mt-2 text-xs leading-relaxed text-gray-300 md:text-[0.8rem] ${
-                    aberto
-                      ? "max-h-28 overflow-y-auto overscroll-contain pr-1 [scrollbar-width:thin]"
-                      : "line-clamp-4"
-                  }`}
-                >
-                  {teacher.bio}
-                </p>
-                <button
-                  type="button"
-                  onClick={() => alternar(teacher.id)}
-                  aria-expanded={aberto}
-                  className="mt-2 inline-flex items-center gap-1 text-[0.7rem] font-semibold text-mara-orange transition-colors hover:text-orange-400"
-                >
-                  {aberto ? "Ver menos" : "Ver mais"}
-                  <ChevronDown
-                    size={13}
-                    className={`transition-transform duration-300 ${aberto ? "rotate-180" : ""}`}
-                  />
-                </button>
-                <ul className="mt-3 flex flex-wrap gap-1.5">
-                  {teacher.especialidades.slice(0, 3).map((esp) => (
-                    <li key={esp}>
-                      <Link
-                        href={`/?curso=${encodeURIComponent(esp)}#instrumentos`}
-                        className="inline-block rounded-full border border-mara-orange/30 bg-mara-orange/10 px-2.5 py-0.5 text-[0.65rem] font-semibold text-mara-orange transition-colors hover:bg-mara-orange/20"
-                      >
-                        {esp}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </article>
-            );
-          })}
+          {teachersList.map((teacher) => (
+            <CartaoProfessor key={teacher.id} teacher={teacher} />
+          ))}
         </div>
 
         {/* Barra de progresso (desktop) */}
@@ -191,5 +122,168 @@ export default function Teachers() {
         </div>
       </div>
     </section>
+  );
+}
+
+type Professor = (typeof teachersList)[number];
+
+/*
+ * Card do professor: foto e texto em zonas separadas.
+ *
+ * A foto ocupa o topo (sem nada por cima, então o rosto nunca é coberto) e o
+ * texto vive num painel de fundo sólido embaixo, com um degradê curto que funde
+ * os dois. Ao tocar em "Ver mais", o painel sobe como uma gaveta — a altura é
+ * animada pela GSAP — revelando a bio completa, enquanto a foto escurece e dá
+ * um leve zoom. O card mantém a altura fixa: nada empurra o resto do trilho.
+ *
+ * Detalhe de implementação: a altura do painel é travada em px ANTES de a bio
+ * ser liberada (clique), e só volta a "auto" depois da animação de fechar. Sem
+ * isso o painel saltaria para a altura da bio inteira antes de animar.
+ */
+function CartaoProfessor({ teacher }: { teacher: Professor }) {
+  const [aberto, setAberto] = useState(false);
+  // "desdobrado" governa o layout da bio (cortada em 2 linhas × rolável); só
+  // acompanha "aberto" nas pontas da animação.
+  const [desdobrado, setDesdobrado] = useState(false);
+
+  const cartaoRef = useRef<HTMLElement>(null);
+  const painelRef = useRef<HTMLDivElement>(null);
+  const fotoRef = useRef<HTMLDivElement>(null);
+  const veuRef = useRef<HTMLDivElement>(null);
+  const bioRef = useRef<HTMLDivElement>(null);
+  const primeira = useRef(true);
+  const alturaFechado = useRef(0);
+
+  const alternar = () => {
+    const painel = painelRef.current;
+    if (!painel) return;
+    if (!aberto) {
+      alturaFechado.current = painel.offsetHeight;
+      painel.style.height = `${alturaFechado.current}px`;
+      setDesdobrado(true);
+    }
+    setAberto((v) => !v);
+  };
+
+  useEffect(() => {
+    if (primeira.current) {
+      primeira.current = false;
+      return;
+    }
+    const cartao = cartaoRef.current;
+    const painel = painelRef.current;
+    const foto = fotoRef.current;
+    const veu = veuRef.current;
+    if (!cartao || !painel || !foto || !veu) return;
+
+    const reduzido = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const d = reduzido ? 0 : 0.6;
+    gsap.killTweensOf([painel, foto, veu]);
+
+    if (aberto) {
+      gsap.fromTo(
+        painel,
+        { height: alturaFechado.current },
+        { height: Math.round(cartao.offsetHeight * 0.56), duration: d, ease: EASE.expo },
+      );
+      gsap.to(foto, { scale: 1.06, duration: d + 0.3, ease: EASE.out });
+      gsap.to(veu, { opacity: 1, duration: d, ease: EASE.out });
+    } else {
+      gsap.to(painel, {
+        height: alturaFechado.current,
+        duration: d * 0.75,
+        ease: EASE.inOut,
+        onComplete: () => {
+          gsap.set(painel, { clearProps: "height" });
+          if (bioRef.current) bioRef.current.scrollTop = 0;
+          setDesdobrado(false);
+        },
+      });
+      gsap.to(foto, { scale: 1, duration: d, ease: EASE.out });
+      gsap.to(veu, { opacity: 0, duration: d, ease: EASE.out });
+    }
+  }, [aberto]);
+
+  return (
+    <article
+      ref={cartaoRef}
+      className="group relative h-[25rem] w-[78vw] shrink-0 origin-center overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#111] shadow-2xl will-change-transform sm:w-[21rem] md:h-[29rem]"
+    >
+      {/* Zona da foto — nada de texto aqui */}
+      <div
+        ref={fotoRef}
+        onClick={aberto ? alternar : undefined}
+        className={`absolute inset-x-0 top-0 h-[15rem] origin-top md:h-[19rem] ${aberto ? "cursor-pointer" : ""}`}
+      >
+        <Image
+          src={teacher.foto}
+          alt={teacher.nome}
+          fill
+          quality={90}
+          sizes="(max-width: 640px) 78vw, 336px"
+          style={{ objectPosition: teacher.focoFoto ?? "50% 15%" }}
+          className="object-cover"
+        />
+        {/* Véu que escurece a foto quando a gaveta abre */}
+        <div ref={veuRef} className="absolute inset-0 bg-black/40 opacity-0" />
+      </div>
+
+      {/* Painel de texto (gaveta) */}
+      <div
+        ref={painelRef}
+        className="absolute inset-x-0 bottom-0 flex flex-col bg-[#111] px-5 pb-4 pt-2 md:px-6"
+      >
+        {/* Degradê curto que funde a foto com o painel — sobe junto com ele */}
+        <div className="pointer-events-none absolute inset-x-0 -top-12 h-12 bg-gradient-to-t from-[#111] to-transparent" />
+
+        <h3 className="shrink-0 text-lg font-extrabold leading-tight text-white md:text-xl">
+          {teacher.nome}
+        </h3>
+
+        <div
+          ref={bioRef}
+          // data-lenis-prevent: com a gaveta aberta, o scroll da bio é nativo e
+          // não aciona a rolagem suave (que moveria o trilho).
+          data-lenis-prevent={desdobrado ? "" : undefined}
+          className={`mt-1.5 ${
+            desdobrado ? "min-h-0 flex-1 overflow-y-auto overscroll-contain pr-1 [scrollbar-width:thin]" : ""
+          }`}
+        >
+          <p
+            className={`text-xs leading-relaxed text-gray-300 md:text-[0.8rem] ${
+              desdobrado ? "" : "line-clamp-2"
+            }`}
+          >
+            {teacher.bio}
+          </p>
+        </div>
+
+        <ul className="mt-3 flex shrink-0 gap-1.5 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {teacher.especialidades.slice(0, 3).map((esp) => (
+            <li key={esp} className="shrink-0">
+              <Link
+                href={`/?curso=${encodeURIComponent(esp)}#instrumentos`}
+                className="inline-block whitespace-nowrap rounded-full border border-mara-orange/30 bg-mara-orange/10 px-2.5 py-0.5 text-[0.65rem] font-semibold text-mara-orange transition-colors hover:bg-mara-orange/20"
+              >
+                {esp}
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        <button
+          type="button"
+          onClick={alternar}
+          aria-expanded={aberto}
+          className="mt-2 inline-flex shrink-0 items-center gap-1 self-start text-[0.7rem] font-semibold text-mara-orange transition-colors hover:text-orange-400"
+        >
+          {aberto ? "Ver menos" : "Ver mais"}
+          <ChevronDown
+            size={13}
+            className={`transition-transform duration-300 ${aberto ? "rotate-180" : ""}`}
+          />
+        </button>
+      </div>
+    </article>
   );
 }

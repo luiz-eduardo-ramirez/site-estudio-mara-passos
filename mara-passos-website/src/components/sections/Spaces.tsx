@@ -4,17 +4,16 @@ import { useState, useEffect, useRef } from "react";
 import { useLenis } from "lenis/react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
-import { X, ZoomIn } from "lucide-react";
+import { ChevronLeft, ChevronRight, X, ZoomIn } from "lucide-react";
 import { gsap, useGsapPresence } from "../../lib/useGsapPresence";
 import { DUR, EASE } from "../../lib/motion";
 import Reveal from "../layout/Reveal";
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, FreeMode, Pagination, Autoplay } from 'swiper/modules';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import 'swiper/css/free-mode';
 
 // Imagem com esqueleto em shimmer enquanto carrega e fade + desfoque ao concluir.
 function LoadingImage({ className = "", ...props }: React.ComponentProps<typeof Image>) {
@@ -40,14 +39,35 @@ function LoadingImage({ className = "", ...props }: React.ComponentProps<typeof 
         {...props}
         ref={imgRef}
         onLoad={() => setLoaded(true)}
-        className={`${className} transition-[opacity,filter] duration-700 ease-out ${loaded ? "opacity-100 blur-0" : "opacity-0 blur-md"}`}
+        className={`${className} transition-opacity duration-300 ease-out ${loaded ? "opacity-100" : "opacity-0"}`}
       />
     </>
   );
 }
 
+const spaces = [
+  { name: "Estúdio Mara Passos", img: "/spaces/fachada.webp" },
+  { name: "Recepção", img: "/spaces/entrada.webp" },
+  { name: "Recepção", img: "/spaces/entrada-1.webp" },
+  { name: "Recepção", img: "/spaces/entrada-2.webp" },
+  { name: "Área Interna", img: "/spaces/interna.webp" },
+  { name: "Área Interna", img: "/spaces/interna-1.webp" },
+  { name: "Sala de Piano", img: "/spaces/piano.webp" },
+  { name: "Sala de Piano", img: "/spaces/piano-1.webp" },
+  { name: "Sala de Piano", img: "/spaces/piano-2.webp" },
+  { name: "Sala de Musicalização", img: "/spaces/musicalizacao-1.webp" },
+  { name: "Sala de Instrumentos", img: "/spaces/instrumentos.webp" },
+  { name: "Sala de Jogos", img: "/spaces/sala-jogos.webp" },
+  { name: "Escada", img: "/spaces/escada.webp" },
+  { name: "Certificados", img: "/spaces/certificados.webp" },
+  { name: "Relaxamento", img: "/spaces/relaxamento.webp" },
+  { name: "Secretaria", img: "/spaces/pc.webp" },
+  { name: "Corredor", img: "/spaces/IMG_4326.webp" },
+  { name: "Certificados", img: "/spaces/IMG_4337.webp" },
+];
+
 export default function Spaces() {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [mounted, setMounted] = useState(false);
   const lenis = useLenis();
 
@@ -55,13 +75,18 @@ export default function Spaces() {
     setMounted(true);
   }, []);
 
-  // Lightbox com presença animada (GSAP). O estado selectedImage é a intenção;
+  // Lightbox com presença animada (GSAP). O estado selectedIndex é a intenção;
   // durante a saída ele volta a null, então guardo a última imagem num ref para
   // o <Image> continuar mostrando algo enquanto o modal some.
-  const aberto = selectedImage !== null;
-  const ultimaImagem = useRef<string | null>(null);
-  if (selectedImage) ultimaImagem.current = selectedImage;
-  const imagemMostrada = selectedImage ?? ultimaImagem.current;
+  const aberto = selectedIndex !== null;
+  const ultimoIndice = useRef<number>(0);
+  if (selectedIndex !== null) ultimoIndice.current = selectedIndex;
+  const indiceMostrado = selectedIndex ?? ultimoIndice.current;
+
+  const fechar = () => setSelectedIndex(null);
+  const ir = (delta: number) =>
+    setSelectedIndex((i) => (i === null ? i : (i + delta + spaces.length) % spaces.length));
+  const touchX = useRef<number | null>(null);
 
   const { montado: modalMontado, ref: modalRef } = useGsapPresence<HTMLDivElement>(aberto, {
     entrar: (el) => {
@@ -81,18 +106,18 @@ export default function Spaces() {
   });
 
   useEffect(() => {
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setSelectedImage(null);
-      }
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setSelectedIndex(null);
+      else if (e.key === 'ArrowRight') setSelectedIndex((i) => (i === null ? i : (i + 1) % spaces.length));
+      else if (e.key === 'ArrowLeft') setSelectedIndex((i) => (i === null ? i : (i - 1 + spaces.length) % spaces.length));
     };
     // O overflow no body trava a rolagem nativa; o lenis.stop() trava a que a
     // biblioteca faz por conta própria. Sem o segundo, a roda do mouse sobre a
     // foto ampliada ficaria acumulada e saltaria toda junta ao fechar.
-    if (selectedImage) {
+    if (selectedIndex !== null) {
       document.body.style.overflow = 'hidden';
       lenis?.stop();
-      window.addEventListener('keydown', handleEsc);
+      window.addEventListener('keydown', handleKey);
     } else {
       document.body.style.overflow = 'unset';
       lenis?.start();
@@ -100,30 +125,9 @@ export default function Spaces() {
     return () => { 
       document.body.style.overflow = 'unset';
       lenis?.start();
-      window.removeEventListener('keydown', handleEsc);
+      window.removeEventListener('keydown', handleKey);
     };
-  }, [selectedImage, lenis]);
-
-  const spaces = [
-    { name: "Estúdio Mara Passos", img: "/spaces/fachada.webp" },
-    { name: "Recepção", img: "/spaces/entrada.webp" },
-    { name: "Recepção", img: "/spaces/entrada-1.webp" },
-    { name: "Recepção", img: "/spaces/entrada-2.webp" },
-    { name: "Área Interna", img: "/spaces/interna.webp" },
-    { name: "Área Interna", img: "/spaces/interna-1.webp" },
-    { name: "Sala de Piano", img: "/spaces/piano.webp" },
-    { name: "Sala de Piano", img: "/spaces/piano-1.webp" },
-    { name: "Sala de Piano", img: "/spaces/piano-2.webp" },
-    { name: "Sala de Musicalização", img: "/spaces/musicalizacao-1.webp" },
-    { name: "Sala de Instrumentos", img: "/spaces/instrumentos.webp" },
-    { name: "Sala de Jogos", img: "/spaces/sala-jogos.webp" },
-    { name: "Escada", img: "/spaces/escada.webp" },
-    { name: "Certificados", img: "/spaces/certificados.webp" },
-    { name: "Relaxamento", img: "/spaces/relaxamento.webp" },
-    { name: "Secretaria", img: "/spaces/pc.webp" },
-    { name: "Corredor", img: "/spaces/IMG_4326.webp" },
-    { name: "Certificados", img: "/spaces/IMG_4337.webp" },
-  ];
+  }, [selectedIndex, lenis]);
 
   return (
     <section id="espacos" className="py-24 bg-mara-gray relative overflow-hidden">
@@ -141,11 +145,11 @@ export default function Spaces() {
         {/* --- CARROSSEL DE IMAGENS PREMIUM --- */}
         <div className="relative w-full">
           <Swiper
-            modules={[Navigation, FreeMode, Pagination, Autoplay]}
+            modules={[Navigation, Pagination, Autoplay]}
             navigation={true}
-            freeMode={true}
+            speed={550}
             pagination={{ clickable: true, dynamicBullets: true }}
-            autoplay={{ delay: 4000, disableOnInteraction: false }}
+            autoplay={{ delay: 4000, disableOnInteraction: false, pauseOnMouseEnter: true }}
             spaceBetween={24}
             grabCursor={true}
             breakpoints={{
@@ -166,14 +170,15 @@ export default function Spaces() {
             {spaces.map((space, index) => (
               <SwiperSlide key={index} className="pb-4">
                 <div
-                  className="group relative w-full aspect-[4/3] rounded-3xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl hover:shadow-mara-orange/20 transition-all duration-500 bg-neutral-900/50"
-                  onClick={() => setSelectedImage(space.img)}
+                  className="group relative w-full aspect-[4/3] rounded-3xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl hover:shadow-mara-orange/20 transition-shadow duration-500 bg-neutral-900/50"
+                  onClick={() => setSelectedIndex(index)}
                 >
                   {/* Imagem de Fundo (Next.js Image) */}
                   <LoadingImage
                     src={space.img}
                     alt={space.name}
                     fill
+                    loading={index < 4 ? "eager" : "lazy"}
                     className="object-contain transition-transform duration-700 ease-out group-hover:scale-110"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
@@ -206,35 +211,83 @@ export default function Spaces() {
       </div>
 
       {/* ---------------- MODAL LIGHTBOX (GSAP) ---------------- */}
-      {mounted && modalMontado && imagemMostrada && createPortal(
+      {mounted && modalMontado && createPortal(
         <div
           ref={modalRef}
           className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/95 backdrop-blur-xl p-4 md:p-8"
-          onClick={() => setSelectedImage(null)}
+          onClick={fechar}
         >
           <button
+            aria-label="Fechar"
             className="absolute top-6 right-6 md:top-10 md:right-10 text-white/50 hover:text-mara-orange transition-colors bg-white/5 hover:bg-white/10 rounded-full p-3 z-50"
             onClick={(e) => {
               e.stopPropagation();
-              setSelectedImage(null);
+              fechar();
             }}
           >
             <X size={28} />
           </button>
 
+          <button
+            aria-label="Foto anterior"
+            className="absolute left-3 md:left-8 top-1/2 -translate-y-1/2 z-50 rounded-full bg-white/5 p-3 text-white/70 transition-colors hover:bg-white/10 hover:text-mara-orange"
+            onClick={(e) => {
+              e.stopPropagation();
+              ir(-1);
+            }}
+          >
+            <ChevronLeft size={28} />
+          </button>
+          <button
+            aria-label="Próxima foto"
+            className="absolute right-3 md:right-8 top-1/2 -translate-y-1/2 z-50 rounded-full bg-white/5 p-3 text-white/70 transition-colors hover:bg-white/10 hover:text-mara-orange"
+            onClick={(e) => {
+              e.stopPropagation();
+              ir(1);
+            }}
+          >
+            <ChevronRight size={28} />
+          </button>
+
+          <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-50 rounded-full bg-white/5 px-4 py-1.5 text-xs font-semibold tracking-widest text-white/70">
+            {indiceMostrado + 1} / {spaces.length}
+          </div>
+
           <div
             data-painel
-            className="relative w-full max-w-5xl h-full max-h-[85vh]"
+            className="relative w-full max-w-5xl h-full max-h-[85vh] touch-pan-y"
             onClick={(e) => e.stopPropagation()}
+            onTouchStart={(e) => {
+              touchX.current = e.touches[0].clientX;
+            }}
+            onTouchEnd={(e) => {
+              if (touchX.current === null) return;
+              const dx = e.changedTouches[0].clientX - touchX.current;
+              touchX.current = null;
+              if (Math.abs(dx) > 50) ir(dx < 0 ? 1 : -1);
+            }}
           >
-            <LoadingImage
-              src={imagemMostrada}
-              alt="Espaço ampliado"
-              fill
-              className="object-contain drop-shadow-[0_0_30px_rgba(249,115,22,0.15)]"
-              sizes="100vw"
-              quality={100}
-            />
+            {/* Vizinhas já ficam montadas (invisíveis): ao navegar a foto troca na
+                hora, sem esqueleto nem novo download. */}
+            {[-1, 0, 1].map((off) => {
+              const i = (indiceMostrado + off + spaces.length) % spaces.length;
+              const atual = off === 0;
+              return (
+                <Image
+                  key={spaces[i].img}
+                  src={spaces[i].img}
+                  alt={atual ? spaces[i].name : ""}
+                  aria-hidden={atual ? undefined : true}
+                  fill
+                  loading="eager"
+                  quality={90}
+                  sizes="(min-width: 1024px) 1024px, 100vw"
+                  className={`object-contain drop-shadow-[0_0_30px_rgba(249,115,22,0.15)] transition-opacity duration-200 ${
+                    atual ? "opacity-100" : "pointer-events-none opacity-0"
+                  }`}
+                />
+              );
+            })}
           </div>
         </div>,
         document.body
