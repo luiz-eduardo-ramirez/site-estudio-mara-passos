@@ -104,8 +104,8 @@ export const bateria: CourseConfig = {
     intro:
       "Aulas conduzidas por Reinaldo e Mara, com formação sólida e o cuidado de quem ensina com acolhimento.",
     professores: [
-      { id: 6, papel: "Professor de bateria" },
-      { id: 1, papel: "Diretora e fundadora" },
+      { id: 6 },
+      { id: 1 },
     ],
   },
 
