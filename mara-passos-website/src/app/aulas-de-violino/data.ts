@@ -104,7 +104,7 @@ export const violino: CourseConfig = {
     titulo: "Professor de violino",
     intro:
       "Aulas conduzidas pelo professor Vitor, com abordagem humanizada e o cuidado de quem ensina com acolhimento.",
-    professores: [{ id: 8, papel: "Professor de violino" }],
+    professores: [{ id: 8 }],
   },
 
   filosofia: {

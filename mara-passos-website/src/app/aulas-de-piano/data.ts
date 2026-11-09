@@ -101,11 +101,11 @@ export const piano: CourseConfig = {
     intro:
       "Cinco professores com formação em piano, do conservatório à universidade, e o cuidado de quem ensina com acolhimento.",
     professores: [
-      { id: 1, papel: "Diretora e fundadora" },
-      { id: 2, papel: "Professora e sócia" },
-      { id: 7, papel: "Professora de piano e flauta" },
-      { id: 3, papel: "Professor de piano, violão e percussão" },
-      { id: 6, papel: "Professor de piano, teclado e bateria" },
+      { id: 1 },
+      { id: 2 },
+      { id: 7 },
+      { id: 3 },
+      { id: 6 },
     ],
   },
 

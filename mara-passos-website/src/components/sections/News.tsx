@@ -8,6 +8,7 @@ import { ArrowRight, ChevronLeft, ChevronRight, Music2 } from "lucide-react";
 import { newsData, type NewsItem } from "../../app/data/news";
 import { gsap, useGSAP } from "../../lib/gsap";
 import { EASE } from "../../lib/motion";
+import Reveal from "../layout/Reveal";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -187,7 +188,7 @@ export default function News() {
   return (
     <section id="noticias" className="py-20 md:py-28 relative z-10 overflow-hidden">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-10 md:mb-14">
+        <Reveal stagger mask cine className="text-center mb-10 md:mb-14">
           <div className="inline-flex items-center gap-2 text-mara-orange text-xs sm:text-sm font-semibold tracking-[0.3em] uppercase mb-4">
             <Music2 size={14} aria-hidden="true" />
             Fique por dentro
@@ -195,10 +196,11 @@ export default function News() {
           <h2 className="text-3xl md:text-5xl font-bold text-white">
             Novidades no <span className="text-mara-orange">Estúdio</span>
           </h2>
-        </div>
+        </Reveal>
       </div>
 
-      <div className="mx-auto w-full max-w-6xl px-4">
+      {/* Palco do carrossel: abre num wipe de baixo para cima. */}
+      <Reveal clip="bottom" cine y={0} scale={0.97} className="mx-auto w-full max-w-6xl px-4">
         <div
           ref={stageRef}
           className="relative h-[30rem] md:h-[34rem] w-full overflow-hidden rounded-[2rem] border border-white/10 bg-black shadow-2xl"
@@ -330,7 +332,7 @@ export default function News() {
             ))}
           </div>
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }

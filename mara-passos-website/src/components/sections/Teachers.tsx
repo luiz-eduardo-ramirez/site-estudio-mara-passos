@@ -6,7 +6,10 @@ import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import { gsap, useGSAP } from "../../lib/gsap";
 import { EASE } from "../../lib/motion";
+import Reveal from "../layout/Reveal";
 import { teachersList } from "../../data/teachersList";
+
+type Professor = (typeof teachersList)[number];
 
 /*
  * Professores — trilho horizontal guiado pelo scroll vertical.
@@ -25,17 +28,32 @@ import { teachersList } from "../../data/teachersList";
  * O scroll é lido pelo evento nativo — a Lenis move o scrollTop real, então o
  * mesmo listener serve com ou sem rolagem suave.
  */
-export default function Teachers() {
+export default function Teachers({
+  professores = teachersList,
+  titulo = (
+    <>
+      Nossos <span className="text-mara-orange">Professores</span>
+    </>
+  ),
+  intro = "Role para percorrer a equipe — profissionais apaixonados por música, prontos para guiar você em cada nota.",
+}: {
+  /** Quem aparece no trilho. Padrão: a equipe toda (home). */
+  professores?: Professor[];
+  titulo?: React.ReactNode;
+  intro?: string;
+} = {}) {
   const secaoRef = useRef<HTMLElement>(null);
+  const palcoRef = useRef<HTMLDivElement>(null);
   const trilhoRef = useRef<HTMLDivElement>(null);
   const progressoRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
       const secao = secaoRef.current;
+      const palco = palcoRef.current;
       const trilho = trilhoRef.current;
       const progresso = progressoRef.current;
-      if (!secao || !trilho) return;
+      if (!secao || !palco || !trilho) return;
 
       const ehDesktop = () =>
         window.innerWidth >= 768 &&
@@ -61,8 +79,18 @@ export default function Teachers() {
         }
       };
 
+      // Sem palco "sticky" a seção é só um bloco: serve ao mobile e também a
+      // equipes pequenas (página de curso), que cabem na tela sem rolar de lado.
+      const soltarPalco = (solto: boolean) => {
+        palco.style.position = solto ? "static" : "";
+        palco.style.height = solto ? "auto" : "";
+        palco.style.paddingBlock = solto ? "6rem" : "";
+      };
+
       const medir = () => {
-        if (!ehDesktop()) {
+        const sobra = Math.max(0, trilho.scrollWidth - window.innerWidth);
+        if (!ehDesktop() || sobra === 0) {
+          soltarPalco(ehDesktop());
           secao.style.height = "auto";
           gsap.set(trilho, { x: 0 });
           gsap.set(cards, { scale: 1 });
@@ -70,7 +98,8 @@ export default function Teachers() {
           distancia = 0;
           return;
         }
-        distancia = Math.max(0, trilho.scrollWidth - window.innerWidth);
+        soltarPalco(false);
+        distancia = sobra;
         secao.style.height = `${window.innerHeight + distancia}px`;
         atualizar();
       };
@@ -90,23 +119,24 @@ export default function Teachers() {
     <section ref={secaoRef} id="professores" className="relative bg-[#0b0b0b]">
       <div className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
-      <div className="flex min-h-[32rem] flex-col justify-center overflow-hidden py-16 md:sticky md:top-0 md:h-screen md:py-0">
+      <div
+        ref={palcoRef}
+        className="flex min-h-[32rem] flex-col justify-center overflow-hidden py-16 md:sticky md:top-0 md:h-screen md:py-0"
+      >
         {/* Cabeçalho */}
-        <div className="mb-8 px-6 md:mb-10 md:px-[8vw]">
-          <h2 className="text-3xl font-extrabold text-white md:text-5xl">
-            Nossos <span className="text-mara-orange">Professores</span>
-          </h2>
-          <p className="mt-3 max-w-xl text-base leading-relaxed text-gray-400">
-            Role para percorrer a equipe — profissionais apaixonados por música, prontos para guiar você em cada nota.
-          </p>
-        </div>
+        <Reveal stagger mask cine line className="mb-8 px-6 md:mb-10 md:px-[8vw]">
+          <h2 className="text-3xl font-extrabold text-white md:text-5xl">{titulo}</h2>
+          {/* Filete que se desenha (Reveal line). Fora do stagger/máscara por ser data-reveal-line. */}
+          <div data-reveal-line className="mt-4 h-1 w-20 rounded-full bg-mara-orange" />
+          <p className="mt-3 max-w-xl text-base leading-relaxed text-gray-400">{intro}</p>
+        </Reveal>
 
         {/* Trilho de cards */}
         <div
           ref={trilhoRef}
           className="flex items-start gap-5 overflow-x-auto px-6 pb-4 will-change-transform [scrollbar-width:none] md:gap-6 md:overflow-visible md:px-[8vw] md:pb-0 [&::-webkit-scrollbar]:hidden"
         >
-          {teachersList.map((teacher) => (
+          {professores.map((teacher) => (
             <CartaoProfessor key={teacher.id} teacher={teacher} />
           ))}
         </div>
@@ -124,8 +154,6 @@ export default function Teachers() {
     </section>
   );
 }
-
-type Professor = (typeof teachersList)[number];
 
 /*
  * Card do professor: foto e texto em zonas separadas.

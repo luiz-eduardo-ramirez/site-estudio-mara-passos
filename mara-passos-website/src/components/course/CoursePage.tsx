@@ -2,26 +2,25 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
-  Award,
-  CalendarDays,
-  ChevronDown,
   CircleCheck,
   Clock,
-  CreditCard,
-  FileSignature,
-  History,
   MapPin,
   MessageCircle,
-  Smartphone,
   Sparkles,
 } from "lucide-react";
 import Navbar from "../layout/Navbar";
 import Footer from "../layout/Footer";
+import dynamic from "next/dynamic";
 import Contact from "../sections/Contact";
 import SocialButtons from "../layout/SocialButtons";
 import HeroMedia from "./HeroMedia";
 import VideoCarousel from "./VideoCarousel";
 import YouTubeFacade from "./YouTubeFacade";
+const FAQ = dynamic(() => import("../sections/FAQ"));
+const Spaces = dynamic(() => import("../sections/Spaces"));
+const StudentPortal = dynamic(() => import("../sections/StudentPortal"));
+const Teachers = dynamic(() => import("../sections/Teachers"));
+
 import { teachersList } from "../../data/teachersList";
 import {
   ENDERECO,
@@ -41,14 +40,6 @@ import type { CourseConfig } from "./types";
 
 const cartao =
   "rounded-2xl border border-white/10 bg-white/5 transition-colors hover:border-white/20";
-
-/* O Portal do Aluno é do estúdio, não do curso: o texto é o mesmo em todos. */
-const portalRecursos = [
-  { icone: CalendarDays, titulo: "Agenda inteligente", texto: "Visualize suas aulas em lista ou calendário." },
-  { icone: History, titulo: "Reagendamentos", texto: "Cancele ou remarque com 24h de antecedência." },
-  { icone: CreditCard, titulo: "Pagamento facilitado", texto: "Pague via Pix e consulte seu histórico na hora." },
-  { icone: FileSignature, titulo: "Contratos digitais", texto: "Segurança jurídica gerada pelo próprio sistema." },
-] as const;
 
 function Secao({
   id,
@@ -90,7 +81,7 @@ function Secao({
   );
 }
 
-function montarJsonLd(c: CourseConfig, professores: { nome: string }[]) {
+function montarJsonLd(c: CourseConfig, professores: readonly { nome: string }[]) {
   const pageUrl = `${SITE_URL}/${c.slug}`;
 
   return {
@@ -152,12 +143,10 @@ function montarJsonLd(c: CourseConfig, professores: { nome: string }[]) {
 }
 
 export default function CoursePage({ curso: c }: { curso: CourseConfig }) {
-  /* Nome, foto e biografia vêm da fonte única da equipe (a mesma da home). */
-  const professores = c.equipe.professores.flatMap(({ id, papel }) => {
+  /* A equipe vem da fonte única (a mesma da home); o curso só escolhe quem. */
+  const professores = c.equipe.professores.flatMap(({ id }) => {
     const t = teachersList.find((p) => p.id === id);
-    return t
-      ? [{ nome: t.nome, papel, bio: t.bio, foto: t.foto.trim(), especialidades: t.especialidades }]
-      : [];
+    return t ? [t] : [];
   });
 
   const jsonLd = montarJsonLd(c, professores);
@@ -228,7 +217,7 @@ export default function CoursePage({ curso: c }: { curso: CourseConfig }) {
                 <ArrowRight size={20} aria-hidden="true" />
               </a>
               <a
-                href="#espaco"
+                href="#espacos"
                 className="inline-flex min-h-14 items-center justify-center rounded-full border border-white/25 px-8 py-4 text-base font-semibold text-white transition-colors hover:border-mara-orange hover:text-mara-orange focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
               >
                 Conhecer o estúdio
@@ -331,138 +320,14 @@ export default function CoursePage({ curso: c }: { curso: CourseConfig }) {
         </Secao>
 
         {/* ---------- PROFESSORES ---------- */}
-        <Secao
-          id="professores"
-          rotulo="Equipe"
+        <Teachers
+          professores={professores}
           titulo={c.equipe.titulo}
           intro={c.equipe.intro}
-        >
-          {/* Mesmo card da home: foto em retrato no topo, texto embaixo. */}
-          <ul
-            className={`mx-auto grid gap-8 ${
-              professores.length > 1 ? "max-w-4xl md:grid-cols-2" : "max-w-md"
-            }`}
-          >
-            {professores.map((prof, i) => (
-              <li
-                key={prof.nome}
-                className="reveal group flex flex-col overflow-hidden rounded-3xl border border-white/5 bg-[#111] shadow-xl transition-all duration-500 hover:border-mara-orange/20 hover:bg-[#1a1a1a]"
-                style={{ "--i": i } as React.CSSProperties}
-              >
-                <div className="relative aspect-[4/5] shrink-0 overflow-hidden md:aspect-[3/4]">
-                  <Image
-                    src={prof.foto}
-                    alt={`${prof.nome}, ${prof.papel.toLowerCase()} do Estúdio Mara Passos`}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 448px"
-                    className="object-cover object-top transition-transform duration-700 ease-out motion-safe:group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#111] via-transparent to-transparent opacity-70" />
-                </div>
-                <div className="z-20 flex flex-grow flex-col p-8 text-left md:p-10">
-                  <div className="mb-2 flex items-center gap-3">
-                    <Award className="shrink-0 text-mara-orange" size={24} aria-hidden="true" />
-                    <h3 className="text-2xl font-extrabold leading-tight text-white md:text-3xl">{prof.nome}</h3>
-                  </div>
-                  <p className="mb-6 text-sm font-semibold text-mara-orange">{prof.papel}</p>
-                  <ul className="mb-8 flex flex-wrap gap-2">
-                    {prof.especialidades.map((esp) => (
-                      <li
-                        key={esp}
-                        className="rounded-full border border-mara-orange/20 bg-mara-orange/10 px-4 py-1.5 text-xs font-semibold text-mara-orange"
-                      >
-                        {esp}
-                      </li>
-                    ))}
-                  </ul>
-                  <p className="text-sm leading-relaxed text-gray-300 md:text-base">&quot;{prof.bio}&quot;</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-          <p className="reveal mt-10 text-center">
-            <Link
-              href="/professores"
-              className="inline-flex items-center gap-2 text-base font-semibold text-gray-200 underline decoration-mara-orange decoration-2 underline-offset-8 transition-colors hover:text-mara-orange focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-mara-orange"
-            >
-              Conheça toda a equipe
-              <ArrowRight size={16} aria-hidden="true" />
-            </Link>
-          </p>
-        </Secao>
+        />
 
         {/* ---------- PORTAL DO ALUNO ---------- */}
-        <section
-          id="portal-do-aluno"
-          aria-labelledby="portal-titulo"
-          className="reveal mb-28 w-full scroll-mt-28 px-4 md:mb-36"
-        >
-          <div className="relative overflow-hidden rounded-[2.5rem] border border-mara-orange/20 bg-gradient-to-br from-neutral-900 to-[#140d0a] p-8 shadow-2xl md:p-14">
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute right-0 top-0 -mr-20 -mt-20 h-96 w-96 rounded-full bg-mara-orange/10 blur-[100px]"
-            />
-
-            <div className="relative z-10 flex flex-col items-center gap-12 lg:flex-row">
-              <div className="w-full space-y-8 lg:w-1/2">
-                <p className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-gray-200">
-                  <Smartphone size={16} className="text-mara-orange" aria-hidden="true" />
-                  Tecnologia exclusiva
-                </p>
-
-                <h2
-                  id="portal-titulo"
-                  className="text-balance text-3xl font-bold leading-tight md:text-4xl"
-                >
-                  Seu aprendizado na <span className="text-mara-orange">palma da mão</span>
-                </h2>
-
-                <p className="text-lg leading-relaxed text-gray-300">
-                  Diga adeus às confusões de agenda pelo WhatsApp. Nossos alunos têm acesso a um{" "}
-                  <strong className="text-white">Portal exclusivo</strong> para gerenciar 100% da
-                  jornada musical com autonomia e transparência.
-                </p>
-
-                <ul className="grid gap-5 pt-2 sm:grid-cols-2">
-                  {portalRecursos.map(({ icone: Icone, titulo, texto }) => (
-                    <li key={titulo} className="flex items-start gap-4">
-                      <span className="shrink-0 rounded-lg bg-mara-orange/20 p-2">
-                        <Icone className="text-mara-orange" size={20} aria-hidden="true" />
-                      </span>
-                      <div>
-                        <h3 className="mb-1 text-sm font-bold text-gray-100">{titulo}</h3>
-                        <p className="text-sm leading-relaxed text-gray-300">{texto}</p>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="group w-full lg:w-1/2">
-                <div className="overflow-hidden rounded-2xl bg-neutral-950 shadow-2xl ring-1 ring-white/10 transition-transform duration-700 motion-safe:group-hover:-translate-y-2">
-                  <div
-                    aria-hidden="true"
-                    className="flex h-8 items-center gap-2 border-b border-white/5 bg-neutral-900 px-4"
-                  >
-                    <span className="h-2.5 w-2.5 rounded-full bg-red-500/80" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-yellow-500/80" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-green-500/80" />
-                  </div>
-                  {/* Abaixo da dobra: sem priority, o LCP é o herói. Proporção
-                      3:2 reservada pelo width/height evita deslocamento. */}
-                  <Image
-                    src="/images/portal.webp"
-                    alt="Painel do Portal do Aluno do Estúdio Mara Passos, com agenda de aulas e pagamentos"
-                    width={1200}
-                    height={800}
-                    sizes="(max-width: 1024px) 100vw, 560px"
-                    className="h-auto w-full"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <StudentPortal />
 
         {/* ---------- FILOSOFIA ---------- */}
         <section
@@ -514,60 +379,22 @@ export default function CoursePage({ curso: c }: { curso: CourseConfig }) {
         )}
 
         {/* ---------- O ESTÚDIO ---------- */}
-        <Secao
-          id="espaco"
-          rotulo="O espaço"
-          titulo="Conheça nosso estúdio na Lapa"
+        <Spaces
+          fotos={c.galeria.map((f) => ({ img: f.src, alt: f.alt }))}
+          titulo={
+            <>
+              Conheça nosso <span className="text-mara-orange">estúdio na Lapa</span>
+            </>
+          }
           intro="Ambiente climatizado, acústico e equipado com bons instrumentos para o seu aprendizado."
-        >
-          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-            {c.galeria.map((foto, i) => (
-              <li
-                key={foto.src}
-                className="reveal group relative aspect-[4/3] overflow-hidden rounded-3xl bg-neutral-900 shadow-lg"
-                style={{ "--i": i % 3 } as React.CSSProperties}
-              >
-                <Image
-                  src={foto.src}
-                  alt={foto.alt}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-700 motion-safe:group-hover:scale-105"
-                />
-              </li>
-            ))}
-          </ul>
-        </Secao>
+        />
 
         {/* ---------- FAQ ---------- */}
-        <Secao
-          id="faq"
-          rotulo="Dúvidas"
+        <FAQ
+          items={c.faq.map((p) => ({ question: p.pergunta, answer: p.resposta }))}
           titulo={c.faqTitulo}
           intro="Tudo o que você precisa saber para dar o primeiro passo sem receios."
-        >
-          <div className="grid gap-4">
-            {c.faq.map((item, i) => (
-              <details
-                key={item.pergunta}
-                className={`reveal group ${cartao} open:border-mara-orange/30 open:bg-white/[0.07]`}
-                style={{ "--i": i % 4 } as React.CSSProperties}
-              >
-                <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 rounded-2xl p-5 text-left text-lg font-semibold text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mara-orange md:px-7 [&::-webkit-details-marker]:hidden">
-                  <h3 className="text-lg font-semibold">{item.pergunta}</h3>
-                  <ChevronDown
-                    className="shrink-0 text-mara-orange transition-transform duration-300 group-open:rotate-180"
-                    size={24}
-                    aria-hidden="true"
-                  />
-                </summary>
-                <p className="px-5 pb-6 text-base leading-relaxed text-gray-300 md:px-7">
-                  {item.resposta}
-                </p>
-              </details>
-            ))}
-          </div>
-        </Secao>
+        />
 
         {/* ---------- ONDE FICA ---------- */}
         <Secao

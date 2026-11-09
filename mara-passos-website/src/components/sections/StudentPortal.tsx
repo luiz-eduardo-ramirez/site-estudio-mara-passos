@@ -93,9 +93,9 @@ export default function StudentPortal() {
   );
 
   return (
-    <section className="mx-auto my-28 max-w-2xl px-6">
+    <section id="portal-do-aluno" className="mx-auto my-28 max-w-2xl px-6">
       {/* Intro */}
-      <Reveal y={30} className="mb-12 text-center">
+      <Reveal stagger mask cine className="mb-12 text-center">
         <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-1.5 text-sm font-semibold text-gray-200">
           <Smartphone size={16} className="text-mara-orange" />
           <span className="text-xs font-bold uppercase tracking-wider">Tecnologia Exclusiva</span>

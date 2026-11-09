@@ -59,7 +59,7 @@ export default function Home() {
 
       <main id="main-content" tabIndex={-1} className="outline-none">
         <Hero />
-        <ScrollReveal><News /></ScrollReveal>
+        <News />
 
         <ScrollReveal><Instruments /></ScrollReveal>
 
@@ -75,9 +75,9 @@ export default function Home() {
         <Presentation />
         <ScrollReveal><About /></ScrollReveal>
         
-        <ScrollReveal><Testimonials /></ScrollReveal>
+        <Testimonials />
 
-        <ScrollReveal><Contact /></ScrollReveal>
+        <Contact />
       </main>
 
       <Footer />

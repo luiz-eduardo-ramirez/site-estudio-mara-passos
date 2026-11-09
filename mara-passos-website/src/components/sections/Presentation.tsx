@@ -12,8 +12,11 @@ export default function Presentation() {
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
 
           <Reveal
-            x={-50}
+            clip="left"
+            cine
+            x={-60}
             y={0}
+            scale={0.96}
             className="w-full lg:w-1/2 relative group"
           >
             {/* Aspect ratio container for 16:9 video */}
@@ -33,6 +36,8 @@ export default function Presentation() {
           </Reveal>
 
           <Reveal
+            stagger
+            cine
             x={50}
             y={0}
             className="w-full lg:w-1/2 flex flex-col items-start"

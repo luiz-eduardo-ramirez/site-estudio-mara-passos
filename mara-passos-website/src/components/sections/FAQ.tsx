@@ -4,7 +4,26 @@ import React, { useState } from 'react';
 import Reveal from '../layout/Reveal';
 import { faqData } from './faqData';
 
-export default function FAQ() {
+type Item = { question: string; answer: string };
+
+/*
+ * Reutilizado nas páginas de curso: sem props mostra o FAQ geral da home; com
+ * `items`/`titulo`/`intro` mostra o do curso. O JSON-LD (FAQPage) fica a cargo
+ * de cada página, não daqui.
+ */
+export default function FAQ({
+  items = faqData,
+  titulo = (
+    <>
+      Perguntas <span className="text-mara-orange">Frequentes</span>
+    </>
+  ),
+  intro,
+}: {
+  items?: Item[];
+  titulo?: React.ReactNode;
+  intro?: string;
+}) {
   // Estado para controlar qual pergunta está aberta
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
@@ -18,15 +37,18 @@ export default function FAQ() {
       <div className="container mx-auto px-6 max-w-4xl">
         <Reveal
           as="h2"
-          y={-20}
-          blur
+          lines
+          cine
           className="text-3xl md:text-5xl font-bold text-white mb-12 text-center"
         >
-          Perguntas <span className="text-mara-orange">Frequentes</span>
+          {titulo}
         </Reveal>
+        {intro && (
+          <p className="-mt-6 mb-12 text-center text-lg leading-relaxed text-gray-300">{intro}</p>
+        )}
 
-        <Reveal stagger className="space-y-4">
-          {faqData.map((item, index) => {
+        <Reveal stagger cine y={36} rotateX={10} className="space-y-4">
+          {items.map((item, index) => {
             const isOpen = openIndex === index;
 
             return (

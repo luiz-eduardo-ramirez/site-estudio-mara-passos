@@ -3,6 +3,7 @@
 import { useState, useRef } from "react";
 import { CheckCircle2 } from 'lucide-react';
 import Image from 'next/image';
+import Reveal from '../layout/Reveal';
 
 export default function Contact({ defaultInstrument = "" }: { defaultInstrument?: string }) {
   const form = useRef<HTMLFormElement>(null);
@@ -69,19 +70,21 @@ export default function Contact({ defaultInstrument = "" }: { defaultInstrument?
           Todos os links para #agendamentos (topo, herói, rodapé, cursos, sobre
           e o link na bio) passam a chegar aqui, sem precisarem mudar.
         */}
-        <div
+        <Reveal
           id="agendamentos"
+          cine
+          y={48}
           className="scroll-mt-24 md:scroll-mt-32 w-full lg:w-1/2 bg-[#0b0b0b] rounded-2xl p-8 md:p-12 shadow-2xl border border-white/5 relative"
         >
 
-          <div className="text-center mb-8">
+          <Reveal stagger mask cine className="text-center mb-8">
             <h2 className="text-3xl font-bold text-mara-orange mb-4">
               Entre em contato conosco e agende sua aula experimental!
             </h2>
             <p className="text-gray-400 text-sm">
               Desperte sua paixão pela música! Nunca é tarde para começar, a hora é agora. Venha marcar sua aula experimental gratuita com a gente.
             </p>
-          </div>
+          </Reveal>
 
           <form ref={form} onSubmit={handleSubmit} className="space-y-5">
             <div>
@@ -187,10 +190,10 @@ export default function Contact({ defaultInstrument = "" }: { defaultInstrument?
               Pedir Agendamento no WhatsApp
             </button>
           </form>
-        </div>
+        </Reveal>
 
         {/* Imagem (Lado Direito) — centralizada na metade, não colada na borda. */}
-        <div className="w-full lg:w-1/2 flex justify-center">
+        <Reveal clip="right" cine y={0} className="w-full lg:w-1/2 flex justify-center">
           <div className="relative w-full max-w-md aspect-square rounded-lg overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-4 border-white transform hover:scale-105 transition-transform duration-500">
             <Image
               src="/contact-image.webp"
@@ -200,7 +203,7 @@ export default function Contact({ defaultInstrument = "" }: { defaultInstrument?
               sizes="(max-width: 768px) 100vw, 448px"
             />
           </div>
-        </div>
+        </Reveal>
 
       </div>
     </section>

@@ -3,6 +3,8 @@
 import { TypeAnimation } from 'react-type-animation';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Parallax from '../layout/Parallax';
+import Reveal from '../layout/Reveal';
 
 export default function Hero() {
   const [tocar, setTocar] = useState(false);
@@ -33,34 +35,38 @@ export default function Hero() {
     <section id="inicio" className="relative w-full h-screen flex items-center justify-center overflow-hidden">
 
       {/* Quadro do próprio vídeo (0:00): é o LCP e o pôster, sem salto visual quando o vídeo entra */}
-      <Image
-        src="/hero-poster.webp"
-        alt="Menino tocando piano de cauda, com notas musicais luminosas no ar"
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover"
-      />
+      <Parallax desdeTopo zoom={1.12} shift={6} className="absolute inset-0">
+        <Image
+          src="/hero-poster.webp"
+          alt="Menino tocando piano de cauda, com notas musicais luminosas no ar"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
 
-      {tocar && (
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="none"
-          poster="/hero-poster.webp"
-          className="absolute inset-0 w-full h-full object-cover"
-        >
-          <source src="/hero-bg.mp4" type="video/mp4" />
-        </video>
-      )}
+        {tocar && (
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="none"
+            poster="/hero-poster.webp"
+            className="absolute inset-0 w-full h-full object-cover"
+          >
+            <source src="/hero-bg.mp4" type="video/mp4" />
+          </video>
+        )}
+      </Parallax>
 
       {/* Overlay escuro */}
       <div className="absolute inset-0 bg-mara-dark/80"></div>
 
       {/* Conteúdo Central */}
-      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto flex flex-col items-center mt-16 animate-fade-in-up">
+      {/* py-12 / -mb-12 / mt-4: a máscara do Reveal recorta no padding box, então o
+          respiro mantém o brilho e o foco do botão sem mudar o layout (mt-16 original). */}
+      <Reveal stagger mask cine className="relative z-10 text-center px-6 max-w-5xl mx-auto flex flex-col items-center mt-4 py-12 -mb-12">
 
         {/* Título com Efeito de Digitação */}
         <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-6 leading-tight min-h-[120px] md:min-h-0">
@@ -98,7 +104,7 @@ export default function Hero() {
         >
           AGENDAR AULA EXPERIMENTAL
         </a>
-      </div>
+      </Reveal>
     </section>
   );
 }

@@ -4,6 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import { Heart, Scale, Music } from 'lucide-react';
 import Reveal from '../layout/Reveal';
+import Parallax from '../layout/Parallax';
 
 export default function AboutUs() {
   const historiaExemplo = `O Estúdio Musical e Cultural Mara Passos nasceu de um sonho acalentado por mais de 30 anos: o de criar um espaço onde o ensino de música não fosse apenas sobre notas e partituras, mas sobre amor, acolhimento e transformação. Sob a liderança inspiradora de Mara Ferreira Lugli, nossa missão é extrair o melhor de cada aluno, transformando a paixão pela música em uma habilidade para a vida toda. Acreditamos no ensino musical curativo e acolhedor, onde o ritmo de cada um é respeitado e o aprendizado é uma jornada lúdica e cheia de significado.`;
@@ -18,8 +19,9 @@ export default function AboutUs() {
         
         {/* Cabeçalho da Seção Animado */}
         <Reveal
-          y={-20}
-          blur
+          stagger
+          mask
+          cine
           className="text-center mb-16 md:mb-24"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
@@ -32,7 +34,9 @@ export default function AboutUs() {
 
         {/* Container Principal: Sem altura fixa, adaptável ao conteúdo */}
         <Reveal
-          y={40}
+          clip="bottom"
+          cine
+          y={0}
           className="bg-[#111111]/80 backdrop-blur-xl border border-white/5 rounded-[2rem] w-full max-w-6xl mx-auto overflow-hidden flex flex-col lg:flex-row shadow-2xl relative"
         >
           
@@ -42,19 +46,25 @@ export default function AboutUs() {
             <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-[#111111]/90 via-transparent to-transparent z-10 pointer-events-none"></div>
             
             <div className="absolute inset-0 w-full h-full transition-transform duration-700 ease-out group-hover:scale-105">
-              <Image
-                src="/mara-passos-tocando.webp"
-                alt="Mara Passos tocando piano"
-                fill
-                className="object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"
-                sizes="(max-width: 1024px) 100vw, 40vw"
-              />
+              {/* Parallax em sentido contrário ao do texto: profundidade ao rolar. */}
+              <Parallax invert zoom={1.15} shift={6} className="absolute inset-0">
+                <Image
+                  src="/mara-passos-tocando.webp"
+                  alt="Mara Passos tocando piano"
+                  fill
+                  className="object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"
+                  sizes="(max-width: 1024px) 100vw, 40vw"
+                />
+              </Parallax>
             </div>
           </div>
 
           {/* Lado Direito: Textos (Sem Scrollbar, com muito padding) */}
           <Reveal
             stagger
+            cine
+            x={48}
+            y={16}
             className="w-full lg:w-7/12 p-10 lg:p-16 flex flex-col justify-center relative z-20 text-left"
           >
 

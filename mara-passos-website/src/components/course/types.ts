@@ -58,8 +58,8 @@ export type CourseConfig = {
   equipe: {
     titulo: string;
     intro: string;
-    /** `id` de src/data/teachersList.ts; o papel é como aparece neste curso. */
-    professores: { id: number; papel: string }[];
+    /** `id` de src/data/teachersList.ts; o cartão mostra a bio e as especialidades de lá. */
+    professores: { id: number }[];
   };
 
   filosofia: {
