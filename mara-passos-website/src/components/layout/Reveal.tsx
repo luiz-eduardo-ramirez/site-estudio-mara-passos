@@ -204,7 +204,10 @@ export default function Reveal({
           }
         },
         // Dispara um pouco antes de a seção chegar à borda inferior (lê como fade).
-        { rootMargin: "0px 0px -10% 0px", threshold: 0.01 },
+        // threshold 0 (e não 0.01): com clip-path o alvo nasce recortado e sua área
+        // visível é 0 — com um limiar > 0 o observer nunca disparava e a seção
+        // ficava invisível para sempre.
+        { rootMargin: "0px 0px -10% 0px", threshold: 0 },
       );
       observador.observe(el);
 

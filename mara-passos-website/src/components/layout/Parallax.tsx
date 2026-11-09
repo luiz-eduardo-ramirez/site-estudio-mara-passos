@@ -68,7 +68,12 @@ export default function Parallax({
   );
 
   return (
-    <div ref={raizRef} className={`relative overflow-hidden ${className ?? ""}`}>
+    // "relative" só se quem chama não definiu o posicionamento: relative junto de
+    // absolute/inset-0 vencia no CSS e zerava a altura (fundo do hero sumia).
+    <div
+      ref={raizRef}
+      className={`${/\b(absolute|fixed|sticky|relative)\b/.test(className ?? "") ? "" : "relative"} overflow-hidden ${className ?? ""}`}
+    >
       <div ref={internoRef} className="absolute inset-0 will-change-transform">
         {children}
       </div>
