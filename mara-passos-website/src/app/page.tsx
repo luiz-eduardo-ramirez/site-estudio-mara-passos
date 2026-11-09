@@ -75,9 +75,9 @@ export default function Home() {
         <Presentation />
         <ScrollReveal><About /></ScrollReveal>
         
-        <ScrollReveal><Testimonials /></ScrollReveal>
+        <Testimonials />
 
-        <ScrollReveal><Contact /></ScrollReveal>
+        <Contact />
       </main>
 
       <Footer />

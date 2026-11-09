@@ -3,6 +3,7 @@
 import { useState, useRef } from 'react';
 import { gsap, useGSAP } from '../../lib/gsap';
 import { EASE } from '../../lib/motion';
+import Reveal from '../layout/Reveal';
 import { Star, Quote, ArrowLeft, ArrowRight } from 'lucide-react';
 
 const GOOGLE_REVIEW_URL = 'https://g.page/r/CXtPj2O5LkDBEAI/review';
@@ -125,13 +126,13 @@ export default function Testimonials() {
     <section id="depoimentos" className="py-24 bg-mara-dark overflow-hidden">
       <div className="container mx-auto px-6 max-w-6xl">
 
-        <div className="text-center mb-14">
+        <Reveal mask cine className="text-center mb-14">
           <h2 className="text-3xl md:text-4xl font-bold text-mara-orange mb-4">
             O que estão dizendo sobre nós
           </h2>
-        </div>
+        </Reveal>
 
-        <div className="relative rounded-3xl border border-mara-orange/30 bg-gradient-to-br from-mara-gray via-[#0b0b0b] to-mara-dark px-6 sm:px-12 md:px-16 pt-14 md:pt-20 pb-8">
+        <Reveal cine scale={0.92} y={48} className="relative rounded-3xl border border-mara-orange/30 bg-gradient-to-br from-mara-gray via-[#0b0b0b] to-mara-dark px-6 sm:px-12 md:px-16 pt-14 md:pt-20 pb-8">
           {/* Aspas gigantes ao fundo */}
           <Quote
             aria-hidden
@@ -192,7 +193,7 @@ export default function Testimonials() {
               </button>
             </div>
           </div>
-        </div>
+        </Reveal>
 
         <div className="mt-10 text-center">
           <a
