@@ -73,10 +73,17 @@ type Props = {
   id?: string;
 };
 
+/*
+ * O recorte inicial deixa uma fresta de 0,5% em vez de fechar 100%: o
+ * IntersectionObserver só dispara se o pedaço VISÍVEL do alvo cruza a viewport, e
+ * com o recorte total (área zero) a seção ficava invisível para sempre.
+ * A fresta fica na borda de onde o wipe nasce; "bottom" abre de cima para baixo
+ * (fresta no topo), para o gatilho não esperar a base de um bloco alto aparecer.
+ */
 const CLIP_INICIAL: Record<Direcao, string> = {
-  left: "inset(0 100% 0 0)",
-  right: "inset(0 0 0 100%)",
-  bottom: "inset(100% 0 0 0)",
+  left: "inset(0 99.5% 0 0)",
+  right: "inset(0 0 0 99.5%)",
+  bottom: "inset(0 0 99.5% 0)",
 };
 
 export default function Reveal({
@@ -140,7 +147,9 @@ export default function Reveal({
           opacity: mask ? 1 : 0,
           y: mask ? 0 : y,
           yPercent: mask ? 110 : 0,
-          x,
+          // Com clip, a fresta que o observer enxerga tem de ficar na viewport:
+          // um x grande a empurraria para fora da tela, então o wipe não desloca.
+          x: direcaoClip ? 0 : x,
           scale,
           ...(rotateX ? { rotateX, transformPerspective: 800, transformOrigin: "50% 100%" } : {}),
           ...(blur ? { filter: "blur(10px)" } : {}),
