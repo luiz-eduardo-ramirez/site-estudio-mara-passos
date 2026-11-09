@@ -45,7 +45,9 @@ function LoadingImage({ className = "", ...props }: React.ComponentProps<typeof 
   );
 }
 
-const spaces = [
+export type Espaco = { name?: string; img: string; alt?: string };
+
+const spacesPadrao: Espaco[] = [
   { name: "Estúdio Mara Passos", img: "/spaces/fachada.webp" },
   { name: "Recepção", img: "/spaces/entrada.webp" },
   { name: "Recepção", img: "/spaces/entrada-1.webp" },
@@ -66,7 +68,23 @@ const spaces = [
   { name: "Certificados", img: "/spaces/IMG_4337.webp" },
 ];
 
-export default function Spaces() {
+/*
+ * Reutilizado nas páginas de curso: sem props mostra todos os espaços da home;
+ * com `fotos` mostra a seleção do curso (sem legenda quando falta `name`).
+ */
+export default function Spaces({
+  fotos: spaces = spacesPadrao,
+  titulo = (
+    <>
+      Conheça nossos <span className="text-mara-orange">espaços</span>
+    </>
+  ),
+  intro = "Ambientes climatizados, equipados e preparados com muito carinho para o seu desenvolvimento.",
+}: {
+  fotos?: Espaco[];
+  titulo?: React.ReactNode;
+  intro?: string;
+}) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [mounted, setMounted] = useState(false);
   const lenis = useLenis();
@@ -133,17 +151,17 @@ export default function Spaces() {
     <section id="espacos" className="py-24 bg-mara-gray relative overflow-hidden">
       <div className="container mx-auto px-6 max-w-7xl">
 
-        <Reveal y={-20} blur className="text-center mb-16">
+        <Reveal stagger mask cine className="text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
-            Conheça nossos <span className="text-mara-orange">espaços</span>
+            {titulo}
           </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto">
-            Ambientes climatizados, equipados e preparados com muito carinho para o seu desenvolvimento.
-          </p>
+          <p className="text-gray-400 max-w-2xl mx-auto">{intro}</p>
         </Reveal>
 
         {/* --- CARROSSEL DE IMAGENS PREMIUM --- */}
-        <div className="relative w-full">
+        {/* Wipe da esquerda para a direita; sem parallax aqui: os slides são um
+            Swiper com object-contain, onde zoom/deslize cortaria as fotos. */}
+        <Reveal clip="left" cine y={0} className="relative w-full">
           <Swiper
             modules={[Navigation, Pagination, Autoplay]}
             navigation={true}
@@ -176,7 +194,7 @@ export default function Spaces() {
                   {/* Imagem de Fundo (Next.js Image) */}
                   <LoadingImage
                     src={space.img}
-                    alt={space.name}
+                    alt={space.alt ?? space.name ?? ""}
                     fill
                     loading={index < 4 ? "eager" : "lazy"}
                     className="object-contain transition-transform duration-700 ease-out group-hover:scale-110"
@@ -187,13 +205,15 @@ export default function Spaces() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
                   {/* Textos Sobrepostos */}
-                  <div className="absolute bottom-6 left-6 right-6 flex flex-col justify-end translate-y-2 group-hover:translate-y-0 transition-transform duration-500 pointer-events-none">
-                    <h3 className="text-xl md:text-2xl font-bold text-white mb-2 drop-shadow-md">
-                      {space.name}
-                    </h3>
-                    {/* Linha decorativa que estica no hover */}
-                    <div className="w-10 h-1 bg-mara-orange rounded-full transition-all duration-500 group-hover:w-20" />
-                  </div>
+                  {space.name && (
+                    <div className="absolute bottom-6 left-6 right-6 flex flex-col justify-end translate-y-2 group-hover:translate-y-0 transition-transform duration-500 pointer-events-none">
+                      <h3 className="text-xl md:text-2xl font-bold text-white mb-2 drop-shadow-md">
+                        {space.name}
+                      </h3>
+                      {/* Linha decorativa que estica no hover */}
+                      <div className="w-10 h-1 bg-mara-orange rounded-full transition-all duration-500 group-hover:w-20" />
+                    </div>
+                  )}
 
                   {/* Ícone Central de Lupa no Hover */}
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
@@ -206,7 +226,7 @@ export default function Spaces() {
               </SwiperSlide>
             ))}
           </Swiper>
-        </div>
+        </Reveal>
 
       </div>
 
@@ -276,7 +296,7 @@ export default function Spaces() {
                 <Image
                   key={spaces[i].img}
                   src={spaces[i].img}
-                  alt={atual ? spaces[i].name : ""}
+                  alt={atual ? (spaces[i].alt ?? spaces[i].name ?? "") : ""}
                   aria-hidden={atual ? undefined : true}
                   fill
                   loading="eager"
