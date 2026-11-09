@@ -39,7 +39,7 @@ export type CourseConfig = {
     imagem: string;
     /** `object-position` do fundo, para manter o assunto da foto em quadro. */
     posicao?: string;
-    /** Vídeo de fundo, só carregado em telas grandes. */
+    /** Vídeo de fundo (padrão: /hero-bg.mp4), só carregado em aparelhos capazes; os demais mostram a imagem. */
     video?: string;
     fatos: { icone: LucideIcon; texto: string }[];
   };

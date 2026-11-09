@@ -14,6 +14,9 @@ import dynamic from "next/dynamic";
 import Contact from "../sections/Contact";
 import SocialButtons from "../layout/SocialButtons";
 import HeroMedia from "./HeroMedia";
+
+/** Vídeo de fundo de todo curso que não define o seu em `hero.video`. */
+const VIDEO_HERO_PADRAO = "/hero-bg.mp4";
 import VideoCarousel from "./VideoCarousel";
 import YouTubeFacade from "./YouTubeFacade";
 const FAQ = dynamic(() => import("../sections/FAQ"));
@@ -174,7 +177,7 @@ export default function CoursePage({ curso: c }: { curso: CourseConfig }) {
           aria-labelledby="hero-titulo"
           className="relative isolate mb-16 flex min-h-[85svh] flex-col items-center justify-center overflow-hidden pb-20 pt-36 md:mb-24"
         >
-          <HeroMedia imagem={c.hero.imagem} video={c.hero.video} posicao={c.hero.posicao} />
+          <HeroMedia imagem={c.hero.imagem} video={c.hero.video ?? VIDEO_HERO_PADRAO}posicao={c.hero.posicao} />
 
           <div className="relative w-full px-4 text-center">
             <nav aria-label="Você está em" className="mb-8 text-sm text-gray-300">
