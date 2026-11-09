@@ -9,6 +9,7 @@ import Image from 'next/image';
 import { X } from 'lucide-react';
 import { gsap, useGSAP } from '../../lib/gsap';
 import { useGsapPresence } from '../../lib/useGsapPresence';
+import Reveal from '../layout/Reveal';
 import { DUR, EASE } from '../../lib/motion';
 
 import { instrumentsList } from '../../data/instrumentsList';
@@ -96,12 +97,17 @@ function InstrumentsContent() {
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         gsap.from(grid.children, {
           opacity: 0,
-          scale: 0.9,
-          y: 16,
-          duration: DUR.base,
-          ease: EASE.out,
-          stagger: 0.05,
+          scale: 0.92,
+          y: 40,
+          rotateX: 18,
+          transformPerspective: 800,
+          transformOrigin: "50% 100%",
+          duration: DUR.cine,
+          ease: EASE.cine,
+          // Cascata que abre a partir do centro da grade.
+          stagger: { each: 0.06, from: "center", grid: "auto" },
           overwrite: true,
+          clearProps: "transform",
         });
       });
     },
@@ -175,14 +181,14 @@ function InstrumentsContent() {
 
   return (
     <>
-      <div className="text-center mb-16 relative z-10">
+      <Reveal stagger mask cine className="text-center mb-16 relative z-10">
         <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">
           Conheça nossos <span className="text-mara-orange italic font-light">Cursos</span>
         </h2>
         <p className="text-gray-400 max-w-2xl mx-auto text-lg md:text-xl font-light">
           Uma experiência musical imersiva com instrumentos e práticas para todas as idades e níveis.
         </p>
-      </div>
+      </Reveal>
 
       {/* Renderização das Abas de Categoria */}
       <div ref={tabsRef} className="flex flex-wrap justify-center gap-2 md:gap-4 mb-16 relative z-10">

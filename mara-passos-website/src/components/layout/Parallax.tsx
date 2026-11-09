@@ -24,6 +24,9 @@ type Props = {
   zoom?: number;
   shift?: number;
   invert?: boolean;
+  /** Para blocos que já nascem no topo da página (hero): o efeito começa em
+      scroll 0, sem o "salto" de aplicar o zoom da metade do percurso. */
+  desdeTopo?: boolean;
 };
 
 export default function Parallax({
@@ -32,6 +35,7 @@ export default function Parallax({
   zoom = 1.15,
   shift = 8,
   invert = false,
+  desdeTopo = false,
 }: Props) {
   const raizRef = useRef<HTMLDivElement>(null);
   const internoRef = useRef<HTMLDivElement>(null);
@@ -52,7 +56,7 @@ export default function Parallax({
           ease: "none",
           scrollTrigger: {
             trigger: raiz,
-            start: "top bottom",
+            start: desdeTopo ? "top top" : "top bottom",
             end: "bottom top",
             scrub: 1,
             invalidateOnRefresh: true,
@@ -60,7 +64,7 @@ export default function Parallax({
         },
       );
     },
-    { scope: raizRef, dependencies: [zoom, shift, invert] },
+    { scope: raizRef, dependencies: [zoom, shift, invert, desdeTopo] },
   );
 
   return (
