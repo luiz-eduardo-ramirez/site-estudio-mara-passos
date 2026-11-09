@@ -16,6 +16,8 @@ export const EASE = {
   inOut: "power2.inOut",
   expo: "expo.out",
   expoInOut: "expo.inOut",
+  /** Entrada cinematográfica: arranque rápido e pouso muito longo. */
+  cine: "expo.out",
 } as const;
 
 export const DUR = {
@@ -23,10 +25,16 @@ export const DUR = {
   base: 0.7,
   slow: 0.9,
   exit: 0.3,
+  /** Duração das entradas cinematográficas. */
+  cine: 1.1,
 } as const;
 
 export const REVEAL = {
   y: 32,
   stagger: 0.09,
+  /** Stagger entre linhas de texto. */
+  lineStagger: 0.08,
+  /** Stagger entre cards. */
+  cardStagger: 0.12,
   start: "top 85%",
 } as const;
