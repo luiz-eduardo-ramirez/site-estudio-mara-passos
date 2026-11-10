@@ -55,7 +55,11 @@ export type CourseConfig = {
   passos: { titulo: string; texto: string }[];
   passosTitulo: string;
 
-  equipe: {
+  /**
+   * Opcional: curso sem professor cadastrado em teachersList.ts não ganha a
+   * seção Professores, e o JSON-LD sai sem `instructor`. Nada de bio inventada.
+   */
+  equipe?: {
     titulo: string;
     intro: string;
     /** `id` de src/data/teachersList.ts; o cartão mostra a bio e as especialidades de lá. */

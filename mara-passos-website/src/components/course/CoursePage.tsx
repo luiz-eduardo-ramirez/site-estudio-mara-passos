@@ -111,7 +111,9 @@ function montarJsonLd(c: CourseConfig, professores: readonly { nome: string }[])
         hasCourseInstance: {
           "@type": "CourseInstance",
           courseMode: "Onsite",
-          instructor: professores.map((p) => ({ "@type": "Person", name: p.nome })),
+          ...(professores.length
+            ? { instructor: professores.map((p) => ({ "@type": "Person", name: p.nome })) }
+            : {}),
           location: {
             "@type": "Place",
             name: NOME_ESTUDIO,
@@ -150,7 +152,7 @@ function montarJsonLd(c: CourseConfig, professores: readonly { nome: string }[])
 
 export default function CoursePage({ curso: c }: { curso: CourseConfig }) {
   /* A equipe vem da fonte única (a mesma da home); o curso só escolhe quem. */
-  const professores = c.equipe.professores.flatMap(({ id }) => {
+  const professores = (c.equipe?.professores ?? []).flatMap(({ id }) => {
     const t = teachersList.find((p) => p.id === id);
     return t ? [t] : [];
   });
@@ -354,11 +356,13 @@ export default function CoursePage({ curso: c }: { curso: CourseConfig }) {
         </Secao>
 
         {/* ---------- PROFESSORES ---------- */}
-        <Teachers
-          professores={professores}
-          titulo={c.equipe.titulo}
-          intro={c.equipe.intro}
-        />
+        {c.equipe && professores.length > 0 && (
+          <Teachers
+            professores={professores}
+            titulo={c.equipe.titulo}
+            intro={c.equipe.intro}
+          />
+        )}
 
         {/* ---------- PORTAL DO ALUNO ---------- */}
         <StudentPortal />

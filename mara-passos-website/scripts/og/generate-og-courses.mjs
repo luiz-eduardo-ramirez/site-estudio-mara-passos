@@ -17,6 +17,8 @@ const raiz = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..")
 const cursos = {
   "aulas-de-baixo": { foto: "baixo.webp", recorte: { top: 280, height: 1086 } },
   // O recorte termina acima da marca d'água no canto inferior direito da foto.
+  // Idem: o recorte fica acima da marca d'água no canto inferior direito.
+  "aulas-de-ukulele": { foto: "ukelele.webp", recorte: { top: 400, height: 1104 } },
   "aulas-de-guitarra": { foto: "guitarra.webp", recorte: { top: 153, height: 1243 } },
 };
 
