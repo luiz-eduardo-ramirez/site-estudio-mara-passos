@@ -7,7 +7,7 @@ export const teachersList = [
   {
     id: 1,
     nome: "Mara Alexandre Ferreira Lugli",
-    especialidades: ["Piano", "Bateria", "Musicalização - Infantil", "Flauta Doce"],
+    especialidades: ["Piano", "Bateria", "Musicalização - Infantil", "Flauta Doce", "Flauta Transversal", "Musicalização - Adultos", "Teoria Musical", "Teclado"],
     bio: "Sócia Fundadora e Diretora do Estúdio Musical e Cultural Mara Passos. Formada em Curso Superior de Piano Erudito pelo Conservatório Dramático e Musical de São Paulo. Possui cursos complementares em Musicalização Infantil e é Pós-Graduada em Musicoterapia na Faculdade Paulista de Artes. Também é formada pelo Curso Sopro Novo de Flautas Doce da Yamaha.",
     foto: "/teachers/mara.webp" 
   },
@@ -21,7 +21,7 @@ export const teachersList = [
   {
     id: 3,
     nome: "Rafael Velez de Sousa",
-    especialidades: ["Pandeiro", "Piano", "Violão", "Bateria"],
+    especialidades: ["Pandeiro", "Piano", "Violão", "Bateria", "Guitarra"],
     bio: "Graduado em Licenciatura em Música pela UNESP, Rafael aprimora seus estudos em Piano e Violão na EMESP. Com forte base percussiva, estudou bateria em Escolas de Samba e especializou-se em Pandeiro no SESC Vila Mariana e no Coletivo S Pandeiro. Traz toda a riqueza do ritmo brasileiro para suas aulas.",
     foto: "/teachers/rafael.webp"
   },
@@ -38,7 +38,7 @@ export const teachersList = [
   {
     id: 5,
     nome: "Rodrigo Alencar da Silva",
-    especialidades: ["Violão", "Guitarra", "Baixo"],
+    especialidades: ["Violão", "Guitarra", "Baixo", "Ukelelê", "Prática de Conjunto"],
     bio: "Formado em Licenciatura em Música pela FPA e em Guitarra pela Fundação das Artes de São Caetano do Sul. Com vasta experiência no ensino musical desde 2007, Rodrigo transita com facilidade entre o Violão Erudito, Jazz, Música Brasileira e Heavy Metal, com grande abrangência de estilos musicais.",
     foto: "/teachers/rodrigo.webp"
   },
@@ -52,7 +52,7 @@ export const teachersList = [
   {
     id: 7,
     nome: "Márcia Kiyomi Toshmitsu Ekami",
-    especialidades: ["Piano", "Flauta Transversal", "Flauta Doce", "Musicalização - Infantil"],
+    especialidades: ["Piano", "Flauta Transversal", "Flauta Doce", "Musicalização - Infantil", "Musicalização - Adultos", "Teclado"],
     bio: "Formada em Piano Erudito pelo Conservatório Dramático e Musical de São Paulo. Leciona Flauta Transversal e possui formação pelo Curso Sopro Novo de Flautas Doce da Yamaha. Com cursos complementares em Musicalização Infantil, Márcia também desenvolveu trabalho de Canto Coral em diversos coros da Capital e atualmente é integrante do Zimana no CoralUsp.",
     foto: "/teachers/marcia.webp" // Ajuste o nome do arquivo se necessário
   },
