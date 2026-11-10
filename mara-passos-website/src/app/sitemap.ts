@@ -7,6 +7,7 @@ import { violao } from './aulas-de-violao/data';
 import { baixo } from './aulas-de-baixo/data';
 import { guitarra } from './aulas-de-guitarra/data';
 import { ukulele } from './aulas-de-ukulele/data';
+import { teclado } from './aulas-de-teclado/data';
 
 const baseUrl = 'https://estudiomusicalmarapassos.com.br';
 
@@ -28,6 +29,7 @@ const cursos = [
   { curso: baixo, atualizadoEm: '2026-11-10' },
   { curso: guitarra, atualizadoEm: '2026-11-10' },
   { curso: ukulele, atualizadoEm: '2026-11-10' },
+  { curso: teclado, atualizadoEm: '2026-11-10' },
 ];
 
 const paginas = [
