@@ -3,6 +3,21 @@ import { newsData } from './data/news';
 import { piano } from './aulas-de-piano/data';
 import { bateria } from './aulas-de-bateria/data';
 import { violino } from './aulas-de-violino/data';
+import { violao } from './aulas-de-violao/data';
+import { baixo } from './aulas-de-baixo/data';
+import { guitarra } from './aulas-de-guitarra/data';
+import { ukulele } from './aulas-de-ukulele/data';
+import { teclado } from './aulas-de-teclado/data';
+import { canto } from './aulas-de-canto/data';
+import { pandeiro } from './aulas-de-pandeiro/data';
+import { saxofone } from './aulas-de-saxofone/data';
+import { flautaDoce } from './aulas-de-flauta-doce/data';
+import { flautaTransversal } from './aulas-de-flauta-transversal/data';
+import { musicalizacaoInfantil } from './aulas-de-musicalizacao-infantil/data';
+import { musicalizacaoAdultos } from './aulas-de-musicalizacao-para-adultos/data';
+import { teoriaMusical } from './aulas-de-teoria-musical/data';
+import { praticaConjunto } from './pratica-de-conjunto/data';
+import { musicaCamara } from './musica-de-camara/data';
 
 const baseUrl = 'https://estudiomusicalmarapassos.com.br';
 
@@ -17,16 +32,31 @@ const baseUrl = 'https://estudiomusicalmarapassos.com.br';
  * linha em `cursos`.
  */
 const cursos = [
-  { curso: piano, atualizadoEm: '2026-10-20' },
-  { curso: bateria, atualizadoEm: '2026-10-20' },
-  { curso: violino, atualizadoEm: '2026-10-20' },
+  { curso: piano, atualizadoEm: '2026-11-09' },
+  { curso: bateria, atualizadoEm: '2026-11-09' },
+  { curso: violino, atualizadoEm: '2026-11-09' },
+  { curso: violao, atualizadoEm: '2026-11-09' },
+  { curso: baixo, atualizadoEm: '2026-11-10' },
+  { curso: guitarra, atualizadoEm: '2026-11-10' },
+  { curso: ukulele, atualizadoEm: '2026-11-10' },
+  { curso: teclado, atualizadoEm: '2026-11-10' },
+  { curso: canto, atualizadoEm: '2026-11-10' },
+  { curso: pandeiro, atualizadoEm: '2026-11-10' },
+  { curso: saxofone, atualizadoEm: '2026-11-10' },
+  { curso: flautaDoce, atualizadoEm: '2026-11-10' },
+  { curso: flautaTransversal, atualizadoEm: '2026-11-10' },
+  { curso: musicalizacaoInfantil, atualizadoEm: '2026-11-10' },
+  { curso: musicalizacaoAdultos, atualizadoEm: '2026-11-10' },
+  { curso: teoriaMusical, atualizadoEm: '2026-11-10' },
+  { curso: praticaConjunto, atualizadoEm: '2026-11-10' },
+  { curso: musicaCamara, atualizadoEm: '2026-11-10' },
 ];
 
 const paginas = [
-  { rota: '', atualizadoEm: '2026-10-20', changeFrequency: 'weekly' as const, priority: 1.0 },
-  { rota: '/cursos', atualizadoEm: '2026-10-20', changeFrequency: 'monthly' as const, priority: 0.8 },
-  { rota: '/professores', atualizadoEm: '2026-10-20', changeFrequency: 'monthly' as const, priority: 0.8 },
-  { rota: '/sobre-nos', atualizadoEm: '2026-10-20', changeFrequency: 'monthly' as const, priority: 0.8 },
+  { rota: '', atualizadoEm: '2026-11-09', changeFrequency: 'weekly' as const, priority: 1.0 },
+  { rota: '/cursos', atualizadoEm: '2026-11-09', changeFrequency: 'monthly' as const, priority: 0.8 },
+  { rota: '/professores', atualizadoEm: '2026-11-09', changeFrequency: 'monthly' as const, priority: 0.8 },
+  { rota: '/sobre-nos', atualizadoEm: '2026-11-09', changeFrequency: 'monthly' as const, priority: 0.8 },
   { rota: '/privacidade', atualizadoEm: '2026-10-07', changeFrequency: 'yearly' as const, priority: 0.2 },
 ];
 

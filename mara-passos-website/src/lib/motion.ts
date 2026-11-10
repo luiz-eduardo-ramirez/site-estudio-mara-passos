@@ -29,6 +29,16 @@ export const DUR = {
   cine: 1.1,
 } as const;
 
+/**
+ * Suavização (em segundos) dos efeitos presos à rolagem (`scrub`): o valor
+ * persegue a posição do scroll em vez de colar nela, o que tira o aspecto
+ * "mecânico". `fundo` é mais lento, para camadas distantes.
+ */
+export const SCRUB = {
+  suave: 0.6,
+  fundo: 1,
+} as const;
+
 export const REVEAL = {
   y: 32,
   stagger: 0.09,

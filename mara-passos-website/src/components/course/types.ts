@@ -39,7 +39,7 @@ export type CourseConfig = {
     imagem: string;
     /** `object-position` do fundo, para manter o assunto da foto em quadro. */
     posicao?: string;
-    /** Vídeo de fundo, só carregado em telas grandes. */
+    /** Vídeo de fundo (padrão: /hero-bg.mp4), só carregado em aparelhos capazes; os demais mostram a imagem. */
     video?: string;
     fatos: { icone: LucideIcon; texto: string }[];
   };
@@ -55,7 +55,11 @@ export type CourseConfig = {
   passos: { titulo: string; texto: string }[];
   passosTitulo: string;
 
-  equipe: {
+  /**
+   * Opcional: curso sem professor cadastrado em teachersList.ts não ganha a
+   * seção Professores, e o JSON-LD sai sem `instructor`. Nada de bio inventada.
+   */
+  equipe?: {
     titulo: string;
     intro: string;
     /** `id` de src/data/teachersList.ts; o cartão mostra a bio e as especialidades de lá. */

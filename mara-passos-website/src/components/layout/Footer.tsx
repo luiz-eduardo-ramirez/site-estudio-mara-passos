@@ -1,5 +1,11 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { instrumentsList } from '../../data/instrumentsList';
+
+// Só os cursos que já têm página, em ordem alfabética (instrumentsList já vem ordenada, mas não dependo disso).
+const cursosComPagina = instrumentsList
+  .flatMap(({ nome, slug }) => (slug ? [{ nome, slug }] : []))
+  .sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
 
 export default function Footer() {
   return (
@@ -51,9 +57,7 @@ export default function Footer() {
               <li><Link href="/#espacos" className="text-gray-400 hover:text-white text-sm transition-colors"> Espaços</Link></li>
               <li><Link href="/#depoimentos" className="text-gray-400 hover:text-white text-sm transition-colors"> Depoimentos</Link></li>
               <li><Link href="/#agendamentos" className="text-gray-400 hover:text-white text-sm transition-colors"> Agendamentos</Link></li>
-              <li><Link href="/aulas-de-piano" className="text-gray-400 hover:text-white text-sm transition-colors"> Aulas de Piano</Link></li>
-              <li><Link href="/aulas-de-bateria" className="text-gray-400 hover:text-white text-sm transition-colors"> Aulas de Bateria</Link></li>
-              <li><Link href="/aulas-de-violino" className="text-gray-400 hover:text-white text-sm transition-colors"> Aulas de Violino</Link></li>
+              <li><Link href="/cursos" className="text-gray-400 hover:text-white text-sm transition-colors"> Todos os cursos</Link></li>
               <li><Link href="/privacidade" className="text-gray-400 hover:text-white text-sm transition-colors"> Política de Privacidade</Link></li>
             </ul>
           </div>
@@ -93,6 +97,20 @@ export default function Footer() {
           </div>
 
         </div>
+
+        {/* Páginas de curso: gerada de instrumentsList, então um curso novo entra sozinho. */}
+        <nav aria-label="Nossos cursos" className="border-t border-white/5 pt-8 pb-12">
+          <h3 className="text-mara-orange font-bold text-xl mb-5">Nossos cursos</h3>
+          <ul className="flex flex-wrap gap-x-6 gap-y-3">
+            {cursosComPagina.map(({ nome, slug }) => (
+              <li key={slug}>
+                <Link href={slug} className="text-gray-400 hover:text-white text-sm transition-colors">
+                  {nome}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
 
       {/* Faixa Inferior de Direitos Autorais */}
