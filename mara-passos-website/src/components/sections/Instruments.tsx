@@ -231,12 +231,15 @@ function InstrumentsContent() {
                   alt={inst.nome} 
                   fill 
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-80"
+                  className="object-cover transition duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-40 group-focus-within:opacity-40"
                 />
               </div>
 
               {/* Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent transition-opacity duration-500 group-hover:opacity-90"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent"></div>
+
+              {/* Escurece o fundo no hover/foco: é quando o texto branco aparece, e precisa de contraste. */}
+              <div className="absolute inset-0 bg-black/0 transition-colors duration-500 group-hover:bg-black/55 group-focus-within:bg-black/55"></div>
               
               {/* Content */}
               <div className="absolute inset-0 p-8 flex flex-col justify-end">
