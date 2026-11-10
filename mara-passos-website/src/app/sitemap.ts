@@ -16,6 +16,7 @@ import { flautaTransversal } from './aulas-de-flauta-transversal/data';
 import { musicalizacaoInfantil } from './aulas-de-musicalizacao-infantil/data';
 import { musicalizacaoAdultos } from './aulas-de-musicalizacao-para-adultos/data';
 import { teoriaMusical } from './aulas-de-teoria-musical/data';
+import { praticaConjunto } from './pratica-de-conjunto/data';
 
 const baseUrl = 'https://estudiomusicalmarapassos.com.br';
 
@@ -46,6 +47,7 @@ const cursos = [
   { curso: musicalizacaoInfantil, atualizadoEm: '2026-11-10' },
   { curso: musicalizacaoAdultos, atualizadoEm: '2026-11-10' },
   { curso: teoriaMusical, atualizadoEm: '2026-11-10' },
+  { curso: praticaConjunto, atualizadoEm: '2026-11-10' },
 ];
 
 const paginas = [

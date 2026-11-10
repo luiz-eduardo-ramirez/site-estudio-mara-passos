@@ -21,6 +21,8 @@ const cursos = {
   // Idem: o recorte fica acima da marca d'água no canto inferior direito.
   // Foto menor (1061 px de largura): o recorte sobe um pouco para 1200 px.
   // Foto de 992 px de largura: ampliada para 1200 px (fica um pouco macia).
+  // O recorte termina acima da marca d'água, no canto inferior direito.
+  "pratica-de-conjunto": { foto: "pratica-conjunto.webp", recorte: { top: 0, height: 1391 } },
   // Mesma foto da Musicalização para Adultos, mas só o quadro com as figuras rítmicas
   // (sem o rosto e sem o texto gravado), para a OG não repetir a outra página.
   "aulas-de-teoria-musical": { foto: "teoria.webp", recorte: { left: 540, top: 430, width: 1516, height: 796 } },
