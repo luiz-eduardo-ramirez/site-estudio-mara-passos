@@ -29,21 +29,23 @@
 | Curso | Slug | Professores (`teachersList.id`) |
 |---|---|---|
 | Baixo | `aulas-de-baixo` | 5 Rodrigo |
-| Guitarra | `aulas-de-guitarra` | 5 Rodrigo |
-| Ukelelê | `aulas-de-ukulele` (grafia buscada no Google; `instrumento`/H1 seguem "Ukelelê" do site) | nenhum |
-| Teclado | `aulas-de-teclado` | 6 Reinaldo |
+| Guitarra | `aulas-de-guitarra` | 5 Rodrigo, 3 Rafael |
+| Ukelelê | `aulas-de-ukulele` (grafia buscada no Google; `instrumento`/H1 seguem "Ukelelê" do site) | 5 Rodrigo |
+| Teclado | `aulas-de-teclado` | 6 Reinaldo, 7 Márcia, 1 Mara |
 | Canto | `aulas-de-canto` | 4 Vanessa |
 | Pandeiro | `aulas-de-pandeiro` | 3 Rafael |
 | Saxofone | `aulas-de-saxofone` | nenhum |
-| Flauta Doce | `aulas-de-flauta-doce` | 1 Mara, 2 Amanda, 7 Márcia |
-| Flauta Transversal | `aulas-de-flauta-transversal` | 7 Márcia |
-| Musicalização Infantil | `aulas-de-musicalizacao-infantil` | 1 Mara, 2 Amanda, 7 Márcia |
-| Musicalização Adultos | `aulas-de-musicalizacao-para-adultos` | nenhum |
-| Teoria Musical | `aulas-de-teoria-musical` | nenhum |
+| Flauta Doce | `aulas-de-flauta-doce` | 1 Mara, 7 Márcia |
+| Flauta Transversal | `aulas-de-flauta-transversal` | 1 Mara, 7 Márcia |
+| Musicalização Infantil | `aulas-de-musicalizacao-infantil` | 1 Mara, 7 Márcia |
+| Musicalização Adultos | `aulas-de-musicalizacao-para-adultos` | 1 Mara, 7 Márcia |
+| Teoria Musical | `aulas-de-teoria-musical` | 1 Mara |
 | Música de Câmara | `musica-de-camara` | nenhum |
-| Prática de Conjunto | `pratica-de-conjunto` | nenhum |
+| Prática de Conjunto | `pratica-de-conjunto` | 5 Rodrigo |
 
-- **Seis cursos não têm professor cadastrado** (Ukelelê, Saxofone, Musicalização Adultos, Teoria, Câmara, Prática de Conjunto). Em vez de inventar bio, o molde passa a aceitar `equipe` opcional: sem ela, a seção Professores não aparece e o JSON-LD omite `instructor`. Se o estúdio quiser, basta cadastrar o professor em `teachersList.ts` e acrescentar `equipe` depois.
+- **Professores definidos pelo estúdio** (tabela acima; atualizada em 2026-11-10). Só **Saxofone** e **Música de Câmara** seguem sem professor indicado. Em vez de inventar bio, o molde aceita `equipe` opcional (já implementado): sem ela, a seção Professores não aparece e o JSON-LD omite `instructor`. Basta indicar o professor depois e acrescentar `equipe`.
+- **Fonte única:** `src/data/teachersList.ts` ainda lista as `especialidades` antigas (ex.: Rafael não inclui Guitarra; Márcia e Mara não incluem Teclado; Mara não inclui Teoria). A tabela acima manda nas páginas de curso; alinhar `especialidades` é decisão à parte, porque altera os cartões da home.
+- **Amanda (id 2)** deixou de aparecer nas flautas e na Musicalização Infantil, conforme a tabela.
 - Nos cursos de grupo/teoria, o `instrumento` do formulário é o nome do curso (valor do `<select>` do `Contact`); confirmar na Task 1 que o `<select>` aceita todos os 14 nomes.
 
 ## Review Focus
@@ -107,12 +109,12 @@
 - [ ] **Step 1: Criar `layout.tsx` e `page.tsx` de cada pasta** copiando os de violão com troca do export/import (`export const metadata = buildCourseMetadata(baixo)`; nomes de componente `BaixoLayout`/`AulasDeBaixo` etc.).
 - [ ] **Step 2: Escrever cada `data.ts`** seguindo a ordem de seções e o estilo de `aulas-de-violao/data.ts`, com os valores abaixo:
   - **Baixo** (`instrumento: "Baixo"`): conteúdo de `instrumentsList` ("coração do ritmo", grooves, pizzicato e slap, função do baixo na música); professor Rodrigo (id 5); hero `/images/baixo.webp`; diferenciais: formação do Rodrigo (Licenciatura FPA, guitarra em São Caetano, ensino desde 2007), estilos, evolução sem pressão; FAQ de idade **sem** afirmar idade mínima (o site só cita Guitarra/Violão/Canto) → "o professor orienta na aula experimental"; `equipe.professores: [{ id: 5 }]`.
-  - **Guitarra** (`"Guitarra"`): riffs, solos, palhetada, bends, harmonia aplicada, timbrar; Rodrigo (id 5), cita Jazz/Heavy Metal da bio; FAQ de idade "a partir dos 7 anos" (faqData); hero `/images/guitarra.webp`.
-  - **Ukelelê** (`"Ukelelê"`, slug `aulas-de-ukulele`, keywords incluem "aulas de ukulele na Lapa" e "ukelelê"): acordes práticos, batidas variadas, tocar músicas favoritas em poucas semanas; **sem `equipe`**; FAQ de idade → aula experimental; hero `/images/ukelele.webp`.
+  - **Guitarra** (`"Guitarra"`): riffs, solos, palhetada, bends, harmonia aplicada, timbrar; equipe `[{ id: 5 }, { id: 3 }]` (Rodrigo e Rafael), cita Jazz/Heavy Metal da bio do Rodrigo; FAQ de idade "a partir dos 7 anos" (faqData); hero `/images/guitarra.webp`.
+  - **Ukelelê** (`"Ukelelê"`, slug `aulas-de-ukulele`, keywords incluem "aulas de ukulele na Lapa" e "ukelelê"): acordes práticos, batidas variadas, tocar músicas favoritas em poucas semanas; equipe `[{ id: 5 }]` (Rodrigo); FAQ de idade → aula experimental; hero `/images/ukelele.webp`.
   - Todos: `faq` com 9 perguntas no formato do violão (instrumento próprio, do zero, estilos, primeiras aulas, idade, aula experimental, remarcar, individual, onde/como agendar); `galeria` = as 6 fotos de `/spaces/` do violão (trocar `instrumentos.webp` por foto coerente quando fizer sentido); `diferenciais.midia` = imagem de `/spaces/`.
 - [ ] **Step 3: Registrar** as três em `sitemap.ts` (`atualizadoEm: '2026-11-09'`), atualizar `/cursos` para `'2026-11-09'` (já é) e acrescentar `slug: "/aulas-de-…"` nas três entradas de `instrumentsList.ts`.
 - [ ] **Step 4: Rodar** `npx tsx scripts/validate-courses.ts`, `npx tsc --noEmit`, `npm run lint` — esperado: sem violações.
-- [ ] **Step 5: Preview**: `preview_start`, abrir `/aulas-de-ukulele` (caso sem equipe) e `/aulas-de-guitarra`; `read_console_messages` sem erros; conferir que `/cursos` mostra o botão de página nos 3 cards; screenshot de uma.
+- [ ] **Step 5: Preview**: `preview_start`, abrir `/aulas-de-ukulele` e `/aulas-de-guitarra`; `read_console_messages` sem erros; conferir que `/cursos` mostra o botão de página nos 3 cards; screenshot de uma.
 - [ ] **Step 6: Commit** — `feat: paginas de aulas de baixo, guitarra e ukulele`.
 
 ---
@@ -128,7 +130,7 @@
 
 - [ ] **Step 1: `layout.tsx`/`page.tsx`** como na Task 3.
 - [ ] **Step 2: `data.ts`** de cada um:
-  - **Teclado**: timbres, ritmos automáticos, arranjos completos com as duas mãos, foco em música popular; Reinaldo (id 6; formação Drum Tech Londres, piano erudito/popular); hero `/images/teclado.webp`; idade → aula experimental.
+  - **Teclado**: timbres, ritmos automáticos, arranjos completos com as duas mãos, foco em música popular; equipe `[{ id: 6 }, { id: 7 }, { id: 1 }]` (Reinaldo, Márcia e Mara; Reinaldo: formação Drum Tech Londres, piano erudito/popular); hero `/images/teclado.webp`; idade → aula experimental.
   - **Canto**: respiração, afinação, impostação, repertório, saúde vocal; Vanessa (id 4: Canto Lírico FMU/FAAM, Coral Paulistano, método Full-Voice); idade "a partir dos 7 anos" (faqData); hero `/images/canto.webp`; `diferenciais` pode usar `/spaces/` de sala interna.
   - **Pandeiro**: levadas de samba e choro, ritmos brasileiros passo a passo; Rafael (id 3: pandeiro no SESC Vila Mariana e Coletivo S Pandeiro, escolas de samba); hero `/images/pandeiro.webp`.
   - **Saxofone**: embocadura, expressividade, leitura de partitura, introdução à improvisação em jazz e música popular; **sem `equipe`**; hero `/images/saxofone.webp`.
@@ -150,8 +152,8 @@
 
 - [ ] **Step 1: `layout.tsx`/`page.tsx`.**
 - [ ] **Step 2: `data.ts`:**
-  - **Flauta Doce** (`instrumento: "Flauta Doce"`): primeira iniciação melódica, sopro suave, leitura de notas; equipe `[{ id: 1 }, { id: 2 }, { id: 7 }]` (Mara e Márcia citam o curso Sopro Novo de Flautas Doce da Yamaha — usar isso nos diferenciais); idade → aula experimental.
-  - **Flauta Transversal**: embocadura, respiração diafragmática, repertório erudito ao popular; equipe `[{ id: 7 }]` (Márcia); hero `/images/flauta-transversal.webp`.
+  - **Flauta Doce** (`instrumento: "Flauta Doce"`): primeira iniciação melódica, sopro suave, leitura de notas; equipe `[{ id: 1 }, { id: 7 }]` (Mara e Márcia citam o curso Sopro Novo de Flautas Doce da Yamaha — usar isso nos diferenciais); idade → aula experimental.
+  - **Flauta Transversal**: embocadura, respiração diafragmática, repertório erudito ao popular; equipe `[{ id: 1 }, { id: 7 }]` (Mara e Márcia); hero `/images/flauta-transversal.webp`.
 - [ ] **Step 3: Registrar** em sitemap e `instrumentsList.ts`.
 - [ ] **Step 4: Validar.**
 - [ ] **Step 5: Preview** das duas; console limpo.
@@ -169,11 +171,11 @@
 
 - [ ] **Step 1: `layout.tsx`/`page.tsx`.**
 - [ ] **Step 2: `data.ts`** (aqui "instrumento" é o nome do curso; usar o valor exato do `<select>`; `schema.prerequisitos` "Nenhum"; hero fatos sem "instrumento", p.ex. "Para todas as idades"):
-  - **Musicalização Infantil**: jogos, histórias e percussão, cognição e criatividade, **bebês a partir de 6 meses** (faqData); equipe `[1, 2, 7]`; `filosofia` reaproveita "a música é para todas as idades".
-  - **Musicalização Adultos**: "nunca é tarde", percepção rítmica e melódica, vivências práticas sem pressão do desempenho perfeito; **sem `equipe`**.
-  - **Teoria Musical**: partitura sem mistério, harmonia, percepção, escalas, ditados musicais; **sem `equipe`**.
+  - **Musicalização Infantil**: jogos, histórias e percussão, cognição e criatividade, **bebês a partir de 6 meses** (faqData); equipe `[1, 7]`; `filosofia` reaproveita "a música é para todas as idades".
+  - **Musicalização Adultos**: "nunca é tarde", percepção rítmica e melódica, vivências práticas sem pressão do desempenho perfeito; equipe `[1, 7]` (Mara e Márcia).
+  - **Teoria Musical**: partitura sem mistério, harmonia, percepção, escalas, ditados musicais; equipe `[1]` (Mara).
   - **Música de Câmara**: tocar junto, peças clássicas em pequenos grupos, escuta ativa; **sem `equipe`**; FAQ explica que é prática em grupo e que o professor orienta em qual turma entrar na aula experimental (não afirmar pré-requisito de nível).
-  - **Prática de Conjunto**: formar banda, ouvir os outros instrumentos, manter o ritmo em grupo, dinâmica de ensaio real; **sem `equipe`**; mesma ressalva de FAQ.
+  - **Prática de Conjunto**: formar banda, ouvir os outros instrumentos, manter o ritmo em grupo, dinâmica de ensaio real; equipe `[5]` (Rodrigo); mesma ressalva de FAQ.
   - FAQ "individuais ou em grupo?" muda nos cursos de grupo: responder só o que o site afirma (Câmara/Prática = em grupo; Infantil/Adultos/Teoria → confirmar formato na aula experimental). **Marcar no commit/PR** que o formato (turma × individual) dos cursos de grupo precisa ser confirmado pela Mara antes de publicar.
 - [ ] **Step 3: Registrar** em sitemap e `instrumentsList.ts`.
 - [ ] **Step 4: Validar.**

@@ -8,10 +8,9 @@ import { ENDERECO, TELEFONE_EXIBIDO } from "../../data/studio";
  *
  * O texto parte do que o site já afirma — descrição do curso em
  * src/data/instrumentsList.ts — mais as regras da aula experimental do
- * formulário. O ukelelê não tem professor cadastrado em teachersList.ts, então
- * `equipe` fica de fora: a página não mostra seção de professores nem inventa
- * biografia. O site também não fixa idade mínima, então o FAQ remete essa
- * pergunta à aula experimental.
+ * formulário. O professor do curso é o Rodrigo (definido pelo estúdio; a bio
+ * vem de teachersList.ts). O site não fixa idade mínima para o ukelelê, então
+ * o FAQ remete essa pergunta à aula experimental.
  *
  * O slug usa a grafia "ukulele" (a mais buscada); o nome do curso no
  * formulário e no texto segue o do site: "Ukelelê".
@@ -49,7 +48,7 @@ export const ukulele: CourseConfig = {
   hero: {
     h1: "Aulas de Ukulele na",
     texto:
-      "O instrumento certo para quem quer resultados rápidos e divertidos. Aprenda acordes práticos, batidas variadas e toque as suas músicas favoritas, no Estúdio Mara Passos.",
+      "O instrumento certo para quem quer resultados rápidos e divertidos. Aprenda acordes práticos, batidas variadas e toque as suas músicas favoritas, com aulas individuais com o professor Rodrigo, no Estúdio Mara Passos.",
     imagem: "/images/ukelele.webp",
     posicao: "50% 55%",
     fatos: [
@@ -105,6 +104,13 @@ export const ukulele: CourseConfig = {
         "Seguindo com aulas individuais e currículo estruturado, com agenda e pagamentos no Portal do Aluno.",
     },
   ],
+
+  equipe: {
+    titulo: "Professor de ukulele",
+    intro:
+      "Aulas conduzidas pelo professor Rodrigo, com vasta experiência no ensino musical e em diferentes estilos.",
+    professores: [{ id: 5 }],
+  },
 
   filosofia: {
     titulo: "Ukulele no seu tempo",
@@ -205,6 +211,6 @@ export const ukulele: CourseConfig = {
 
   localizacao: {
     titulo: "Aulas de ukulele na Lapa, em São Paulo",
-    intro: "Venha conhecer as salas, o ukelelê e o estúdio antes de decidir.",
+    intro: "Venha conhecer as salas, o ukelelê e o professor antes de decidir.",
   },
 };

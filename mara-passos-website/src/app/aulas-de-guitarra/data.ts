@@ -7,7 +7,7 @@ import { ENDERECO, TELEFONE_EXIBIDO } from "../../data/studio";
  * das demais páginas de curso); aqui só o que é da guitarra.
  *
  * O texto parte do que o site já afirma — descrição do curso em
- * src/data/instrumentsList.ts, biografia do professor Rodrigo em
+ * src/data/instrumentsList.ts, biografias dos professores Rodrigo e Rafael em
  * src/data/teachersList.ts e a idade mínima (7 anos) em faqData.ts — mais as
  * regras da aula experimental do formulário.
  */
@@ -20,7 +20,7 @@ export const guitarra: CourseConfig = {
   seo: {
     titulo: "Aulas de Guitarra na Lapa (SP) | Estúdio Mara Passos",
     descricao:
-      "Aulas de guitarra na Lapa, SP, com o professor Rodrigo: riffs, solos, bends e timbre. Agende sua aula experimental gratuita no Estúdio Mara Passos.",
+      "Aulas de guitarra na Lapa, SP, com os professores Rodrigo e Rafael: riffs, solos e bends. Agende sua aula experimental gratuita no Estúdio Mara Passos.",
     keywords: [
       "aulas de guitarra na Lapa",
       "aula de guitarra São Paulo",
@@ -44,7 +44,7 @@ export const guitarra: CourseConfig = {
   hero: {
     h1: "Aulas de Guitarra na",
     texto:
-      "Das bases aos grandes solos: riffs, palhetada, bends e o timbre que é a sua cara. Aulas individuais com o professor Rodrigo, no Estúdio Mara Passos.",
+      "Das bases aos grandes solos: riffs, palhetada, bends e o timbre que é a sua cara. Aulas individuais com os professores Rodrigo e Rafael, no Estúdio Mara Passos.",
     imagem: "/images/guitarra.webp",
     posicao: "50% 40%",
     fatos: [
@@ -65,9 +65,9 @@ export const guitarra: CourseConfig = {
     },
     itens: [
       {
-        titulo: "Professor com formação e experiência",
+        titulo: "Professores com formação e experiência",
         texto:
-          "Rodrigo é licenciado em Música pela FPA, formado em Guitarra pela Fundação das Artes de São Caetano do Sul e ensina desde 2007.",
+          "Rodrigo é licenciado em Música pela FPA, formado em Guitarra pela Fundação das Artes de São Caetano do Sul e ensina desde 2007. Rafael é graduado em Licenciatura em Música pela UNESP e estudou Violão na EMESP.",
       },
       {
         titulo: "Do riff ao solo",
@@ -102,10 +102,10 @@ export const guitarra: CourseConfig = {
   ],
 
   equipe: {
-    titulo: "Professor de guitarra",
+    titulo: "Professores de guitarra",
     intro:
-      "Aulas conduzidas pelo professor Rodrigo, com vasta experiência no ensino musical e em diferentes estilos.",
-    professores: [{ id: 5 }],
+      "Aulas conduzidas pelos professores Rodrigo e Rafael, com ampla vivência em diferentes estilos musicais.",
+    professores: [{ id: 5 }, { id: 3 }],
   },
 
   filosofia: {
@@ -212,6 +212,6 @@ export const guitarra: CourseConfig = {
 
   localizacao: {
     titulo: "Aulas de guitarra na Lapa, em São Paulo",
-    intro: "Venha conhecer as salas, a guitarra e o professor antes de decidir.",
+    intro: "Venha conhecer as salas, a guitarra e os professores antes de decidir.",
   },
 };
