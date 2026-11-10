@@ -10,6 +10,7 @@ import { ukulele } from './aulas-de-ukulele/data';
 import { teclado } from './aulas-de-teclado/data';
 import { canto } from './aulas-de-canto/data';
 import { pandeiro } from './aulas-de-pandeiro/data';
+import { saxofone } from './aulas-de-saxofone/data';
 
 const baseUrl = 'https://estudiomusicalmarapassos.com.br';
 
@@ -34,6 +35,7 @@ const cursos = [
   { curso: teclado, atualizadoEm: '2026-11-10' },
   { curso: canto, atualizadoEm: '2026-11-10' },
   { curso: pandeiro, atualizadoEm: '2026-11-10' },
+  { curso: saxofone, atualizadoEm: '2026-11-10' },
 ];
 
 const paginas = [
