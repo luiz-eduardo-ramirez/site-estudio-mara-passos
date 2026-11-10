@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import { CheckCircle2 } from 'lucide-react';
 import Image from 'next/image';
 import Reveal from '../layout/Reveal';
+import { instrumentsList } from '../../data/instrumentsList';
 
 export default function Contact({ defaultInstrument = "" }: { defaultInstrument?: string }) {
   const form = useRef<HTMLFormElement>(null);
@@ -131,23 +132,12 @@ export default function Contact({ defaultInstrument = "" }: { defaultInstrument?
                 className="w-full bg-white text-black rounded-full px-5 py-3 focus:outline-none focus:ring-2 focus:ring-mara-orange transition-shadow appearance-none cursor-pointer"
               >
                 <option value="" disabled>Selecione o instrumento/curso...</option>
-                <option value="Baixo">Baixo</option>
-                <option value="Bateria">Bateria</option>
-                <option value="Canto">Canto</option>
-                <option value="Flauta Doce">Flauta Doce</option>
-                <option value="Flauta Transversal">Flauta Transversal</option>
-                <option value="Guitarra">Guitarra</option>
-                <option value="Música de Câmara">Música de Câmara</option>
-                <option value="Musicalização - Adultos">Musicalização - Adultos</option>
-                <option value="Musicalização - Infantil">Musicalização - Infantil</option>
-                <option value="Piano">Piano</option>
-                <option value="Prática de Conjunto">Prática de Conjunto</option>
-                <option value="Saxofone">Saxofone</option>
-                <option value="Teclado">Teclado</option>
-                <option value="Teoria Musical">Teoria Musical</option>
-                <option value="Ukelelê">Ukelelê</option>
-                <option value="Violão">Violão</option>
-                <option value="Violino">Violino</option>
+                {/* As opções vêm de instrumentsList, a mesma lista da grade de
+                    cursos: um curso novo entra aqui sozinho, e o defaultInstrument
+                    de cada página de curso (c.instrumento) sempre acha a sua. */}
+                {instrumentsList.map(({ nome }) => (
+                  <option key={nome} value={nome}>{nome}</option>
+                ))}
               </select>
             </div>
 
