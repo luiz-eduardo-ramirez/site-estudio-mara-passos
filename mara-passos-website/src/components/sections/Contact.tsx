@@ -5,11 +5,20 @@ import { CheckCircle2 } from 'lucide-react';
 import Image from 'next/image';
 import Reveal from '../layout/Reveal';
 import { instrumentsList } from '../../data/instrumentsList';
+import CourseSelect from './CourseSelect';
+
+// As opções vêm de instrumentsList, a mesma lista da grade de cursos: um curso
+// novo entra aqui sozinho, e o defaultInstrument de cada página de curso
+// (c.instrumento) sempre acha a sua.
+const CURSOS = instrumentsList.map(({ nome }) => nome);
 
 export default function Contact({ defaultInstrument = "" }: { defaultInstrument?: string }) {
   const form = useRef<HTMLFormElement>(null);
   const [status, setStatus] = useState<'idle' | 'sucesso'>('idle');
   const [aceitouTermos, setAceitouTermos] = useState(false);
+  const [instrumento, setInstrumento] = useState(defaultInstrument);
+  const [faltaCurso, setFaltaCurso] = useState(false);
+  const [sinalAbrir, setSinalAbrir] = useState(0);
 
   // COLOQUE O NÚMERO DO WHATSAPP DO ESTÚDIO AQUI (Apenas números, com 55 e DDD)
   const NUMERO_WHATSAPP = "5511972405722";
@@ -17,11 +26,18 @@ export default function Contact({ defaultInstrument = "" }: { defaultInstrument?
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    // O curso vive num campo oculto, que a validação nativa ignora: a
+    // conferência é feita aqui, abrindo a lista para a pessoa escolher.
+    if (!instrumento) {
+      setFaltaCurso(true);
+      setSinalAbrir((n) => n + 1);
+      return;
+    }
+
     // Captura os dados preenchidos no formulário
     const formData = new FormData(e.currentTarget);
     const nome = formData.get('user_name');
     const telefone = formData.get('user_phone');
-    const instrumento = formData.get('instrumento');
 
     // Monta a mensagem que vai chegar pronta no WhatsApp do Estúdio
     const mensagem = `Olá, meu nome é ${nome} e gostaria de agendar uma aula experimental de ${instrumento}.\n\nMeu telefone para contato é: ${telefone}\n\n*Regra de cancelamento:* Se eu faltar sem avisar com 24h de antecedência, não poderei repor a aula.\n\n *Confirmo que estou ciente da regra de cancelamento: se eu faltar sem avisar com 24h de antecedência, não poderei repor a aula.*\n\nAguardo o retorno para definirmos o melhor horário!`;
@@ -39,6 +55,7 @@ export default function Contact({ defaultInstrument = "" }: { defaultInstrument?
 
     // Limpa o formulário e mostra mensagem de sucesso na tela
     form.current?.reset();
+    setInstrumento(defaultInstrument);
     setAceitouTermos(false);
     setStatus('sucesso');
 
@@ -123,22 +140,24 @@ export default function Contact({ defaultInstrument = "" }: { defaultInstrument?
 
             <div>
               <label htmlFor="instrumento" className="block text-mara-orange font-bold text-sm mb-2">Aula de *</label>
-              <select
+              <CourseSelect
                 id="instrumento"
                 name="instrumento"
-                required
-                aria-required="true"
-                defaultValue={defaultInstrument}
-                className="w-full bg-white text-black rounded-full px-5 py-3 focus:outline-none focus:ring-2 focus:ring-mara-orange transition-shadow appearance-none cursor-pointer"
-              >
-                <option value="" disabled>Selecione o instrumento/curso...</option>
-                {/* As opções vêm de instrumentsList, a mesma lista da grade de
-                    cursos: um curso novo entra aqui sozinho, e o defaultInstrument
-                    de cada página de curso (c.instrumento) sempre acha a sua. */}
-                {instrumentsList.map(({ nome }) => (
-                  <option key={nome} value={nome}>{nome}</option>
-                ))}
-              </select>
+                options={CURSOS}
+                value={instrumento}
+                onChange={(v) => {
+                  setInstrumento(v);
+                  setFaltaCurso(false);
+                }}
+                placeholder="Selecione o instrumento/curso..."
+                invalid={faltaCurso}
+                openSignal={sinalAbrir}
+              />
+              {faltaCurso && (
+                <p role="alert" className="text-red-400 text-xs mt-2 ml-5">
+                  Escolha o curso da sua aula experimental.
+                </p>
+              )}
             </div>
 
             {/* CHECKBOX DE TERMOS E CONDIÇÕES */}
