@@ -5,8 +5,9 @@
  *   node scripts/og/generate-og-courses.mjs            # todos os cursos
  *   node scripts/og/generate-og-courses.mjs aulas-de-baixo
  *
- * `recorte` é a faixa vertical (em pixels da foto original) que vira o
- * enquadramento 1,9:1; sem ele, usa o corte automático por "atenção".
+ * `recorte` é a região (em pixels da foto original: top, height e, opcional,
+ * left e width) que vira o enquadramento 1,9:1; sem ele, usa o corte
+ * automático por "atenção". A razão width:height deve ficar perto de 1,9.
  */
 import sharp from "sharp";
 import { fileURLToPath } from "node:url";
@@ -20,6 +21,9 @@ const cursos = {
   // Idem: o recorte fica acima da marca d'água no canto inferior direito.
   // Foto menor (1061 px de largura): o recorte sobe um pouco para 1200 px.
   // Foto de 992 px de largura: ampliada para 1200 px (fica um pouco macia).
+  // Mesma foto da Musicalização para Adultos, mas só o quadro com as figuras rítmicas
+  // (sem o rosto e sem o texto gravado), para a OG não repetir a outra página.
+  "aulas-de-teoria-musical": { foto: "teoria.webp", recorte: { left: 540, top: 430, width: 1516, height: 796 } },
   "aulas-de-musicalizacao-infantil": { foto: "musicalizacao-infantil.webp", recorte: { top: 70, height: 521 } },
   // A foto traz o texto "Música como forma de expressão" gravado; o recorte o mantém.
   "aulas-de-musicalizacao-para-adultos": { foto: "musicalizacao-adulto.webp", recorte: { top: 50, height: 1079 } },
@@ -45,7 +49,13 @@ for (const [slug, { foto, recorte }] of Object.entries(cursos)) {
   let img = sharp(origem);
   if (recorte) {
     const { width } = await img.metadata();
-    img = img.extract({ left: 0, top: recorte.top, width, height: recorte.height });
+    // `left` e `width` são opcionais: sem eles, o recorte pega a largura toda.
+    img = img.extract({
+      left: recorte.left ?? 0,
+      top: recorte.top,
+      width: recorte.width ?? width,
+      height: recorte.height,
+    });
   }
   const info = await img
     .resize(1200, 630, { fit: "cover", position: recorte ? "centre" : "attention" })
