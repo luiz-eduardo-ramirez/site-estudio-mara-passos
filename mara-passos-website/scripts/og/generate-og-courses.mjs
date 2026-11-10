@@ -19,6 +19,9 @@ const cursos = {
   // O recorte termina acima da marca d'água no canto inferior direito da foto.
   // Idem: o recorte fica acima da marca d'água no canto inferior direito.
   // Foto menor (1061 px de largura): o recorte sobe um pouco para 1200 px.
+  "aulas-de-flauta-doce": { foto: "flauta-doce.webp", recorte: { top: 440, height: 1104 } },
+  // Foto de 1053 px de largura: ampliada um pouco para 1200 px.
+  "aulas-de-flauta-transversal": { foto: "flauta-transversal.webp", recorte: { top: 250, height: 553 } },
   "aulas-de-saxofone": { foto: "saxofone.webp", recorte: { top: 105, height: 557 } },
   "aulas-de-pandeiro": { foto: "pandeiro.webp", recorte: { top: 400, height: 1058 } },
   "aulas-de-canto": { foto: "canto.webp", recorte: { top: 560, height: 991 } },

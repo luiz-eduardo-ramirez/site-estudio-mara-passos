@@ -11,6 +11,8 @@ import { teclado } from './aulas-de-teclado/data';
 import { canto } from './aulas-de-canto/data';
 import { pandeiro } from './aulas-de-pandeiro/data';
 import { saxofone } from './aulas-de-saxofone/data';
+import { flautaDoce } from './aulas-de-flauta-doce/data';
+import { flautaTransversal } from './aulas-de-flauta-transversal/data';
 
 const baseUrl = 'https://estudiomusicalmarapassos.com.br';
 
@@ -36,6 +38,8 @@ const cursos = [
   { curso: canto, atualizadoEm: '2026-11-10' },
   { curso: pandeiro, atualizadoEm: '2026-11-10' },
   { curso: saxofone, atualizadoEm: '2026-11-10' },
+  { curso: flautaDoce, atualizadoEm: '2026-11-10' },
+  { curso: flautaTransversal, atualizadoEm: '2026-11-10' },
 ];
 
 const paginas = [
