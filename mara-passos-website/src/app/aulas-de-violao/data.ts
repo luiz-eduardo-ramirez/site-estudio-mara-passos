@@ -20,7 +20,7 @@ export const violao: CourseConfig = {
   seo: {
     titulo: "Aulas de Violão na Lapa (SP) | Estúdio Mara Passos",
     descricao:
-      "Aulas de violão na Lapa, São Paulo, com os professores Rodrigo e Rafael: acordes, dedilhados, batidas e harmonia prática. Agende sua aula experimental gratuita no Estúdio Mara Passos.",
+      "Aulas de violão na Lapa, SP, com os professores Rodrigo e Rafael: acordes, dedilhados e batidas. Agende aula experimental gratuita no Estúdio Mara Passos.",
     keywords: [
       "aulas de violão na Lapa",
       "aula de violão São Paulo",
