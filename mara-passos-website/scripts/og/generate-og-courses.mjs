@@ -1,0 +1,40 @@
+/*
+ * Gera as imagens Open Graph (1200×630 JPG) das páginas de curso a partir das
+ * fotos de /public/images. Uso, na pasta mara-passos-website:
+ *
+ *   node scripts/og/generate-og-courses.mjs            # todos os cursos
+ *   node scripts/og/generate-og-courses.mjs aulas-de-baixo
+ *
+ * `recorte` é a faixa vertical (em pixels da foto original) que vira o
+ * enquadramento 1,9:1; sem ele, usa o corte automático por "atenção".
+ */
+import sharp from "sharp";
+import { fileURLToPath } from "node:url";
+import path from "node:path";
+
+const raiz = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
+
+const cursos = {
+  "aulas-de-baixo": { foto: "baixo.webp", recorte: { top: 280, height: 1086 } },
+};
+
+const filtro = process.argv.slice(2);
+
+for (const [slug, { foto, recorte }] of Object.entries(cursos)) {
+  if (filtro.length && !filtro.includes(slug)) continue;
+
+  const origem = path.join(raiz, "public/images", foto);
+  const destino = path.join(raiz, "public/og", `${slug}.jpg`);
+
+  let img = sharp(origem);
+  if (recorte) {
+    const { width } = await img.metadata();
+    img = img.extract({ left: 0, top: recorte.top, width, height: recorte.height });
+  }
+  const info = await img
+    .resize(1200, 630, { fit: "cover", position: recorte ? "centre" : "attention" })
+    .jpeg({ quality: 82, mozjpeg: true })
+    .toFile(destino);
+
+  console.log(`${slug}.jpg  ${info.width}x${info.height}  ${Math.round(info.size / 1024)} KB`);
+}

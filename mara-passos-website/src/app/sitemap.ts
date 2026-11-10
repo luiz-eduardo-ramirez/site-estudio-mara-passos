@@ -4,6 +4,7 @@ import { piano } from './aulas-de-piano/data';
 import { bateria } from './aulas-de-bateria/data';
 import { violino } from './aulas-de-violino/data';
 import { violao } from './aulas-de-violao/data';
+import { baixo } from './aulas-de-baixo/data';
 
 const baseUrl = 'https://estudiomusicalmarapassos.com.br';
 
@@ -22,6 +23,7 @@ const cursos = [
   { curso: bateria, atualizadoEm: '2026-11-09' },
   { curso: violino, atualizadoEm: '2026-11-09' },
   { curso: violao, atualizadoEm: '2026-11-09' },
+  { curso: baixo, atualizadoEm: '2026-11-10' },
 ];
 
 const paginas = [
