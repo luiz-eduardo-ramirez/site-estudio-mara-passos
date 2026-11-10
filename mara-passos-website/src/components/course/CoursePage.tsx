@@ -17,6 +17,9 @@ import HeroMedia from "./HeroMedia";
 
 /** Vídeo de fundo de todo curso que não define o seu em `hero.video`. */
 const VIDEO_HERO_PADRAO = "/hero-bg.mp4";
+import Reveal from "../layout/Reveal";
+import PassosMotion from "./motion/PassosMotion";
+import FilosofiaMotion from "./motion/FilosofiaMotion";
 import VideoCarousel from "./VideoCarousel";
 import YouTubeFacade from "./YouTubeFacade";
 const FAQ = dynamic(() => import("../sections/FAQ"));
@@ -293,24 +296,52 @@ export default function CoursePage({ curso: c }: { curso: CourseConfig }) {
           titulo={c.passosTitulo}
           intro="Do primeiro contato à primeira música, em três passos simples."
         >
-          <ol className="grid gap-6 md:grid-cols-3">
-            {c.passos.map((passo, i) => (
-              <li
-                key={passo.titulo}
-                className={`reveal relative p-8 ${cartao}`}
-                style={{ "--i": i } as React.CSSProperties}
-              >
-                <span
-                  aria-hidden="true"
-                  className="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-mara-orange/15 text-xl font-bold text-mara-orange ring-1 ring-mara-orange/30"
+          {/* O movimento (pauta + nota) vive em PassosMotion; aqui só a estrutura. */}
+          <PassosMotion>
+            <ol className="grid gap-6 md:grid-cols-3">
+              {c.passos.map((passo, i) => (
+                <li
+                  key={passo.titulo}
+                  data-passo
+                  className="reveal group/passo"
+                  style={{ "--i": i } as React.CSSProperties}
                 >
-                  {i + 1}
-                </span>
-                <h3 className="mb-3 text-xl font-bold">{passo.titulo}</h3>
-                <p className="text-base leading-relaxed text-gray-300">{passo.texto}</p>
-              </li>
-            ))}
-          </ol>
+                  <div
+                    data-passo-cartao
+                    className="h-full rounded-2xl border border-white/10 bg-white/5 p-8 transition-[border-color,box-shadow] duration-500 hover:border-white/20 group-data-[ativo=true]/passo:border-mara-orange/60 group-data-[ativo=true]/passo:shadow-[0_0_40px_rgba(242,101,34,0.18)]"
+                  >
+                    <span
+                      data-passo-numero
+                      aria-hidden="true"
+                      className="relative mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-mara-orange/15 text-xl font-bold text-mara-orange ring-1 ring-mara-orange/30 transition-colors duration-500 group-data-[ativo=true]/passo:bg-mara-orange group-data-[ativo=true]/passo:text-white"
+                    >
+                      {/* Anel que se preenche quando a nota da pauta se aproxima. */}
+                      <svg
+                        width="56"
+                        height="56"
+                        viewBox="0 0 56 56"
+                        className="pointer-events-none absolute -inset-1 -rotate-90"
+                      >
+                        <circle
+                          data-passo-aro
+                          cx="28"
+                          cy="28"
+                          r="26"
+                          fill="none"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          className="stroke-mara-orange"
+                        />
+                      </svg>
+                      {i + 1}
+                    </span>
+                    <h3 className="mb-3 text-xl font-bold">{passo.titulo}</h3>
+                    <p className="text-base leading-relaxed text-gray-300">{passo.texto}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </PassosMotion>
           <p className="reveal mt-10 text-center">
             <a
               href="#agendamentos"
@@ -333,27 +364,59 @@ export default function CoursePage({ curso: c }: { curso: CourseConfig }) {
         <StudentPortal />
 
         {/* ---------- FILOSOFIA ---------- */}
-        <section
-          aria-labelledby="filosofia-titulo"
-          className="reveal mb-28 bg-gradient-to-b from-transparent via-mara-orange/5 to-transparent py-20 md:mb-36 md:py-24"
+        <FilosofiaMotion
+          labelledBy="filosofia-titulo"
+          className="relative mb-28 overflow-hidden bg-gradient-to-b from-transparent via-mara-orange/5 to-transparent py-20 md:mb-36 md:py-28"
         >
-          <div className="w-full px-4 text-center">
-            <Sparkles className="mx-auto mb-6 text-mara-orange" size={36} aria-hidden="true" />
+          {/* Fundo (só desktop): halo laranja e duas linhas de texto vazado que correm em sentidos opostos. */}
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden select-none md:block">
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div
+                data-fil="halo"
+                className="h-[80%] w-[70%] bg-[radial-gradient(closest-side,rgba(242,101,34,0.22),transparent)]"
+              />
+            </div>
+            {(["fundo-a", "fundo-b"] as const).map((nome) => (
+              <div
+                key={nome}
+                data-fil={nome}
+                className={`absolute left-0 whitespace-nowrap text-[length:16vw] font-black uppercase leading-none text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.07)] ${
+                  nome === "fundo-a" ? "top-[4%]" : "bottom-[4%]"
+                }`}
+              >
+                {`${c.filosofia.destaque} · `.repeat(3)}
+              </div>
+            ))}
+          </div>
+
+          <div className="relative w-full px-4 text-center">
+            <Sparkles
+              data-fil="icone"
+              className="mx-auto mb-6 text-mara-orange"
+              size={36}
+              aria-hidden="true"
+            />
             <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-mara-orange">
               Descubra o poder da música
             </p>
-            <h2
+            <Reveal
+              as="h2"
+              lines
+              cine
               id="filosofia-titulo"
               className="mb-8 text-balance text-3xl font-extrabold tracking-tight md:text-5xl"
             >
               {c.filosofia.titulo}
-            </h2>
-            <p className="mx-auto mb-10 max-w-3xl text-xl leading-relaxed text-gray-200">
+            </Reveal>
+            <p data-fil="texto" className="mx-auto mb-10 max-w-3xl text-xl leading-relaxed text-gray-200 md:text-2xl">
               {c.filosofia.antes}{" "}
               <span className="font-semibold text-mara-orange">{c.filosofia.destaque}</span>
               {c.filosofia.depois}
             </p>
-            <ul className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-base font-medium text-gray-200">
+            <ul
+              data-fil="beneficios"
+              className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-base font-medium text-gray-200"
+            >
               {c.filosofia.beneficios.map(({ icone: Icone, texto }) => (
                 <li key={texto} className="flex items-center gap-2">
                   <Icone className="text-mara-orange" size={22} aria-hidden="true" />
@@ -362,7 +425,7 @@ export default function CoursePage({ curso: c }: { curso: CourseConfig }) {
               ))}
             </ul>
           </div>
-        </section>
+        </FilosofiaMotion>
 
         {/* ---------- VÍDEOS DOS ALUNOS (só se o curso tiver) ---------- */}
         {c.videos && (
