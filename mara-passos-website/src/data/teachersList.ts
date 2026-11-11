@@ -7,7 +7,7 @@ export const teachersList = [
   {
     id: 1,
     nome: "Mara Alexandre Ferreira Lugli",
-    especialidades: ["Piano", "Bateria", "Musicalização - Infantil", "Flauta Doce", "Flauta Transversal", "Musicalização - Adultos", "Teoria Musical", "Teclado"],
+    especialidades: ["Piano", "Bateria", "Musicalização - Infantil", "Flauta Doce", "Flauta Transversal", "Musicalização - Adultos", "Teoria Musical", "Teclado", "Música de Câmara"],
     bio: "Sócia Fundadora e Diretora do Estúdio Musical e Cultural Mara Passos. Formada em Curso Superior de Piano Erudito pelo Conservatório Dramático e Musical de São Paulo. Possui cursos complementares em Musicalização Infantil e é Pós-Graduada em Musicoterapia na Faculdade Paulista de Artes. Também é formada pelo Curso Sopro Novo de Flautas Doce da Yamaha.",
     foto: "/teachers/mara.webp" 
   },
@@ -52,7 +52,7 @@ export const teachersList = [
   {
     id: 7,
     nome: "Márcia Kiyomi Toshmitsu Ekami",
-    especialidades: ["Piano", "Flauta Transversal", "Flauta Doce", "Musicalização - Infantil", "Musicalização - Adultos", "Teclado"],
+    especialidades: ["Piano", "Flauta Transversal", "Flauta Doce", "Musicalização - Infantil", "Musicalização - Adultos", "Teclado", "Música de Câmara"],
     bio: "Formada em Piano Erudito pelo Conservatório Dramático e Musical de São Paulo. Leciona Flauta Transversal e possui formação pelo Curso Sopro Novo de Flautas Doce da Yamaha. Com cursos complementares em Musicalização Infantil, Márcia também desenvolveu trabalho de Canto Coral em diversos coros da Capital e atualmente é integrante do Zimana no CoralUsp.",
     foto: "/teachers/marcia.webp" // Ajuste o nome do arquivo se necessário
   },

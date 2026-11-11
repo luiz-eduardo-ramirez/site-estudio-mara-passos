@@ -11,12 +11,11 @@ import { ENDERECO, TELEFONE_EXIBIDO } from "../../data/studio";
  * public/llm.txt — mais as regras da aula experimental do formulário. Por ser
  * prática em grupo, esta página pode dizer que é em grupo.
  *
- * Este curso ainda não tem professor indicado, então `equipe` fica de fora: a
- * página não mostra a seção Professores nem inventa biografia, e o texto fala
- * em "equipe". Ao definir o professor, acrescente `equipe` (ids de
- * teachersList.ts) e cite-o no texto. O site também não diz que nível ou
- * instrumento é preciso ter, nem a idade mínima: o FAQ remete isso à aula
- * experimental.
+ * As professoras do curso são a Mara e a Márcia (definido pelo estúdio; as bios
+ * vêm de src/data/teachersList.ts e citam a formação em Piano Erudito, sem
+ * falar de música de câmara, então o texto não promete experiência específica
+ * com o repertório). O site não diz que nível ou instrumento é preciso ter,
+ * nem a idade mínima: o FAQ remete isso à aula experimental.
  */
 export const musicaCamara: CourseConfig = {
   // Sem o prefixo "aulas-de-": o curso é um grupo, não uma aula de um instrumento.
@@ -47,13 +46,13 @@ export const musicaCamara: CourseConfig = {
       "Música de câmara em grupo: os alunos executam peças clássicas em pequenos grupos, desenvolvendo a escuta ativa e a sensibilidade de tocar em conjunto, no Estúdio Musical Mara Passos, na Lapa, em São Paulo.",
     nivel: "A definir na aula experimental",
     prerequisitos:
-      "A equipe orienta, na aula experimental, o nível necessário para entrar em um grupo.",
+      "As professoras orientam, na aula experimental, o nível necessário para entrar em um grupo.",
   },
 
   hero: {
     h1: "Música de Câmara na",
     texto:
-      "A arte de tocar junto. Neste curso, unimos alunos para executar peças clássicas em pequenos grupos, desenvolvendo a escuta ativa e a sensibilidade de tocar em conjunto, no Estúdio Mara Passos.",
+      "A arte de tocar junto. Neste curso, unimos alunos para executar peças clássicas em pequenos grupos, desenvolvendo a escuta ativa e a sensibilidade de tocar em conjunto, com as professoras Mara e Márcia, no Estúdio Mara Passos.",
     imagem: "/images/musica-camara.webp",
     posicao: "50% 55%",
     fatos: [
@@ -74,9 +73,9 @@ export const musicaCamara: CourseConfig = {
     },
     itens: [
       {
-        titulo: "A arte de tocar junto",
+        titulo: "Professoras com formação em piano erudito",
         texto:
-          "Você executa peças clássicas em pequenos grupos, ao lado de outros alunos, e aprende a tocar em conjunto.",
+          "Mara e Márcia são formadas em Piano Erudito pelo Conservatório Dramático e Musical de São Paulo, e você toca peças clássicas em pequenos grupos, ao lado de outros alunos.",
       },
       {
         titulo: "Escuta ativa",
@@ -101,7 +100,7 @@ export const musicaCamara: CourseConfig = {
     {
       titulo: "Faça a aula experimental",
       texto:
-        "Um encontro presencial de 30 a 45 minutos: você conhece a equipe, visita as salas e conversa sobre o seu nível e o melhor grupo para você.",
+        "Um encontro presencial de 30 a 45 minutos: você conhece as professoras, visita as salas e conversa sobre o seu nível e o melhor grupo para você.",
     },
     {
       titulo: "Comece a evoluir",
@@ -109,6 +108,13 @@ export const musicaCamara: CourseConfig = {
         "Seguindo com currículo estruturado, com agenda e pagamentos no Portal do Aluno.",
     },
   ],
+
+  equipe: {
+    titulo: "Professoras de música de câmara",
+    intro:
+      "Aulas conduzidas pelas professoras Mara e Márcia, com formação em piano erudito.",
+    professores: [{ id: 1 }, { id: 7 }],
+  },
 
   filosofia: {
     titulo: "Tocar junto, no seu tempo",
@@ -169,7 +175,7 @@ export const musicaCamara: CourseConfig = {
     {
       pergunta: "Que peças eu vou tocar?",
       resposta:
-        "Peças clássicas, executadas em pequenos grupos. Na aula experimental a equipe explica como o repertório é montado.",
+        "Peças clássicas, executadas em pequenos grupos. Na aula experimental as professoras explicam como o repertório é montado.",
     },
     {
       pergunta: "Qual a diferença entre música de câmara e prática de conjunto?",
@@ -179,22 +185,22 @@ export const musicaCamara: CourseConfig = {
     {
       pergunta: "Preciso saber tocar um instrumento para participar?",
       resposta:
-        "Na aula experimental a equipe conversa com você, avalia o seu nível e indica o melhor momento e o melhor grupo para você entrar.",
+        "Na aula experimental as professoras conversam com você, avaliam o seu nível e indicam o melhor momento e o melhor grupo para você entrar.",
     },
     {
       pergunta: "Que instrumentos participam dos grupos?",
       resposta:
-        "Na aula experimental a equipe explica como os grupos funcionam e como o seu instrumento se encaixa neles.",
+        "Na aula experimental as professoras explicam como os grupos funcionam e como o seu instrumento se encaixa neles.",
     },
     {
       pergunta: "A partir de que idade posso participar?",
       resposta:
-        "Na aula experimental a equipe conversa com você, ou com a família, e avalia o melhor momento para começar.",
+        "Na aula experimental as professoras conversam com você, ou com a família, e avaliam o melhor momento para começar.",
     },
     {
       pergunta: "Como funciona a aula experimental gratuita?",
       resposta:
-        "É um encontro presencial de 30 a 45 minutos em que você conhece a equipe, visita as salas e conversa sobre o seu nível e os seus objetivos musicais. É sem compromisso.",
+        "É um encontro presencial de 30 a 45 minutos em que você conhece as professoras, visita as salas e conversa sobre o seu nível e os seus objetivos musicais. É sem compromisso.",
     },
     {
       pergunta: "Posso remarcar a aula experimental?",
@@ -209,6 +215,6 @@ export const musicaCamara: CourseConfig = {
 
   localizacao: {
     titulo: "Música de câmara na Lapa, em São Paulo",
-    intro: "Venha conhecer as salas e a equipe antes de decidir.",
+    intro: "Venha conhecer as salas e as professoras antes de decidir.",
   },
 };
