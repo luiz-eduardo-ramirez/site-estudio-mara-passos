@@ -13,9 +13,8 @@ import { ENDERECO, TELEFONE_EXIBIDO } from "../../data/studio";
  * formulário. As bios citam o curso complementar em Musicalização Infantil, não
  * em adultos, então o texto não afirma formação específica para adultos.
  *
- * O site não diz se as aulas são individuais ou em turma, então esta página não
- * afirma nenhum dos dois: o FAQ remete o formato à aula experimental.
- * CONFIRMAR COM A MARA antes de publicar.
+ * Há aulas em turma e individuais (confirmado pelo estúdio); o formato é
+ * combinado na aula experimental.
  */
 export const musicalizacaoAdultos: CourseConfig = {
   slug: "aulas-de-musicalizacao-para-adultos",
@@ -187,9 +186,9 @@ export const musicalizacaoAdultos: CourseConfig = {
         "Não. Como a música é para todas as idades, adultos de qualquer idade são bem-vindos.",
     },
     {
-      pergunta: "As aulas de musicalização são em grupo ou individuais?",
+      pergunta: "As aulas de musicalização são em turma ou individuais?",
       resposta:
-        "O formato é combinado na aula experimental, de acordo com o seu objetivo e a sua disponibilidade.",
+        "Existem as duas opções: aulas em turma e aulas individuais. Na aula experimental, o formato é combinado de acordo com o seu objetivo e a sua disponibilidade.",
     },
     {
       pergunta: "Terei que me apresentar em público?",

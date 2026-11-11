@@ -12,9 +12,8 @@ import { ENDERECO, TELEFONE_EXIBIDO } from "../../data/studio";
  * src/data/teachersList.ts e as respostas sobre idade e benefícios em
  * src/components/sections/faqData.ts (musicalização a partir de 6 meses).
  *
- * O site não diz se as aulas são individuais ou em turma, então esta página
- * não afirma nenhum dos dois: o FAQ remete o formato à aula experimental.
- * CONFIRMAR COM A MARA antes de publicar.
+ * Há aulas em turma e individuais (confirmado pelo estúdio); o formato de cada
+ * criança é combinado na aula experimental.
  */
 export const musicalizacaoInfantil: CourseConfig = {
   slug: "aulas-de-musicalizacao-infantil",
@@ -185,9 +184,9 @@ export const musicalizacaoInfantil: CourseConfig = {
         "Com jogos, histórias e instrumentos de percussão, em um ambiente lúdico e acolhedor, sem a pressão de apresentações estressantes.",
     },
     {
-      pergunta: "As aulas de musicalização são em grupo ou individuais?",
+      pergunta: "As aulas de musicalização são em turma ou individuais?",
       resposta:
-        "O formato é combinado na aula experimental, de acordo com a idade e as necessidades da criança.",
+        "Existem as duas opções: aulas em turma e aulas individuais. Na aula experimental, o formato é combinado de acordo com a idade e as necessidades da criança.",
     },
     {
       pergunta: "Como sei qual instrumento meu filho deve escolher depois?",

@@ -40,10 +40,10 @@
 | Musicalização Infantil | `aulas-de-musicalizacao-infantil` | 1 Mara, 7 Márcia |
 | Musicalização Adultos | `aulas-de-musicalizacao-para-adultos` | 1 Mara, 7 Márcia |
 | Teoria Musical | `aulas-de-teoria-musical` | 1 Mara |
-| Música de Câmara | `musica-de-camara` | nenhum |
+| Música de Câmara | `musica-de-camara` | 1 Mara, 7 Márcia |
 | Prática de Conjunto | `pratica-de-conjunto` | 5 Rodrigo |
 
-- **Professores definidos pelo estúdio** (tabela acima; atualizada em 2026-11-10). Só **Saxofone** e **Música de Câmara** seguem sem professor indicado. Em vez de inventar bio, o molde aceita `equipe` opcional (já implementado): sem ela, a seção Professores não aparece e o JSON-LD omite `instructor`. Basta indicar o professor depois e acrescentar `equipe`.
+- **Professores definidos pelo estúdio** (tabela acima; atualizada em 2026-11-10). Só o **Saxofone** segue sem professor (decisão do estúdio: deixar sem nenhum). Música de Câmara passou a ter Mara e Márcia. Em vez de inventar bio, o molde aceita `equipe` opcional (já implementado): sem ela, a seção Professores não aparece e o JSON-LD omite `instructor`. Basta indicar o professor depois e acrescentar `equipe`.
 - **Fonte única:** `src/data/teachersList.ts` foi alinhado à tabela em 2026-11-10 (as novas especialidades entram ao fim de cada lista; o cartão da home mostra só as 3 primeiras, então a home não muda). Amanda (id 2) não foi alterada.
 - **Amanda (id 2)** deixou de aparecer nas flautas e na Musicalização Infantil, conforme a tabela.
 - Nos cursos de grupo/teoria, o `instrumento` do formulário é o nome do curso (valor do `<select>` do `Contact`); confirmar na Task 1 que o `<select>` aceita todos os 14 nomes.

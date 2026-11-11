@@ -35,7 +35,7 @@ const cursos = [
   { curso: piano, atualizadoEm: '2026-11-09' },
   { curso: bateria, atualizadoEm: '2026-11-09' },
   { curso: violino, atualizadoEm: '2026-11-09' },
-  { curso: violao, atualizadoEm: '2026-11-09' },
+  { curso: violao, atualizadoEm: '2026-11-10' },
   { curso: baixo, atualizadoEm: '2026-11-10' },
   { curso: guitarra, atualizadoEm: '2026-11-10' },
   { curso: ukulele, atualizadoEm: '2026-11-10' },
@@ -53,8 +53,8 @@ const cursos = [
 ];
 
 const paginas = [
-  { rota: '', atualizadoEm: '2026-11-09', changeFrequency: 'weekly' as const, priority: 1.0 },
-  { rota: '/cursos', atualizadoEm: '2026-11-09', changeFrequency: 'monthly' as const, priority: 0.8 },
+  { rota: '', atualizadoEm: '2026-11-10', changeFrequency: 'weekly' as const, priority: 1.0 },
+  { rota: '/cursos', atualizadoEm: '2026-11-10', changeFrequency: 'monthly' as const, priority: 0.8 },
   { rota: '/professores', atualizadoEm: '2026-11-09', changeFrequency: 'monthly' as const, priority: 0.8 },
   { rota: '/sobre-nos', atualizadoEm: '2026-11-09', changeFrequency: 'monthly' as const, priority: 0.8 },
   { rota: '/privacidade', atualizadoEm: '2026-10-07', changeFrequency: 'yearly' as const, priority: 0.2 },
