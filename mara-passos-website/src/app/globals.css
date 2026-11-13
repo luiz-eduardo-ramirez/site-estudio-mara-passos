@@ -118,7 +118,13 @@ body {
   background: #000;
   transition: transform 0.55s cubic-bezier(0.65, 0, 0.35, 1) 0.22s;
   will-change: transform;
+  /* Rede de segurança só de CSS: a tampa preta só sai pelo JS (componente
+     Abertura). Se o JS falhar ou travar (Safari/WebView antigo no iPhone,
+     navegador do Instagram, erro de hidratação), a tela ficava preta para
+     sempre. Passados 6s ela some sozinha, com ou sem JS. */
+  animation: ab-seguranca 0.01s linear 6s forwards;
 }
+@keyframes ab-seguranca { to { opacity: 0; visibility: hidden; pointer-events: none; } }
 .ab-cena {
   position: absolute;
   top: 0; right: 0; bottom: 0; left: 0;
@@ -180,8 +186,6 @@ body {
 .abertura-animada .ab-nome { animation: ab-nome 0.6s ease-out 0.95s both; }
 .abertura-animada .ab-barra { animation: ab-aparecer 0.3s ease-out 1.5s both; }
 .abertura-animada .ab-barra::after { animation-delay: 1.5s; }
-.abertura-animada:not(.abertura-rodando) #abertura *,
-.abertura-animada:not(.abertura-rodando) #abertura *::after { animation-play-state: paused; }
 @keyframes ab-subir { from { transform: scaleY(0.001); } to { transform: scaleY(1); } }
 @keyframes ab-descer { from { opacity: 0; transform: translateY(-30%); } to { opacity: 1; transform: translateY(0); } }
 @keyframes ab-fio {
